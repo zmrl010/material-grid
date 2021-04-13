@@ -11,13 +11,9 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
-    "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.3",
     "date-fns": "^2.20.1",
     "immer": "^9.0.1",
-    "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",
-    "react-dom": "^17.0.2",
     "react-table": "^7.6.3",
     "use-immer": "^0.5.1"
   },
@@ -32,14 +28,13 @@
     "eslint-plugin-material-ui": "^1.0.1",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.23.2",
-    "install-peers-cli": "^2.2.0",
     "prettier": "^2.2.1",
     "typescript": "^4.2.4"
   },
   "peerDependencies": {
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
     "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0"
+    "@types/react-dom": "^17.0.0",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0"
   }
 }
