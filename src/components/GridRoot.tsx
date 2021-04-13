@@ -11,11 +11,9 @@ export const GridRoot = forwardRef<HTMLTableElement, GridRootProps>(
     const classes = useStyles();
 
     return (
-      // <div
       <Table
         ref={ref}
         className={clsx(classes.root, className)}
-        // role="grid"
         tabIndex={0}
         {...other}
       />

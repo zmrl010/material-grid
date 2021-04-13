@@ -12,10 +12,10 @@ const useStyles = makeStyles((theme) =>
       position: "absolute",
       top: "30%",
       [props.anchor]: 0,
-      opacity: 0.3,
-      "&:hover": {
-        opacity: 1,
-      },
+      // opacity: 0.3,
+      // "&:hover": {
+      //   opacity: 1,
+      // },
     }),
   })
 );
@@ -41,7 +41,7 @@ export const DragHandle = forwardRef<HTMLDivElement, Props>(function DragHandle(
 
   return (
     <div {...divProps} className={clsx(className, classes.root)} ref={ref}>
-      <IconComponent />
+      <IconComponent fontSize={"small"} />
     </div>
   );
 });

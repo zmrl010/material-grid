@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import { GridComponents, DEFAULT_COMPONENTS } from "./components";
+import { DEFAULT_COMPONENTS } from "./components";
+import { GridComponents } from "./types";
 
 export function useComponents(propComponents: Partial<GridComponents> = {}) {
   const components = useMemo(

@@ -6,57 +6,45 @@ import {
   useFlexLayout,
   usePagination,
 } from "react-table";
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableCell,
-  TableRow,
-} from "@material-ui/core";
 import { HTMLAttributes, useCallback } from "react";
 import { useImmer } from "use-immer";
-import {
-  DragDropContext,
-  Droppable,
-  DropResult,
-  Draggable,
-} from "react-beautiful-dnd";
-import { GridComponents, GridRoot } from "./components";
+import { DropResult } from "react-beautiful-dnd";
+import { GridRoot } from "./components";
+import { GridComponents, IdType } from "./types";
 import { useComponents } from "./hooks";
-import DragHandle from "./components/DragHandle";
 import GridHeader from "./components/GridHeader";
-import { Draft, castDraft } from "immer";
+import GridProvider from "./components/GridProvider";
+import GridBody from "./components/GridBody";
 
-function getRowId<D extends { id: number | string }>(row: D) {
+function getRowId<D extends IdType>(row: D) {
   return row.id.toString();
 }
 
-export interface DataTableOptions<D extends { id: number } = { id: number }> {
+export interface DataTableOptions<D extends IdType = IdType> {
   columns: Column<D>[];
   data: D[];
   disableSortBy?: boolean;
   defaultCanSort?: boolean;
   // TODO conditional disableRowDragDrop based on defaultCanSort
   // TODO make error if both are set the same
-  disableRowDragDrop?: boolean;
+  // disableRowDragDrop?: boolean;
+  enableRowDragDrop?: boolean;
   components?: GridComponents;
 }
 
-export interface GridProps<D extends { id: number } = { id: number }>
+export interface GridProps<D extends IdType = IdType>
   extends DataTableOptions<D>,
     HTMLAttributes<HTMLTableElement> {
   loading?: boolean;
 }
 
-export function Grid<D extends { id: number } = { id: number }>(
-  props: GridProps<D>
-) {
+export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
   const {
     columns,
     data,
     disableSortBy = false,
     defaultCanSort = true,
-    disableRowDragDrop = false,
+    enableRowDragDrop = false,
     loading = false,
     components: propComponents,
     ...tableProps
@@ -64,13 +52,7 @@ export function Grid<D extends { id: number } = { id: number }>(
 
   const [records, updateRecords] = useImmer(data);
   const components = useComponents(propComponents);
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable(
+  const instance = useTable(
     {
       columns,
       data: records,
@@ -83,6 +65,8 @@ export function Grid<D extends { id: number } = { id: number }>(
     useRowSelect,
     useFlexLayout
   );
+
+  const { getTableProps, headerGroups, rows } = instance;
 
   const moveRow = useCallback(
     (sourceIndex: number, destinationIndex: number) => {
@@ -104,54 +88,25 @@ export function Grid<D extends { id: number } = { id: number }>(
     [moveRow]
   );
 
-  const showNoRows = !loading && rows.length === 0;
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <GridProvider<D>
+      onDragEnd={onDragEnd}
+      instance={instance}
+      components={components}
+      rowDragDropDisabled={!enableRowDragDrop}
+    >
       <GridRoot {...getTableProps()} {...tableProps}>
         <GridHeader components={components} headerGroups={headerGroups} />
-        <Droppable droppableId="droppable-table">
-          {(provided) => (
-            <TableBody
-              {...getTableBodyProps()}
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {showNoRows && <components.NoRowsOverlay />}
-              {loading && <components.LoadingOverlay />}
-              {rows.map((row, i) => {
-                prepareRow(row);
-                return (
-                  <Draggable
-                    key={row.id}
-                    draggableId={row.id}
-                    index={i}
-                    isDragDisabled={disableRowDragDrop}
-                  >
-                    {(provided) => (
-                      <TableRow
-                        ref={provided.innerRef}
-                        {...row.getRowProps({ ...provided.draggableProps })}
-                      >
-                        <div style={{ position: "relative" }}>
-                          {!disableRowDragDrop && (
-                            <DragHandle {...provided.dragHandleProps} />
-                          )}
-                          {row.cells.map((cell) => (
-                            <TableCell {...cell.getCellProps()}>
-                              {cell.render("Cell")}
-                            </TableCell>
-                          ))}
-                        </div>
-                      </TableRow>
-                    )}
-                  </Draggable>
-                );
-              })}
-            </TableBody>
-          )}
-        </Droppable>
+        <GridBody<D>
+          showNoRows={!loading && rows.length === 0}
+          isDragDisabled={!enableRowDragDrop}
+          rows={rows}
+          loading={loading}
+          NoRowsOverlay={components.NoRowsOverlay}
+          LoadingOverlay={components.LoadingOverlay}
+        />
       </GridRoot>
-    </DragDropContext>
+    </GridProvider>
   );
 }
 

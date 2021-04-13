@@ -1,4 +1,4 @@
-import { darken, lighten, makeStyles, Theme } from "@material-ui/core";
+import { makeStyles, Theme } from "@material-ui/core";
 import { createStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(
@@ -24,16 +24,16 @@ export const useStyles = makeStyles(
         "& *, & *::before, & *::after": {
           boxSizing: "inherit",
         },
-        "& .DataTable-autoHeight": {
+        "& .Grid-autoHeight": {
           height: "auto",
         },
-        "& .DataTable-main": {
+        "& .Grid-main": {
           position: "relative",
           flexGrow: 1,
           display: "flex",
           flexDirection: "column",
         },
-        "& DataTable-overlay": {
+        "& Grid-overlay": {
           display: "flex",
           position: "absolute",
           top: 0,

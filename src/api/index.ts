@@ -1,3 +1,3 @@
-export * from "./useApi";
-export * from "./GridContext";
-export * from "./GridProvider";
+export * from "./hooks";
+export * from "./GridApiContext";
+export * from "./GridApiProvider";

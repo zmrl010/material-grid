@@ -1,6 +1,6 @@
 import { TableHead, TableRow } from "@material-ui/core";
 import { HeaderGroup } from "react-table";
-import { GridComponents } from ".";
+import { GridComponents } from "../types";
 import { SortableHeaderCell } from "./SortableHeaderCell";
 
 export interface GridHeaderProps<D extends object = {}> {

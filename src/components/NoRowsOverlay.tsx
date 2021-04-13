@@ -1,3 +1,4 @@
+import { Typography } from "@material-ui/core";
 import { forwardRef } from "react";
 
 import { Overlay, OverlayProps } from "./Overlay";
@@ -8,7 +9,7 @@ export const NoRowsOverlay = forwardRef<HTMLDivElement, OverlayProps>(
 
     return (
       <Overlay ref={ref} {...props}>
-        {noRowsLabel}
+        <Typography>{noRowsLabel}</Typography>
       </Overlay>
     );
   }
