@@ -1,6 +1,6 @@
 import {
-  createStyles,
-  makeStyles,
+  // createStyles,
+  // makeStyles,
   TableCell,
   TableRow,
 } from "@material-ui/core";
@@ -8,7 +8,7 @@ import { Row, TableRowProps } from "react-table";
 import { Draggable } from "react-beautiful-dnd";
 import { DragHandle } from "./DragHandle";
 
-const useStyles = makeStyles((theme) => createStyles({}));
+// const useStyles = makeStyles((theme) => createStyles({}));
 
 export const ItemTypes = {
   ROW: "row",
