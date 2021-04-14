@@ -1,8 +1,9 @@
 {
   "name": "material-grid",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "build/index.js",
+  "module": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "tsc --outDir ./build"
