@@ -1,2 +1,8 @@
-node_modules/
-dist/
+.idea
+.vscode
+
+*.log
+
+build
+dist
+node_modules

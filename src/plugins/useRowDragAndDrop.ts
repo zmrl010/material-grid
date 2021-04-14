@@ -1,4 +1,4 @@
-import { Hooks, Row, TableInstance } from "react-table";
+import { Hooks, Row } from "react-table";
 
 const pluginName = useRowDragAndDrop;
 
@@ -8,9 +8,11 @@ export function useRowDragAndDrop(hooks: Hooks) {
 
 useRowDragAndDrop.pluginName = pluginName;
 
-function prepareRow<D extends object = {}>(row: Row<D>) {}
+function prepareRow<D extends object = {}>(row: Row<D>) {
+  console.log(row);
+}
 
-function getRowProps<D extends object = {}>(
-  props: {},
-  { instance }: { instance: TableInstance<D> }
-) {}
+// function getRowProps<D extends object = {}>(
+//   props: {},
+//   { instance }: { instance: TableInstance<D> }
+// ) {}

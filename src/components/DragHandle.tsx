@@ -5,7 +5,7 @@ import clsx from "clsx";
 
 type Anchor = "left" | "right" | "top" | "bottom";
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     root: (props: { anchor: Anchor }) => ({
       cursor: "grab",
