@@ -5,6 +5,6 @@
 
 demo
 
-build
-dist
+# build
+# dist
 node_modules

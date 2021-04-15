@@ -1,0 +1,1 @@
+{"version":3,"file":"GridApiContext.js","sourceRoot":"","sources":["../../src/api/GridApiContext.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAE,MAAM,OAAO,CAAC;AAItC,MAAM,cAAc,GAAG,aAAa,CAAyB,IAAI,CAAC,CAAC;AACnE,cAAc,CAAC,WAAW,GAAG,gBAAgB,CAAC;AAE9C,OAAO,EAAE,cAAc,EAAE,CAAC"}
