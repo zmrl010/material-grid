@@ -40,9 +40,9 @@ export const DragHandle = forwardRef<HTMLDivElement, Props>(function DragHandle(
   const classes = useStyles({ anchor });
 
   return (
-    <div {...divProps} className={clsx(className, classes.root)} ref={ref}>
+    <span {...divProps} className={clsx(className, classes.root)} ref={ref}>
       <IconComponent fontSize={"small"} />
-    </div>
+    </span>
   );
 });
 

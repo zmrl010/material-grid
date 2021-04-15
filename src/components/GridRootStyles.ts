@@ -3,7 +3,7 @@ import { createStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(
   (theme: Theme) => {
-    const borderColor = theme.palette.primary.main;
+    // const borderColor = theme.palette.primary.main;
     // getThemePaletteMode(theme.palette) === "light"
     //   ? lighten(muiStyleAlpha(theme.palette.divider, 1), 0.88)
     //   : darken(muiStyleAlpha(theme.palette.divider, 1), 0.68);
@@ -13,8 +13,8 @@ export const useStyles = makeStyles(
         flex: 1,
         boxSizing: "border-box",
         position: "relative",
-        border: `1px solid ${borderColor}`,
-        borderRadius: theme.shape.borderRadius,
+        // border: `1px solid ${borderColor}`,
+        // borderRadius: theme.shape.borderRadius,
         color: theme.palette.text.primary,
         ...theme.typography.body2,
         outline: "none",
