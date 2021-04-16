@@ -6,7 +6,7 @@ import {
 } from "@material-ui/core";
 import { Row, TableRowProps } from "react-table";
 import { Draggable } from "react-beautiful-dnd";
-import { DragHandle } from "./DragHandle";
+import { DragHandleCell } from "./DragHandleCell";
 
 // const useStyles = makeStyles((theme) => createStyles({}));
 
@@ -45,7 +45,7 @@ function GridRow<D extends object = {}>(props: GridRowProps<D>) {
             style: { ...provided.draggableProps.style, position: "relative" },
           })}
         >
-          {!isDragDisabled && <DragHandle {...provided.dragHandleProps} />}
+          {!isDragDisabled && <DragHandleCell {...provided.dragHandleProps} />}
           {row.cells.map((cell) => (
             <TableCell {...cell.getCellProps()}>
               {cell.render("Cell")}

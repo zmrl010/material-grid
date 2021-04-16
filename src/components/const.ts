@@ -1,11 +1,11 @@
 import { TableSortLabel } from "@material-ui/core";
 import { NoRowsOverlay } from "./NoRowsOverlay";
 import { LoadingOverlay } from "./LoadingOverlay";
-import { DragHandle } from "./DragHandle";
+import { DragHandleCell } from "./DragHandleCell";
 
 export const DEFAULT_COMPONENTS = {
   SortLabel: TableSortLabel,
-  DragHandle,
+  DragHandle: DragHandleCell,
   NoRowsOverlay,
   LoadingOverlay,
 };

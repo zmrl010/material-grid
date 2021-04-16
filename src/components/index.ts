@@ -1,5 +1,5 @@
 export * from "./const";
-export * from "./DragHandle";
+export * from "./DragHandleCell";
 export * from "./GridBody";
 export * from "./GridHeader";
 export * from "./GridProvider";
