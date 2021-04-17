@@ -3,18 +3,15 @@ import {
   useTable,
   useSortBy,
   useRowSelect,
-  useFlexLayout,
+  // useFlexLayout,
   usePagination,
 } from "react-table";
 import { HTMLAttributes, useCallback } from "react";
 import { useImmer } from "use-immer";
 import { DropResult } from "react-beautiful-dnd";
-import { GridRoot } from "./components";
+import { GridRoot, GridHeader, GridProvider, GridBody } from "./components";
 import { GridComponents, IdType } from "./types";
 import { useComponents } from "./hooks";
-import GridHeader from "./components/GridHeader";
-import GridProvider from "./components/GridProvider";
-import GridBody from "./components/GridBody";
 
 function getRowId<D extends IdType>(row: D) {
   return row.id.toString();
@@ -62,8 +59,8 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
     },
     useSortBy,
     usePagination,
-    useRowSelect,
-    useFlexLayout
+    useRowSelect
+    // useFlexLayout
   );
 
   const { getTableProps, headerGroups, rows } = instance;

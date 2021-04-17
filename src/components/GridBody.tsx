@@ -17,7 +17,7 @@ export interface GridBodyProps<D extends IdType = IdType> {
 
 type Props<D extends IdType = IdType> = GridBodyProps<D>;
 
-function GridBody<D extends IdType = IdType>(props: Props<D>) {
+export function GridBody<D extends IdType = IdType>(props: Props<D>) {
   const {
     rows,
     loading,
