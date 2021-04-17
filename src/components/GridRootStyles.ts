@@ -33,7 +33,7 @@ export const useStyles = makeStyles(
           display: "flex",
           flexDirection: "column",
         },
-        "& Grid-overlay": {
+        "& .Grid-overlay": {
           display: "flex",
           position: "absolute",
           top: 0,
