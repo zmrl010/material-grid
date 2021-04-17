@@ -62,8 +62,8 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
     },
     useSortBy,
     usePagination,
-    useRowSelect,
-    useFlexLayout
+    useRowSelect
+    // useFlexLayout
   );
 
   const { getTableProps, headerGroups, rows } = instance;

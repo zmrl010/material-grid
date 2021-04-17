@@ -40,7 +40,8 @@ function GridRow<D extends object = {}>(props: GridRowProps<D>) {
       {(provided) => (
         <TableRow
           ref={provided.innerRef}
-          {...row.getRowProps({ ...provided.draggableProps })}
+          {...row.getRowProps()}
+          {...provided.draggableProps}
         >
           {!isDragDisabled && <DragHandleCell {...provided.dragHandleProps} />}
           {row.cells.map((cell) => (
