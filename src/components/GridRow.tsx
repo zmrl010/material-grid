@@ -1,14 +1,6 @@
-import {
-  // createStyles,
-  // makeStyles,
-  TableCell,
-  TableRow,
-} from "@material-ui/core";
-import { Row, TableRowProps } from "react-table";
+import { TableCell, TableRow } from "@material-ui/core";
+import { Cell, TableRowProps } from "react-table";
 import { Draggable } from "react-beautiful-dnd";
-import { DragHandleCell } from "./DragHandleCell";
-
-// const useStyles = makeStyles((theme) => createStyles({}));
 
 export const ItemTypes = {
   ROW: "row",
@@ -19,8 +11,11 @@ export interface RowItem {
 }
 
 export interface GridRowProps<D extends object = {}> extends TableRowProps {
-  row: Row<D>;
+  // row: Row<D>;
+  id: string;
+  index: number;
   isDragDisabled: boolean;
+  cells: Cell<D>[];
 }
 
 /**
@@ -29,24 +24,19 @@ export interface GridRowProps<D extends object = {}> extends TableRowProps {
  * @returns
  */
 function GridRow<D extends object = {}>(props: GridRowProps<D>) {
-  const { row, isDragDisabled } = props;
+  const { id, index, cells, isDragDisabled, ...rowProps } = props;
 
   return (
-    <Draggable
-      draggableId={row.id}
-      index={row.index}
-      isDragDisabled={isDragDisabled}
-    >
+    <Draggable draggableId={id} index={index} isDragDisabled={isDragDisabled}>
       {(provided) => (
         <TableRow
-          ref={provided.innerRef}
-          {...row.getRowProps()}
+          {...rowProps}
           {...provided.draggableProps}
+          ref={provided.innerRef}
         >
-          {!isDragDisabled && <DragHandleCell {...provided.dragHandleProps} />}
-          {row.cells.map((cell) => (
+          {cells.map((cell) => (
             <TableCell {...cell.getCellProps()}>
-              {cell.render("Cell")}
+              {cell.render("Cell", provided.dragHandleProps)}
             </TableCell>
           ))}
         </TableRow>

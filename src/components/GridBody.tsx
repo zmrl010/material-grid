@@ -44,8 +44,10 @@ export function GridBody<D extends IdType = IdType>(props: Props<D>) {
             prepareRow(row);
             return (
               <GridRow
-                key={row.getRowProps().key}
-                row={row}
+                {...row.getRowProps()}
+                id={row.id}
+                index={row.index}
+                cells={row.cells}
                 isDragDisabled={isDragDisabled}
               />
             );

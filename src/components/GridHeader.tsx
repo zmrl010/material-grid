@@ -1,4 +1,4 @@
-import { TableHead, TableRow, TableCell } from "@material-ui/core";
+import { TableHead, TableRow } from "@material-ui/core";
 import { HeaderGroup } from "react-table";
 import { GridComponents } from "../types";
 import { SortableHeaderCell } from "./SortableHeaderCell";
@@ -17,7 +17,6 @@ export function GridHeader<D extends object = {}>(props: Props<D>) {
     <TableHead>
       {headerGroups.map((headerGroup) => (
         <TableRow {...headerGroup.getHeaderGroupProps()}>
-          <TableCell></TableCell>
           {headerGroup.headers.map((column) => (
             <SortableHeaderCell
               column={column}

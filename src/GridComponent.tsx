@@ -8,10 +8,11 @@ import {
 } from "react-table";
 import { HTMLAttributes, useCallback } from "react";
 import { useImmer } from "use-immer";
-import { DropResult } from "react-beautiful-dnd";
+import { DropResult, ResponderProvided } from "react-beautiful-dnd";
 import { GridRoot, GridHeader, GridProvider, GridBody } from "./components";
-import { GridComponents, IdType } from "./types";
+import { DragEventMap, GridComponents, IdType } from "./types";
 import { useComponents } from "./hooks";
+import { Draft } from "immer";
 
 function getRowId<D extends IdType>(row: D) {
   return row.id.toString();
@@ -27,6 +28,7 @@ export interface DataTableOptions<D extends IdType = IdType> {
   // disableRowDragDrop?: boolean;
   enableRowDragDrop?: boolean;
   components?: GridComponents;
+  dragDropEvents?: Partial<DragEventMap>;
 }
 
 export interface GridProps<D extends IdType = IdType>
@@ -44,9 +46,11 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
     enableRowDragDrop = false,
     loading = false,
     components: propComponents,
+    dragDropEvents = {},
     ...tableProps
   } = props;
 
+  // TODO update records from outside the component
   const [records, updateRecords] = useImmer(data);
   const components = useComponents(propComponents);
   const instance = useTable(
@@ -59,7 +63,24 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
     },
     useSortBy,
     usePagination,
-    useRowSelect
+    useRowSelect,
+    // TODO Does this need to be memoized?
+    // TODO can we extract this to a hook (plugin)?
+    (hooks) => {
+      hooks.allColumns.push((columns) =>
+        enableRowDragDrop
+          ? [
+              {
+                id: "drag-handle",
+                Header: "",
+                Cell: components.DragHandle,
+                disableSortBy: true,
+              },
+              ...columns,
+            ]
+          : columns
+      );
+    }
     // useFlexLayout
   );
 
@@ -69,30 +90,31 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
     (sourceIndex: number, destinationIndex: number) => {
       updateRecords((draftRecords) => {
         const [record] = draftRecords.splice(sourceIndex, 1);
-        // FIXME record type
-        draftRecords.splice(destinationIndex, 0, record as any);
+        draftRecords.splice(destinationIndex, 0, record as Draft<D>);
       });
     },
     [updateRecords]
   );
 
-  const onDragEnd = useCallback(
-    (result: DropResult) => {
+  const handleDragEnd = useCallback(
+    (result: DropResult, provided: ResponderProvided) => {
       if (result.destination) {
         moveRow(result.source.index, result.destination.index);
       }
+      dragDropEvents.onDragEnd?.(result, provided);
     },
-    [moveRow]
+    [moveRow, dragDropEvents.onDragEnd]
   );
 
   return (
     <GridProvider<D>
-      onDragEnd={onDragEnd}
       instance={instance}
       components={components}
       rowDragDropDisabled={!enableRowDragDrop}
+      onDragEnd={handleDragEnd}
+      {...dragDropEvents}
     >
-      <GridRoot {...getTableProps()} {...tableProps}>
+      <GridRoot {...getTableProps(tableProps)}>
         <GridHeader components={components} headerGroups={headerGroups} />
         <GridBody<D>
           showNoRows={!loading && rows.length === 0}
