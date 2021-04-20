@@ -1,16 +1,15 @@
 import {
-  Column,
   useTable,
   useSortBy,
   useRowSelect,
   // useFlexLayout,
   usePagination,
 } from "react-table";
-import { HTMLAttributes, useCallback } from "react";
+import { HTMLAttributes, useCallback, useEffect } from "react";
 import { useImmer } from "use-immer";
 import { DropResult, ResponderProvided } from "react-beautiful-dnd";
 import { GridRoot, GridHeader, GridProvider, GridBody } from "./components";
-import { DragEventMap, GridComponents, IdType } from "./types";
+import { GridOptions, IdType } from "./types";
 import { useComponents } from "./hooks";
 import { Draft } from "immer";
 
@@ -18,29 +17,18 @@ function getRowId<D extends IdType>(row: D) {
   return row.id.toString();
 }
 
-export interface DataTableOptions<D extends IdType = IdType> {
-  columns: Column<D>[];
-  data: D[];
-  disableSortBy?: boolean;
-  defaultCanSort?: boolean;
-  // TODO conditional disableRowDragDrop based on defaultCanSort
-  // TODO make error if both are set the same
-  // disableRowDragDrop?: boolean;
-  enableRowDragDrop?: boolean;
-  components?: GridComponents;
-  dragDropEvents?: Partial<DragEventMap>;
-}
-
 export interface GridProps<D extends IdType = IdType>
-  extends DataTableOptions<D>,
+  extends GridOptions<D>,
     HTMLAttributes<HTMLTableElement> {
   loading?: boolean;
+  onDataChange?: (data: D[]) => void;
 }
 
 export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
   const {
     columns,
     data,
+    onDataChange,
     disableSortBy = false,
     defaultCanSort = true,
     enableRowDragDrop = false,
@@ -60,31 +48,36 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
       disableSortBy,
       defaultCanSort,
       getRowId,
+      initialState: {
+        hiddenColumns: enableRowDragDrop ? [] : ["drag-handle"],
+      },
     },
     useSortBy,
     usePagination,
     useRowSelect,
     // TODO Does this need to be memoized?
-    // TODO can we extract this to a hook (plugin)?
+    // TODO extract this to a hook (plugin)
     (hooks) => {
-      hooks.allColumns.push((columns) =>
-        enableRowDragDrop
-          ? [
-              {
-                id: "drag-handle",
-                Header: "",
-                Cell: components.DragHandle,
-                disableSortBy: true,
-              },
-              ...columns,
-            ]
-          : columns
-      );
+      hooks.allColumns.push((columns) => [
+        {
+          id: "drag-handle",
+          Header: "",
+          Cell: components.DragHandle,
+          disableSortBy: true,
+        },
+        ...columns,
+      ]);
     }
     // useFlexLayout
   );
 
   const { getTableProps, headerGroups, rows } = instance;
+
+  useEffect(() => {
+    if (onDataChange) {
+      onDataChange(records);
+    }
+  }, [records, onDataChange]);
 
   const moveRow = useCallback(
     (sourceIndex: number, destinationIndex: number) => {
