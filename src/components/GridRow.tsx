@@ -24,15 +24,7 @@ export interface GridRowProps<D extends object = {}> extends TableRowProps {
  * @returns
  */
 function GridRow<D extends object = {}>(props: GridRowProps<D>) {
-  const {
-    id,
-    index,
-    cells,
-    isDragDisabled,
-    style,
-    className,
-    ...rowProps
-  } = props;
+  const { id, index, cells, isDragDisabled, style, ...rowProps } = props;
 
   return (
     <Draggable draggableId={id} index={index} isDragDisabled={isDragDisabled}>
@@ -44,7 +36,6 @@ function GridRow<D extends object = {}>(props: GridRowProps<D>) {
             ...style,
             ...provided.draggableProps.style,
           }}
-          className={className}
           ref={provided.innerRef}
         >
           {cells.map((cell) => (
