@@ -1,4 +1,4 @@
-import { forwardRef, HTMLAttributes } from "react";
+import { HTMLAttributes } from "react";
 import { DragIndicator } from "@material-ui/icons";
 import { createStyles, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
@@ -23,18 +23,15 @@ type Props = DragHandleProps &
   HTMLAttributes<HTMLDivElement> &
   DraggableProvidedDragHandleProps;
 
-export const DragHandle = forwardRef<HTMLDivElement, Props>(function DragHandle(
-  props,
-  ref
-) {
+export function DragHandle(props: Props) {
   const { anchor = "left", className, ...divProps } = props;
   const classes = useStyles({ anchor });
 
   return (
-    <div className={clsx(className, classes.root)} {...divProps} ref={ref}>
+    <div className={clsx(className, classes.root)} {...divProps}>
       <DragIndicator fontSize={"small"} />
     </div>
   );
-});
+}
 
 export default DragHandle;

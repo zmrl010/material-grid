@@ -72,6 +72,7 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
             dragHandleProps: DraggableProvidedDragHandleProps;
           }) => <components.DragHandle {...dragHandleProps} />,
           disableSortBy: true,
+          width: 25,
         },
         ...columns,
       ]);
