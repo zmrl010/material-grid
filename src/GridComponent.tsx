@@ -2,12 +2,16 @@ import {
   useTable,
   useSortBy,
   useRowSelect,
-  // useFlexLayout,
+  useFlexLayout,
   usePagination,
 } from "react-table";
 import { HTMLAttributes, useCallback, useEffect } from "react";
 import { useImmer } from "use-immer";
-import { DropResult, ResponderProvided } from "react-beautiful-dnd";
+import {
+  DraggableProvidedDragHandleProps,
+  DropResult,
+  ResponderProvided,
+} from "react-beautiful-dnd";
 import { GridRoot, GridHeader, GridProvider, GridBody } from "./components";
 import { GridOptions, IdType } from "./types";
 import { useComponents } from "./hooks";
@@ -48,9 +52,9 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
       disableSortBy,
       defaultCanSort,
       getRowId,
-      initialState: {
-        hiddenColumns: enableRowDragDrop ? [] : ["drag-handle"],
-      },
+      // initialState: {
+      //   hiddenColumns: enableRowDragDrop ? [] : ["drag-handle"],
+      // },
     },
     useSortBy,
     usePagination,
@@ -62,13 +66,17 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
         {
           id: "drag-handle",
           Header: "",
-          Cell: components.DragHandle,
+          Cell: ({
+            dragHandleProps,
+          }: {
+            dragHandleProps: DraggableProvidedDragHandleProps;
+          }) => <components.DragHandle {...dragHandleProps} />,
           disableSortBy: true,
         },
         ...columns,
       ]);
-    }
-    // useFlexLayout
+    },
+    useFlexLayout
   );
 
   const { getTableProps, headerGroups, rows } = instance;
@@ -79,7 +87,7 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
     }
   }, [records, onDataChange]);
 
-  const moveRow = useCallback(
+  const reorder = useCallback(
     (sourceIndex: number, destinationIndex: number) => {
       updateRecords((draftRecords) => {
         const [record] = draftRecords.splice(sourceIndex, 1);
@@ -89,14 +97,14 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
     [updateRecords]
   );
 
-  const handleDragEnd = useCallback(
+  const onDragEnd = useCallback(
     (result: DropResult, provided: ResponderProvided) => {
       if (result.destination) {
-        moveRow(result.source.index, result.destination.index);
+        reorder(result.source.index, result.destination.index);
       }
       dragDropEvents.onDragEnd?.(result, provided);
     },
-    [moveRow, dragDropEvents.onDragEnd]
+    [reorder, dragDropEvents.onDragEnd]
   );
 
   return (
@@ -104,8 +112,8 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
       instance={instance}
       components={components}
       rowDragDropDisabled={!enableRowDragDrop}
-      onDragEnd={handleDragEnd}
       {...dragDropEvents}
+      onDragEnd={onDragEnd}
     >
       <GridRoot {...getTableProps(tableProps)}>
         <GridHeader components={components} headerGroups={headerGroups} />
