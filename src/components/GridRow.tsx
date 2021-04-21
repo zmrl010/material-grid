@@ -1,6 +1,20 @@
-import { TableCell, TableRow } from "@material-ui/core";
+import {
+  createStyles,
+  makeStyles,
+  TableCell,
+  TableRow,
+} from "@material-ui/core";
 import { Cell, TableRowProps } from "react-table";
 import { Draggable } from "react-beautiful-dnd";
+import clsx from "clsx";
+
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    root: {
+      backgroundColor: theme.palette.background.default,
+    },
+  })
+);
 
 export const ItemTypes = {
   ROW: "row",
@@ -24,7 +38,17 @@ export interface GridRowProps<D extends object = {}> extends TableRowProps {
  * @returns
  */
 function GridRow<D extends object = {}>(props: GridRowProps<D>) {
-  const { id, index, cells, isDragDisabled, style, ...rowProps } = props;
+  const {
+    id,
+    index,
+    cells,
+    isDragDisabled,
+    style,
+    className,
+    ...rowProps
+  } = props;
+
+  const classes = useStyles();
 
   return (
     <Draggable draggableId={id} index={index} isDragDisabled={isDragDisabled}>
@@ -35,6 +59,10 @@ function GridRow<D extends object = {}>(props: GridRowProps<D>) {
           style={{
             ...style,
             ...provided.draggableProps.style,
+          }}
+          className={clsx("Grid-row", className)}
+          classes={{
+            root: classes.root,
           }}
           ref={provided.innerRef}
         >
