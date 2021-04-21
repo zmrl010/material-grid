@@ -35,6 +35,7 @@ export function SortableHeaderCell<D extends object = {}>(
 
   const sortDirection = getSortDirection(column);
 
+  // FIXME label shows even when col doesnt sort
   return (
     <TableCell {...column.getHeaderProps()} sortDirection={sortDirection}>
       {column.canSort ? (
