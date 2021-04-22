@@ -1,10 +1,19 @@
 import { Droppable } from "react-beautiful-dnd";
-import { TableBody } from "@material-ui/core";
+import { createStyles, makeStyles, TableBody } from "@material-ui/core";
 import { Row } from "react-table";
 
 import { useApi } from "../api";
 import type { GridComponents, IdType } from "../types";
 import GridRow from "./GridRow";
+import clsx from "clsx";
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      position: "relative",
+    },
+  })
+);
 
 export interface GridBodyProps<D extends IdType = IdType> {
   rows: Row<D>[];
@@ -30,12 +39,17 @@ export function GridBody<D extends IdType = IdType>(props: Props<D>) {
 
   const { getTableBodyProps, prepareRow } = apiRef.current.instance;
 
+  const classes = useStyles();
+
+  const { className, ...tableBodyProps } = getTableBodyProps();
+
   return (
     <Droppable droppableId="table-body">
       {(provided) => (
         <TableBody
-          {...getTableBodyProps()}
+          {...tableBodyProps}
           {...provided.droppableProps}
+          className={clsx(className, classes.root)}
           ref={provided.innerRef}
         >
           {showNoRows && <NoRowsOverlay />}

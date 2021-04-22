@@ -62,20 +62,24 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
     // TODO Does this need to be memoized?
     // TODO extract this to a hook (plugin)
     (hooks) => {
-      hooks.allColumns.push((columns) => [
-        {
-          id: "drag-handle",
-          Header: "",
-          Cell: ({
-            dragHandleProps,
-          }: {
-            dragHandleProps: DraggableProvidedDragHandleProps;
-          }) => <components.DragHandle {...dragHandleProps} />,
-          disableSortBy: true,
-          width: 25,
-        },
-        ...columns,
-      ]);
+      hooks.allColumns.push((columns) =>
+        enableRowDragDrop
+          ? [
+              {
+                id: "drag-handle",
+                Header: "",
+                Cell: ({
+                  dragHandleProps,
+                }: {
+                  dragHandleProps: DraggableProvidedDragHandleProps;
+                }) => <components.DragHandle {...dragHandleProps} />,
+                disableSortBy: true,
+                width: 25,
+              },
+              ...columns,
+            ]
+          : columns
+      );
     },
     useFlexLayout
   );
