@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { HeaderGroup } from "react-table";
 import { TableCell } from "@material-ui/core";
+import { BaseType } from "../types";
 
 type SortDirection = "desc" | "asc";
 
@@ -23,12 +24,12 @@ export type SortLabelProps = {
   children?: ReactNode;
 };
 
-export interface SortableHeaderCellProps<D extends object = {}> {
+export interface SortableHeaderCellProps<D extends BaseType = {}> {
   column: HeaderGroup<D>;
   SortLabel: (props: SortLabelProps) => JSX.Element;
 }
 
-export function SortableHeaderCell<D extends object = {}>(
+export function SortableHeaderCell<D extends BaseType = {}>(
   props: SortableHeaderCellProps<D>
 ) {
   const { column, SortLabel } = props;

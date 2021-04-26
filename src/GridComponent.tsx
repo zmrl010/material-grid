@@ -4,6 +4,7 @@ import {
   useRowSelect,
   useFlexLayout,
   usePagination,
+  Hooks,
 } from "react-table";
 import { HTMLAttributes, useCallback, useEffect } from "react";
 import { useImmer } from "use-immer";
@@ -12,27 +13,43 @@ import {
   DropResult,
   ResponderProvided,
 } from "react-beautiful-dnd";
+import { Draft, current } from "immer";
+import { TableContainer, Paper } from "@material-ui/core";
 import { GridRoot, GridHeader, GridProvider, GridBody } from "./components";
 import { GridOptions, IdType } from "./types";
 import { useComponents } from "./hooks";
-import { Draft } from "immer";
 
 function getRowId<D extends IdType>(row: D) {
   return row.id.toString();
 }
 
+interface GridEvents<D extends IdType = IdType> {
+  // onDataChange?: (data: D[]) => void;
+  onRowReorder?: (
+    data: D[],
+    sourceIndex: number,
+    destinationIndex: number
+  ) => void;
+}
+
+type DragHandleCellProps = {
+  dragHandleProps: DraggableProvidedDragHandleProps;
+};
+
+type TableAttributes = HTMLAttributes<HTMLTableElement>;
+
 export interface GridProps<D extends IdType = IdType>
   extends GridOptions<D>,
-    HTMLAttributes<HTMLTableElement> {
+    GridEvents<D>,
+    TableAttributes {
   loading?: boolean;
-  onDataChange?: (data: D[]) => void;
 }
 
 export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
   const {
     columns,
     data,
-    onDataChange,
+    onRowReorder = () => {},
     disableSortBy = false,
     defaultCanSort = true,
     enableRowDragDrop = false,
@@ -43,18 +60,16 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
   } = props;
 
   // TODO update records from outside the component
-  const [records, updateRecords] = useImmer(data);
+  const [orderedData, setOrderedData] = useImmer(data);
   const components = useComponents(propComponents);
+
   const instance = useTable(
     {
       columns,
-      data: records,
+      data: orderedData,
       disableSortBy,
       defaultCanSort,
       getRowId,
-      // initialState: {
-      //   hiddenColumns: enableRowDragDrop ? [] : ["drag-handle"],
-      // },
     },
     useSortBy,
     usePagination,
@@ -68,11 +83,9 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
               {
                 id: "drag-handle",
                 Header: "",
-                Cell: ({
-                  dragHandleProps,
-                }: {
-                  dragHandleProps: DraggableProvidedDragHandleProps;
-                }) => <components.DragHandle {...dragHandleProps} />,
+                Cell: ({ dragHandleProps }: DragHandleCellProps) => (
+                  <components.DragHandle {...dragHandleProps} />
+                ),
                 disableSortBy: true,
                 width: 25,
               },
@@ -84,22 +97,27 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
     useFlexLayout
   );
 
-  const { getTableProps, headerGroups, rows } = instance;
-
   useEffect(() => {
-    if (onDataChange) {
-      onDataChange(records);
+    if (data !== orderedData) {
+      setOrderedData(data);
     }
-  }, [records, onDataChange]);
+  }, [data, orderedData, setOrderedData]);
 
   const reorder = useCallback(
     (sourceIndex: number, destinationIndex: number) => {
-      updateRecords((draftRecords) => {
+      setOrderedData((draftRecords) => {
         const [record] = draftRecords.splice(sourceIndex, 1);
         draftRecords.splice(destinationIndex, 0, record as Draft<D>);
+
+        // FIXME propper typing needed to avoid assertion
+        onRowReorder(
+          current(draftRecords as D[]),
+          sourceIndex,
+          destinationIndex
+        );
       });
     },
-    [updateRecords]
+    [setOrderedData, onRowReorder]
   );
 
   const onDragEnd = useCallback(
@@ -116,21 +134,23 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
     <GridProvider<D>
       instance={instance}
       components={components}
-      rowDragDropDisabled={!enableRowDragDrop}
       {...dragDropEvents}
       onDragEnd={onDragEnd}
     >
-      <GridRoot {...getTableProps(tableProps)}>
-        <GridHeader components={components} headerGroups={headerGroups} />
-        <GridBody<D>
-          showNoRows={!loading && rows.length === 0}
-          isDragDisabled={!enableRowDragDrop}
-          rows={rows}
-          loading={loading}
-          NoRowsOverlay={components.NoRowsOverlay}
-          LoadingOverlay={components.LoadingOverlay}
-        />
-      </GridRoot>
+      <TableContainer component={Paper}>
+        <GridRoot {...instance.getTableProps(tableProps)}>
+          <GridHeader
+            components={components}
+            headerGroups={instance.headerGroups}
+          />
+          <GridBody<D>
+            isDragDisabled={!enableRowDragDrop}
+            rows={instance.rows}
+            loading={loading}
+            components={components}
+          />
+        </GridRoot>
+      </TableContainer>
     </GridProvider>
   );
 }

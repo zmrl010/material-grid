@@ -7,7 +7,7 @@ const useStyles = makeStyles(() =>
     root: {
       display: "flex",
       position: "absolute",
-      top: 0,
+      top: 10, // FIXME no rows positioning (set top offset for now)
       left: 0,
       right: 0,
       bottom: 0,
