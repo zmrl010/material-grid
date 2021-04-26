@@ -9,7 +9,7 @@ import { BaseType, GridComponents } from "../types";
 export interface GridApi<D extends BaseType = {}> {
   instance: TableInstance<D>;
   components: GridComponents;
-  rowDragDropDisabled: boolean;
+  // rowDragDropDisabled: boolean;
 }
 
 export type GridApiRef<D extends BaseType = {}> = MutableRefObject<GridApi<D>>;

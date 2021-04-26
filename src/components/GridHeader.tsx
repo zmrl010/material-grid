@@ -1,16 +1,16 @@
 import { TableHead, TableRow } from "@material-ui/core";
 import { HeaderGroup } from "react-table";
-import { GridComponents } from "../types";
+import { BaseType, GridComponents } from "../types";
 import { SortableHeaderCell } from "./SortableHeaderCell";
 
-export interface GridHeaderProps<D extends object = {}> {
+export interface GridHeaderProps<D extends BaseType = {}> {
   headerGroups: HeaderGroup<D>[];
-  components: GridComponents;
+  components: Pick<GridComponents, "SortLabel">;
 }
 
-type Props<D extends object = {}> = GridHeaderProps<D>;
+type Props<D extends BaseType = {}> = GridHeaderProps<D>;
 
-export function GridHeader<D extends object = {}>(props: Props<D>) {
+export function GridHeader<D extends BaseType = {}>(props: Props<D>) {
   const { headerGroups, components } = props;
 
   return (

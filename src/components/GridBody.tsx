@@ -18,30 +18,22 @@ const useStyles = makeStyles(() =>
 export interface GridBodyProps<D extends IdType = IdType> {
   rows: Row<D>[];
   loading: boolean;
-  showNoRows: boolean;
   isDragDisabled: boolean;
-  NoRowsOverlay: GridComponents["NoRowsOverlay"];
-  LoadingOverlay: GridComponents["LoadingOverlay"];
+  components: Pick<GridComponents, "NoRowsOverlay" | "LoadingOverlay">;
 }
 
 type Props<D extends IdType = IdType> = GridBodyProps<D>;
 
 export function GridBody<D extends IdType = IdType>(props: Props<D>) {
-  const {
-    rows,
-    loading,
-    showNoRows,
-    isDragDisabled,
-    NoRowsOverlay,
-    LoadingOverlay,
-  } = props;
+  const { rows, loading, isDragDisabled, components } = props;
+
+  const classes = useStyles();
   const apiRef = useApi<D>();
 
   const { getTableBodyProps, prepareRow } = apiRef.current.instance;
-
-  const classes = useStyles();
-
   const { className, ...tableBodyProps } = getTableBodyProps();
+
+  const showNoRows = !loading && rows.length === 0;
 
   return (
     <Droppable droppableId="table-body">
@@ -49,11 +41,11 @@ export function GridBody<D extends IdType = IdType>(props: Props<D>) {
         <TableBody
           {...tableBodyProps}
           {...provided.droppableProps}
-          className={clsx(className, classes.root)}
+          className={clsx("Grid-body", className, classes.root)}
           ref={provided.innerRef}
         >
-          {showNoRows && <NoRowsOverlay />}
-          {loading && <LoadingOverlay />}
+          {showNoRows && <components.NoRowsOverlay />}
+          {loading && <components.LoadingOverlay />}
           {rows.map((row) => {
             prepareRow(row);
             return (

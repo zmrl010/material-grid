@@ -18,7 +18,7 @@ export function GridProvider<D extends BaseType = {}>(props: Props<D>) {
     children,
     instance,
     components,
-    rowDragDropDisabled,
+    // rowDragDropDisabled,
     ...dragDropProps
   } = props;
 
@@ -26,7 +26,7 @@ export function GridProvider<D extends BaseType = {}>(props: Props<D>) {
     <GridApiProvider
       instance={instance}
       components={components}
-      rowDragDropDisabled={rowDragDropDisabled}
+      // rowDragDropDisabled={rowDragDropDisabled}
     >
       <DragDropContext {...dragDropProps}>{children}</DragDropContext>
     </GridApiProvider>
