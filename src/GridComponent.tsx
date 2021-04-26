@@ -4,6 +4,7 @@ import {
   useRowSelect,
   useFlexLayout,
   usePagination,
+  Hooks,
 } from "react-table";
 import { HTMLAttributes, useCallback, useEffect } from "react";
 import { useImmer } from "use-immer";
