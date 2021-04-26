@@ -8,10 +8,10 @@ import { Cell, TableRowProps } from "react-table";
 import { Draggable } from "react-beautiful-dnd";
 import clsx from "clsx";
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      backgroundColor: theme.palette.background.default,
+      // backgroundColor: theme.palette.background.default,
     },
   })
 );
