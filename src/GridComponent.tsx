@@ -13,7 +13,7 @@ import {
   ResponderProvided,
 } from "react-beautiful-dnd";
 import { Draft, current } from "immer";
-import { TableContainer, Paper } from "@material-ui/core";
+// import { TableContainer, Paper } from "@material-ui/core";
 import { GridRoot, GridHeader, GridProvider, GridBody } from "./components";
 import { GridOptions, IdType } from "./types";
 import { useComponents } from "./hooks";
@@ -97,10 +97,8 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
   );
 
   useEffect(() => {
-    if (data !== orderedData) {
-      setOrderedData(data);
-    }
-  }, [data, orderedData, setOrderedData]);
+    setOrderedData(data);
+  }, [data, setOrderedData]);
 
   const reorder = useCallback(
     (sourceIndex: number, destinationIndex: number) => {
@@ -136,20 +134,20 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
       {...dragDropEvents}
       onDragEnd={onDragEnd}
     >
-      <TableContainer component={Paper}>
-        <GridRoot {...instance.getTableProps(tableProps)}>
-          <GridHeader
-            components={components}
-            headerGroups={instance.headerGroups}
-          />
-          <GridBody<D>
-            isDragDisabled={!enableRowDragDrop}
-            rows={instance.rows}
-            loading={loading}
-            components={components}
-          />
-        </GridRoot>
-      </TableContainer>
+      {/* <TableContainer component={Paper}> */}
+      <GridRoot {...instance.getTableProps(tableProps)}>
+        <GridHeader
+          components={components}
+          headerGroups={instance.headerGroups}
+        />
+        <GridBody<D>
+          isDragDisabled={!enableRowDragDrop}
+          rows={instance.rows}
+          loading={loading}
+          components={components}
+        />
+      </GridRoot>
+      {/* </TableContainer> */}
     </GridProvider>
   );
 }
