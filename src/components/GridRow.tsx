@@ -11,7 +11,7 @@ import clsx from "clsx";
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
-      backgroundColor: theme.palette.background.default,
+      // backgroundColor: theme.palette.background.default,
     },
   })
 );
