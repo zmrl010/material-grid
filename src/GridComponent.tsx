@@ -13,7 +13,7 @@ import {
   ResponderProvided,
 } from "react-beautiful-dnd";
 import { Draft, current } from "immer";
-// import { TableContainer, Paper } from "@material-ui/core";
+// import { TableContainer } from "@material-ui/core";
 import { GridRoot, GridHeader, GridProvider, GridBody } from "./components";
 import { GridOptions, IdType } from "./types";
 import { useComponents } from "./hooks";
@@ -134,7 +134,7 @@ export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
       {...dragDropEvents}
       onDragEnd={onDragEnd}
     >
-      {/* <TableContainer component={Paper}> */}
+      {/* <TableContainer> */}
       <GridRoot {...instance.getTableProps(tableProps)}>
         <GridHeader
           components={components}
