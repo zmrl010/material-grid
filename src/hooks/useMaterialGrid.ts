@@ -3,16 +3,14 @@ import { useCallback } from "react";
 import { DropResult, ResponderProvided } from "react-beautiful-dnd";
 import { useTable, useSortBy, usePagination, useRowSelect } from "react-table";
 import { useImmer } from "use-immer";
-import { GridOptions, IdType } from "../types";
+import { GridOptions, Id } from "../types";
 import { useComponents } from "./useComponents";
 
-function getRowId<D extends IdType>(row: D) {
+function getRowId<D extends Id>(row: D) {
   return row.id.toString();
 }
 
-export function useMaterialGrid<D extends IdType = IdType>(
-  options: GridOptions<D>
-) {
+export function useMaterialGrid<D extends Id = Id>(options: GridOptions<D>) {
   const {
     columns,
     data,

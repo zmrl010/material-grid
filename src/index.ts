@@ -4,6 +4,6 @@ export * from "./GridComponent";
 export * from "./hooks";
 export * from "./types";
 // re-export types from react-table to use in projects
-export * as reactTable from "react-table";
+export * from "react-table";
 
 export default Grid;

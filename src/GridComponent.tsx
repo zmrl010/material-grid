@@ -15,14 +15,14 @@ import {
 import { Draft, current } from "immer";
 // import { TableContainer } from "@material-ui/core";
 import { GridRoot, GridHeader, GridProvider, GridBody } from "./components";
-import { GridOptions, IdType } from "./types";
+import { GridOptions, Id } from "./types";
 import { useComponents } from "./hooks";
 
-function getRowId<D extends IdType>(row: D) {
+function getRowId<D extends Id>(row: D) {
   return row.id.toString();
 }
 
-interface GridEvents<D extends IdType = IdType> {
+interface GridEvents<D extends Id = Id> {
   // onDataChange?: (data: D[]) => void;
   onRowReorder?: (
     data: D[],
@@ -37,14 +37,14 @@ type DragHandleCellProps = {
 
 type TableAttributes = HTMLAttributes<HTMLTableElement>;
 
-export interface GridProps<D extends IdType = IdType>
+export interface GridProps<D extends Id = Id>
   extends GridOptions<D>,
     GridEvents<D>,
     TableAttributes {
   loading?: boolean;
 }
 
-export function Grid<D extends IdType = IdType>(props: GridProps<D>) {
+export function Grid<D extends Id = Id>(props: GridProps<D>) {
   const {
     columns,
     data,

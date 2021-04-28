@@ -3,7 +3,7 @@ import { createStyles, makeStyles, TableBody } from "@material-ui/core";
 import { Row } from "react-table";
 
 import { useApi } from "../api";
-import type { GridComponents, IdType } from "../types";
+import type { GridComponents, Id } from "../types";
 import GridRow from "./GridRow";
 import clsx from "clsx";
 
@@ -15,16 +15,16 @@ const useStyles = makeStyles(() =>
   })
 );
 
-export interface GridBodyProps<D extends IdType = IdType> {
+export interface GridBodyProps<D extends Id = Id> {
   rows: Row<D>[];
   loading: boolean;
   isDragDisabled: boolean;
   components: Pick<GridComponents, "NoRowsOverlay" | "LoadingOverlay">;
 }
 
-type Props<D extends IdType = IdType> = GridBodyProps<D>;
+type Props<D extends Id = Id> = GridBodyProps<D>;
 
-export function GridBody<D extends IdType = IdType>(props: Props<D>) {
+export function GridBody<D extends Id = Id>(props: Props<D>) {
   const { rows, loading, isDragDisabled, components } = props;
 
   const classes = useStyles();

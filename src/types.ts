@@ -6,7 +6,7 @@ export type GridComponents = typeof DEFAULT_COMPONENTS;
 
 export type BaseType = {};
 
-export type IdType = { id: number } & BaseType;
+export type Id = { id: number } & BaseType;
 
 export type DragEventMap = Pick<
   DragDropContextProps,
@@ -17,8 +17,7 @@ export type DragEventMap = Pick<
   | "onBeforeDragStart"
 >;
 
-export interface GridOptions<D extends IdType = IdType>
-  extends TableOptions<D> {
+export interface GridOptions<D extends Id = Id> extends TableOptions<D> {
   // TODO conditional disableRowDragDrop based on defaultCanSort
   // TODO make error if both are set the same
   enableRowDragDrop?: boolean;
