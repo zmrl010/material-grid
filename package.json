@@ -5,7 +5,8 @@
   "main": "build/index.js",
   "module": "build/index.js",
   "files": [
-    "build"
+    "build",
+    "react-table-config.d.ts"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
