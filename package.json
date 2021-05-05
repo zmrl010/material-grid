@@ -1,9 +1,13 @@
 {
   "name": "material-grid",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "",
   "main": "build/index.js",
   "module": "build/index.js",
+  "files": [
+    "build",
+    "react-table-config.d.ts"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "tsc --outDir ./build"
