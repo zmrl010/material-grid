@@ -28,7 +28,7 @@
   }, 
   "include": [
     "src", 
-    "react-table-config.d.ts"  
+    "src/react-table-config.d.ts"  
   ],
   "exclude": [
     "node_modules",

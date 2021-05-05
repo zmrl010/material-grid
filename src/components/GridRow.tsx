@@ -10,18 +10,16 @@ import clsx from "clsx";
 
 const useStyles = makeStyles(() =>
   createStyles({
-    root: {
-      // backgroundColor: theme.palette.background.default,
-    },
+    root: {},
   })
 );
 
-export const ItemTypes = {
-  ROW: "row",
-};
-
 export interface RowItem {
   index: number;
+}
+
+export interface GridRowClasses {
+  root: string;
 }
 
 export interface GridRowProps<D extends object = {}> extends TableRowProps {
@@ -67,7 +65,7 @@ function GridRow<D extends object = {}>(props: GridRowProps<D>) {
           ref={provided.innerRef}
         >
           {cells.map((cell) => (
-            <TableCell {...cell.getCellProps()}>
+            <TableCell {...cell.getCellProps()} variant="body">
               {cell.render("Cell", {
                 dragHandleProps: provided.dragHandleProps,
               })}

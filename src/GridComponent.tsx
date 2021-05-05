@@ -5,7 +5,7 @@ import {
   useFlexLayout,
   usePagination,
 } from "react-table";
-import { HTMLAttributes, useCallback, useEffect } from "react";
+import { HTMLAttributes, useCallback, useEffect, useMemo } from "react";
 import { useImmer } from "use-immer";
 import {
   DraggableProvidedDragHandleProps,
@@ -16,7 +16,7 @@ import { Draft, current } from "immer";
 // import { TableContainer } from "@material-ui/core";
 import { GridRoot, GridHeader, GridProvider, GridBody } from "./components";
 import { GridOptions, Id } from "./types";
-import { useComponents } from "./hooks";
+import { useBoundingRect, useComponents } from "./hooks";
 
 function getRowId<D extends Id>(row: D) {
   return row.id.toString();
@@ -42,8 +42,19 @@ export interface GridProps<D extends Id = Id>
     GridEvents<D>,
     TableAttributes {
   loading?: boolean;
+  // classes?: {
+  //   root: string;
+  //   body?: string;
+  // };
 }
 
+/**
+ * Main grid component
+ * @param props
+ *
+ * @todo implement styling overrides (classes prop) for all components
+ * @todo change table-specific components to use divs
+ */
 export function Grid<D extends Id = Id>(props: GridProps<D>) {
   const {
     columns,
@@ -61,6 +72,8 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
   // TODO update records from outside the component
   const [orderedData, setOrderedData] = useImmer(data);
   const components = useComponents(propComponents);
+
+  const [headerBoundingRect, headerRef] = useBoundingRect();
 
   const instance = useTable(
     {
@@ -127,24 +140,32 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     [reorder, dragDropEvents.onDragEnd]
   );
 
+  const events = useMemo(
+    () => ({
+      ...dragDropEvents,
+      onDragEnd,
+    }),
+    [dragDropEvents, onDragEnd]
+  );
+
   return (
-    <GridProvider<D>
-      instance={instance}
-      components={components}
-      {...dragDropEvents}
-      onDragEnd={onDragEnd}
-    >
+    <GridProvider<D> instance={instance} components={components} {...events}>
       {/* <TableContainer> */}
       <GridRoot {...instance.getTableProps(tableProps)}>
         <GridHeader
           components={components}
           headerGroups={instance.headerGroups}
+          tableHeadRef={headerRef}
         />
         <GridBody<D>
           isDragDisabled={!enableRowDragDrop}
           rows={instance.rows}
           loading={loading}
           components={components}
+          style={{
+            height: `calc(100% - ${headerBoundingRect?.height || 0}px)`,
+            overflowY: "auto",
+          }}
         />
       </GridRoot>
       {/* </TableContainer> */}

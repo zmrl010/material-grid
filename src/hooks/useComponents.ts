@@ -13,3 +13,5 @@ export function useComponents(propComponents: Partial<GridComponents> = {}) {
 
   return components;
 }
+
+export default useComponents;

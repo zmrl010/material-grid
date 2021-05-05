@@ -49,9 +49,15 @@ import {
   UseSortByState,
 } from "react-table";
 
-interface ColumnStyling {
+export interface ColumnStyling {
   style?: CSSProperties;
   className?: string;
+}
+
+type Align = "center" | "inherit" | "justify" | "left" | "right";
+
+export interface WithAlign {
+  align?: Align;
 }
 
 declare module "react-table" {

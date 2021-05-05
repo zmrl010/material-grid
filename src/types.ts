@@ -24,3 +24,12 @@ export interface GridOptions<D extends Id = Id> extends TableOptions<D> {
   components?: GridComponents;
   dragDropEvents?: Partial<DragEventMap>;
 }
+
+export type ExtendClassKey<
+  Base extends string,
+  K extends string = ""
+> = `${Base}${K extends "root" ? "" : Capitalize<K>}`;
+
+export type ClassKeyMap<K extends string> = {
+  [Key in K]?: string;
+};
