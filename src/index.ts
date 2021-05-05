@@ -1,4 +1,5 @@
 import Grid from "./GridComponent";
+import "./react-table-config";
 
 export * from "./GridComponent";
 export * from "./hooks";
