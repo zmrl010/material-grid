@@ -27,6 +27,6 @@
     "outDir": "./build"
   }, 
   "include": [
-    "./src/**/*", "react-table-config.d.ts", 
+    "src", "types", 
   ],
 }
