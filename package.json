@@ -8,6 +8,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "tsc --outDir ./build"
   },
+  "files": [
+    "build",
+    "types"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
