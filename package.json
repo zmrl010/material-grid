@@ -1,6 +1,6 @@
 {
   "name": "material-grid",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "",
   "main": "build/index.js",
   "module": "build/index.js",
@@ -9,8 +9,8 @@
     "prepare": "tsc --outDir ./build"
   },
   "files": [
-    "types",
-    "build"
+    "build",
+    "react-table-config.d.ts"
   ],
   "author": "",
   "license": "ISC",
