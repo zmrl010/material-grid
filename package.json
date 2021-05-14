@@ -9,27 +9,28 @@
     "prepare": "tsc --outDir ./build"
   },
   "files": [
-    "build",
-    "types"
+    "types",
+    "build"
   ],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
+    "@types/react-table": "^7.7.0",
     "clsx": "^1.1.1",
     "date-fns": "^2.20.1",
     "immer": "^9.0.1",
     "lodash": "^4.17.21",
     "react-beautiful-dnd": "^13.1.0",
     "react-table": "^7.6.3",
+    "typescript": "^4.2.4",
     "use-immer": "^0.5.1"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.37",
     "@types/react-beautiful-dnd": "^13.0.0",
-    "@types/react-table": "^7.0.29",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
     "eslint": "^7.24.0",
@@ -37,8 +38,7 @@
     "eslint-plugin-material-ui": "^1.0.1",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.23.2",
-    "prettier": "^2.2.1",
-    "typescript": "^4.2.4"
+    "prettier": "^2.2.1"
   },
   "peerDependencies": {
     "@types/react": "^17.0.0",
