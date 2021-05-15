@@ -58,6 +58,7 @@ export function SortableHeaderCell<D extends BaseType = BaseType>(
     <TableCell
       {...column.getHeaderProps()}
       sortDirection={sortDirection}
+      component="div"
       classes={{
         head: classes.head,
       }}

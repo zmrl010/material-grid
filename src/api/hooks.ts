@@ -11,6 +11,11 @@ export function createApi<D extends BaseType = {}>(
 
 const INITIAL_STATE = {};
 
+/**
+ * Creates mutable ref that holds the api.
+ * @param params api parameters
+ * @returns api ref
+ */
 export function useApiRef<D extends BaseType = {}>(params: GridApi<D>) {
   const apiRef = useRef(INITIAL_STATE as GridApi<D>);
 
@@ -21,6 +26,10 @@ export function useApiRef<D extends BaseType = {}>(params: GridApi<D>) {
   return apiRef;
 }
 
+/**
+ * Use api returned from parent context
+ * @returns GridApiContext value
+ */
 export function useApi<D extends BaseType = {}>() {
   const context = useContext<GridApiRef<D> | null>(GridApiContext);
 

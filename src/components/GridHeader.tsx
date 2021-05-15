@@ -3,6 +3,7 @@ import { HeaderGroup } from "react-table";
 import { BaseType, GridComponents } from "../types";
 import { SortableHeaderCell } from "./SortableHeaderCell";
 
+// TODO pass TableHeadProps to TableHead properly
 export interface GridHeaderProps<D extends BaseType = BaseType>
   extends TableHeadProps {
   headerGroups: HeaderGroup<D>[];
@@ -16,9 +17,9 @@ export function GridHeader<D extends BaseType = BaseType>(props: Props<D>) {
   const { headerGroups, components, tableHeadRef } = props;
 
   return (
-    <TableHead ref={tableHeadRef}>
+    <TableHead ref={tableHeadRef} component="div">
       {headerGroups.map((headerGroup) => (
-        <TableRow {...headerGroup.getHeaderGroupProps()}>
+        <TableRow {...headerGroup.getHeaderGroupProps()} component="div">
           {headerGroup.headers.map((column) => (
             <SortableHeaderCell
               column={column}

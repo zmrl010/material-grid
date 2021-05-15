@@ -6,7 +6,9 @@
   "module": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "tsc --outDir ./build"
+    "prepare": "tsc --outDir ./build",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "files": [
     "build"
@@ -27,11 +29,17 @@
     "use-immer": "^0.5.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.2",
+    "@storybook/addon-actions": "^6.2.9",
+    "@storybook/addon-essentials": "^6.2.9",
+    "@storybook/addon-links": "^6.2.9",
+    "@storybook/react": "^6.2.9",
     "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.37",
     "@types/react-beautiful-dnd": "^13.0.0",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
+    "babel-loader": "^8.2.2",
     "eslint": "^7.24.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-material-ui": "^1.0.1",

@@ -23,7 +23,6 @@ export interface GridRowClasses {
 }
 
 export interface GridRowProps<D extends object = {}> extends TableRowProps {
-  // row: Row<D>;
   id: string;
   index: number;
   isDragDisabled: boolean;
@@ -52,6 +51,7 @@ function GridRow<D extends object = {}>(props: GridRowProps<D>) {
     <Draggable draggableId={id} index={index} isDragDisabled={isDragDisabled}>
       {(provided) => (
         <TableRow
+          component={"div"}
           {...rowProps}
           {...provided.draggableProps}
           style={{
@@ -65,7 +65,7 @@ function GridRow<D extends object = {}>(props: GridRowProps<D>) {
           ref={provided.innerRef}
         >
           {cells.map((cell) => (
-            <TableCell {...cell.getCellProps()} variant="body">
+            <TableCell {...cell.getCellProps()} component="div">
               {cell.render("Cell", {
                 dragHandleProps: provided.dragHandleProps,
               })}

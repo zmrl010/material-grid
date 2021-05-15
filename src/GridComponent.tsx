@@ -13,12 +13,12 @@ import {
   ResponderProvided,
 } from "react-beautiful-dnd";
 import { Draft, current } from "immer";
-// import { TableContainer } from "@material-ui/core";
+import { TableProps } from "@material-ui/core";
 import { GridRoot, GridHeader, GridProvider, GridBody } from "./components";
 import { GridOptions, Id } from "./types";
 import { useBoundingRect, useComponents } from "./hooks";
 
-function getRowId<D extends Id>(row: D) {
+function defaultGetRowId<D extends Id>(row: D) {
   return row.id.toString();
 }
 
@@ -35,12 +35,10 @@ type DragHandleCellProps = {
   dragHandleProps: DraggableProvidedDragHandleProps;
 };
 
-type TableAttributes = HTMLAttributes<HTMLTableElement>;
-
 export interface GridProps<D extends Id = Id>
   extends GridOptions<D>,
     GridEvents<D>,
-    TableAttributes {
+    TableProps {
   loading?: boolean;
   // classes?: {
   //   root: string;
@@ -57,15 +55,24 @@ export interface GridProps<D extends Id = Id>
  */
 export function Grid<D extends Id = Id>(props: GridProps<D>) {
   const {
+    // required
     columns,
     data,
-    onRowReorder = () => {},
-    disableSortBy = false,
-    defaultCanSort = true,
-    enableRowDragDrop = false,
-    loading = false,
+    // options
+    autoResetHiddenColumns,
     components: propComponents,
+    defaultCanSort = true,
+    defaultColumn,
+    disableSortBy = false,
     dragDropEvents = {},
+    enableRowDragDrop = false,
+    getRowId = defaultGetRowId,
+    getSubRows,
+    initialState,
+    loading = false,
+    onRowReorder = () => {},
+    stateReducer,
+    useControlledState,
     ...tableProps
   } = props;
 
@@ -82,6 +89,12 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
       disableSortBy,
       defaultCanSort,
       getRowId,
+      initialState,
+      stateReducer,
+      useControlledState,
+      defaultColumn,
+      getSubRows,
+      autoResetHiddenColumns,
     },
     useSortBy,
     usePagination,
@@ -148,6 +161,10 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     [dragDropEvents, onDragEnd]
   );
 
+  const bodyHeight = headerBoundingRect
+    ? `calc(100% - ${headerBoundingRect.height || 0}px)`
+    : "100%";
+
   return (
     <GridProvider<D> instance={instance} components={components} {...events}>
       {/* <TableContainer> */}
@@ -163,7 +180,7 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
           loading={loading}
           components={components}
           style={{
-            height: `calc(100% - ${headerBoundingRect?.height || 0}px)`,
+            height: bodyHeight,
             overflowY: "auto",
           }}
         />

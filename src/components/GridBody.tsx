@@ -38,6 +38,7 @@ export function GridBody<D extends Id = Id>(props: Props<D>) {
   const { getTableBodyProps, prepareRow } = apiRef.current.instance;
   const {
     className: tableBodyClassName,
+    style: tableBodyStyle,
     ...tableBodyProps
   } = getTableBodyProps();
 
@@ -47,15 +48,12 @@ export function GridBody<D extends Id = Id>(props: Props<D>) {
     <Droppable droppableId="table-body">
       {(provided) => (
         <TableBody
+          component={"div"}
           {...tableBodyProps}
           {...provided.droppableProps}
-          className={clsx(
-            "Grid-body",
-            className,
-            tableBodyClassName,
-            classes.root
-          )}
-          style={style}
+          className={clsx("Grid-body", className, tableBodyClassName)}
+          classes={{ root: classes.root }}
+          style={{ ...style, ...tableBodyStyle }}
           ref={provided.innerRef}
         >
           {showNoRows && <components.NoRowsOverlay />}
