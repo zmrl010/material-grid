@@ -13,7 +13,7 @@ import {
   ResponderProvided,
 } from "react-beautiful-dnd";
 import { Draft, current } from "immer";
-import { createStyles, makeStyles, Paper, TableProps } from "@material-ui/core";
+import { createStyles, makeStyles, TableProps } from "@material-ui/core";
 import { GridRoot, GridHeader, GridProvider, GridBody } from "./components";
 import { GridComponents, GridOptions, Id } from "./types";
 import { useBoundingRect, useComponents } from "./hooks";
