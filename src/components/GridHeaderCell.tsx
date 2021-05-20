@@ -6,7 +6,12 @@ import {
   TableCellProps,
   TableSortLabelClassKey,
 } from "@material-ui/core";
-import { BaseType, ClassKeyMap, ExtendClassKey } from "../types";
+import {
+  BaseType,
+  ClassKeyMap,
+  ExtendClassKey,
+  GridComponents,
+} from "../types";
 
 type SortDirection = "desc" | "asc";
 
@@ -39,17 +44,19 @@ export type SortLabelProps = {
   classes?: ClassKeyMap<TableSortLabelClassKey>;
 };
 
-export interface SortableHeaderCellProps<D extends BaseType = BaseType>
+export type GridHeaderCellComponents = Pick<GridComponents, "SortLabel">;
+
+export interface GridHeaderCellProps<D extends BaseType = BaseType>
   extends TableCellProps {
   column: HeaderGroup<D>;
-  SortLabel: (props: SortLabelProps) => JSX.Element;
+  components: GridHeaderCellComponents;
   classes?: ClassKeyMap<GridHeaderCellClassKey>;
 }
 
-export function SortableHeaderCell<D extends BaseType = BaseType>(
-  props: SortableHeaderCellProps<D>
+export function GridHeaderCell<D extends BaseType = BaseType>(
+  props: GridHeaderCellProps<D>
 ) {
-  const { column, SortLabel, classes = {} } = props;
+  const { column, components, classes = {} } = props;
 
   const sortDirection = getSortDirection(column);
 
@@ -64,14 +71,14 @@ export function SortableHeaderCell<D extends BaseType = BaseType>(
       }}
     >
       {column.canSort ? (
-        <SortLabel
+        <components.SortLabel
           active={column.isSorted}
           direction={sortDirection}
           {...column.getSortByToggleProps()}
           classes={classes}
         >
           {column.render("Header")}
-        </SortLabel>
+        </components.SortLabel>
       ) : (
         column.render("Header")
       )}

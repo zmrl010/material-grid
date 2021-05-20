@@ -1,7 +1,24 @@
 import { Story, Meta } from "@storybook/react";
 
 import GridComponent, { GridProps } from "../GridComponent";
-import { demoData, demoColumns } from "./demo-data";
+import { makeData } from "./mock-data";
+
+const demoColumns = [
+  { accessor: "name", Header: "Name" },
+  { accessor: "due_date", Header: "Due Date" },
+  { accessor: "is_recurring", Header: "Recurring" },
+  { accessor: "category", Header: "Category" },
+];
+
+const demoData = makeData(
+  {
+    name: ({ name }) => name.findName(),
+    due_date: ({ date }) => date.soon().toDateString(),
+    is_recurring: ({ datatype }) => datatype.boolean().toString(),
+    category: ({ random }) => random.word(),
+  },
+  20
+);
 
 export default {
   title: "Grid / Grid Component",
@@ -16,7 +33,7 @@ export default {
 } as Meta;
 
 const Template: Story<GridProps> = (args) => (
-  <div style={{ width: "100%", height: "200px" }}>
+  <div style={{ width: "100%", height: "500px" }}>
     <GridComponent {...args} />
   </div>
 );

@@ -3,14 +3,18 @@ import {
   makeStyles,
   TableCell,
   TableRow,
+  Theme,
 } from "@material-ui/core";
 import { Cell, TableRowProps } from "react-table";
 import { Draggable } from "react-beautiful-dnd";
 import clsx from "clsx";
+import { BaseType } from "../types";
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {},
+    root: {
+      backgroundColor: theme.palette.background.paper,
+    },
   })
 );
 
@@ -22,7 +26,8 @@ export interface GridRowClasses {
   root: string;
 }
 
-export interface GridRowProps<D extends object = {}> extends TableRowProps {
+export interface GridRowProps<D extends BaseType = BaseType>
+  extends TableRowProps {
   id: string;
   index: number;
   isDragDisabled: boolean;
@@ -34,7 +39,7 @@ export interface GridRowProps<D extends object = {}> extends TableRowProps {
  * @param props
  * @returns
  */
-function GridRow<D extends object = {}>(props: GridRowProps<D>) {
+export function GridRow<D extends BaseType = BaseType>(props: GridRowProps<D>) {
   const {
     id,
     index,

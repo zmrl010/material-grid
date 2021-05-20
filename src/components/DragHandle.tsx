@@ -28,7 +28,10 @@ export function DragHandle(props: Props) {
   const classes = useStyles({ anchor });
 
   return (
-    <div className={clsx(className, classes.root)} {...divProps}>
+    <div
+      className={clsx("Grid-drag-handle", className, classes.root)}
+      {...divProps}
+    >
       <DragIndicator fontSize={"small"} />
     </div>
   );

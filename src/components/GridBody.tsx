@@ -10,7 +10,16 @@ import GridRow from "./GridRow";
 
 const useStyles = makeStyles(() =>
   createStyles({
-    root: {
+    root: (props: { height?: string | number }) => ({
+      position: "relative",
+      height: props.height,
+      display: "block",
+      boxSizing: "border-box",
+      overflow: "hidden auto",
+    }),
+    innerScrollContainer: {
+      width: "auto",
+      overflow: "hidden",
       position: "relative",
     },
   })
@@ -21,6 +30,7 @@ export interface GridBodyClasses {}
 export interface GridBodyProps<D extends Id = Id> {
   className?: string;
   style?: CSSProperties;
+  height?: string | number;
   rows: Row<D>[];
   loading: boolean;
   isDragDisabled: boolean;
@@ -30,9 +40,17 @@ export interface GridBodyProps<D extends Id = Id> {
 type Props<D extends Id = Id> = GridBodyProps<D>;
 
 export function GridBody<D extends Id = Id>(props: Props<D>) {
-  const { rows, loading, className, style, isDragDisabled, components } = props;
+  const {
+    rows,
+    loading,
+    className,
+    style,
+    height,
+    isDragDisabled,
+    components,
+  } = props;
 
-  const classes = useStyles();
+  const classes = useStyles({ height });
   const apiRef = useApi<D>();
 
   const { getTableBodyProps, prepareRow } = apiRef.current.instance;
@@ -53,23 +71,28 @@ export function GridBody<D extends Id = Id>(props: Props<D>) {
           {...provided.droppableProps}
           className={clsx("Grid-body", className, tableBodyClassName)}
           classes={{ root: classes.root }}
-          style={{ ...style, ...tableBodyStyle }}
+          style={{
+            ...style,
+            ...tableBodyStyle,
+          }}
           ref={provided.innerRef}
         >
-          {showNoRows && <components.NoRowsOverlay />}
-          {loading && <components.LoadingOverlay />}
-          {rows.map((row) => {
-            prepareRow(row);
-            return (
-              <GridRow
-                {...row.getRowProps()}
-                id={row.id}
-                index={row.index}
-                cells={row.cells}
-                isDragDisabled={isDragDisabled}
-              />
-            );
-          })}
+          <div className={classes.innerScrollContainer}>
+            {showNoRows && <components.NoRowsOverlay />}
+            {loading && <components.LoadingOverlay />}
+            {rows.map((row) => {
+              prepareRow(row);
+              return (
+                <GridRow
+                  {...row.getRowProps()}
+                  id={row.id}
+                  index={row.index}
+                  cells={row.cells}
+                  isDragDisabled={isDragDisabled}
+                />
+              );
+            })}
+          </div>
         </TableBody>
       )}
     </Droppable>

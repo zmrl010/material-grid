@@ -1,7 +1,25 @@
-import { TableHead, TableHeadProps, TableRow } from "@material-ui/core";
+import {
+  createStyles,
+  makeStyles,
+  TableHead,
+  TableHeadProps,
+  TableRow,
+  Theme,
+} from "@material-ui/core";
 import { HeaderGroup } from "react-table";
 import { BaseType, GridComponents } from "../types";
-import { SortableHeaderCell } from "./SortableHeaderCell";
+import { GridHeaderCell } from "./GridHeaderCell";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      backgroundColor: theme.palette.background.paper,
+      // paddingRight: "16px",
+      boxSizing: "border-box",
+      display: "flex",
+    },
+  })
+);
 
 // TODO pass TableHeadProps to TableHead properly
 export interface GridHeaderProps<D extends BaseType = BaseType>
@@ -11,19 +29,25 @@ export interface GridHeaderProps<D extends BaseType = BaseType>
   tableHeadRef: (element: HTMLElement | null) => void;
 }
 
-type Props<D extends BaseType = {}> = GridHeaderProps<D>;
+type Props<D extends BaseType = BaseType> = GridHeaderProps<D>;
 
 export function GridHeader<D extends BaseType = BaseType>(props: Props<D>) {
   const { headerGroups, components, tableHeadRef } = props;
 
+  const classes = useStyles();
+
   return (
-    <TableHead ref={tableHeadRef} component="div">
+    <TableHead
+      ref={tableHeadRef}
+      component="div"
+      classes={{ root: classes.root }}
+    >
       {headerGroups.map((headerGroup) => (
         <TableRow {...headerGroup.getHeaderGroupProps()} component="div">
           {headerGroup.headers.map((column) => (
-            <SortableHeaderCell
+            <GridHeaderCell
               column={column}
-              SortLabel={components.SortLabel}
+              components={components}
               {...column.getHeaderProps()}
             />
           ))}

@@ -5,7 +5,7 @@ import {
   useFlexLayout,
   usePagination,
 } from "react-table";
-import { HTMLAttributes, useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useImmer } from "use-immer";
 import {
   DraggableProvidedDragHandleProps,
@@ -13,17 +13,43 @@ import {
   ResponderProvided,
 } from "react-beautiful-dnd";
 import { Draft, current } from "immer";
-import { TableProps } from "@material-ui/core";
+import { createStyles, makeStyles, Paper, TableProps } from "@material-ui/core";
 import { GridRoot, GridHeader, GridProvider, GridBody } from "./components";
-import { GridOptions, Id } from "./types";
+import { GridComponents, GridOptions, Id } from "./types";
 import { useBoundingRect, useComponents } from "./hooks";
 
 function defaultGetRowId<D extends Id>(row: D) {
   return row.id.toString();
 }
 
-interface GridEvents<D extends Id = Id> {
-  // onDataChange?: (data: D[]) => void;
+const DRAG_HANDLE_ID = "drag-handle";
+
+function createDragHandleColumn(
+  components: Pick<GridComponents, "DragHandle">
+) {
+  return {
+    id: DRAG_HANDLE_ID,
+    Header: "",
+    Cell: ({ dragHandleProps }: DragHandleCellProps) => (
+      <components.DragHandle {...dragHandleProps} />
+    ),
+    disableSortBy: true,
+    width: 25,
+  };
+}
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      boxSizing: "inherit",
+    },
+    container: {
+      position: "relative",
+    },
+  })
+);
+
+export interface GridEvents<D extends Id = Id> {
   onRowReorder?: (
     data: D[],
     sourceIndex: number,
@@ -51,14 +77,13 @@ export interface GridProps<D extends Id = Id>
  * @param props
  *
  * @todo implement styling overrides (classes prop) for all components
- * @todo change table-specific components to use divs
  */
 export function Grid<D extends Id = Id>(props: GridProps<D>) {
   const {
-    // required
+    // required props
     columns,
     data,
-    // options
+    // option props
     autoResetHiddenColumns,
     components: propComponents,
     defaultCanSort = true,
@@ -82,6 +107,8 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
 
   const [headerBoundingRect, headerRef] = useBoundingRect();
 
+  const classes = useStyles();
+
   const instance = useTable(
     {
       columns,
@@ -99,28 +126,21 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     useSortBy,
     usePagination,
     useRowSelect,
-    // TODO Does this need to be memoized?
     // TODO extract this to a hook (plugin)
     (hooks) => {
-      hooks.allColumns.push((columns) =>
-        enableRowDragDrop
-          ? [
-              {
-                id: "drag-handle",
-                Header: "",
-                Cell: ({ dragHandleProps }: DragHandleCellProps) => (
-                  <components.DragHandle {...dragHandleProps} />
-                ),
-                disableSortBy: true,
-                width: 25,
-              },
-              ...columns,
-            ]
-          : columns
-      );
+      hooks.allColumns.push((columns) => [
+        createDragHandleColumn(components),
+        ...columns,
+      ]);
     },
     useFlexLayout
   );
+
+  const { toggleHideColumn } = instance;
+
+  useEffect(() => {
+    toggleHideColumn(DRAG_HANDLE_ID, !enableRowDragDrop);
+  }, [toggleHideColumn, enableRowDragDrop]);
 
   useEffect(() => {
     setOrderedData(data);
@@ -166,9 +186,12 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     : "100%";
 
   return (
+    // <div className={classes.container}>
     <GridProvider<D> instance={instance} components={components} {...events}>
-      {/* <TableContainer> */}
-      <GridRoot {...instance.getTableProps(tableProps)}>
+      <GridRoot
+        {...instance.getTableProps(tableProps)}
+        className={classes.root}
+      >
         <GridHeader
           components={components}
           headerGroups={instance.headerGroups}
@@ -179,14 +202,11 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
           rows={instance.rows}
           loading={loading}
           components={components}
-          style={{
-            height: bodyHeight,
-            overflowY: "auto",
-          }}
+          height={bodyHeight}
         />
       </GridRoot>
-      {/* </TableContainer> */}
     </GridProvider>
+    // </div>
   );
 }
 
