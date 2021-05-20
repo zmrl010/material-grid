@@ -40,6 +40,11 @@ const Template: Story<GridProps> = (args) => (
 
 export const Base = Template.bind({});
 
+export const RowDragDrop = Template.bind({});
+RowDragDrop.args = {
+  enableRowDragDrop: true,
+};
+
 // export const Primary = Template.bind({});
 // Primary.args = {
 //   primary: true,

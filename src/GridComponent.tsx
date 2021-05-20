@@ -5,7 +5,7 @@ import {
   useFlexLayout,
   usePagination,
 } from "react-table";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useImmer } from "use-immer";
 import {
   DraggableProvidedDragHandleProps,
@@ -22,13 +22,13 @@ function defaultGetRowId<D extends Id>(row: D) {
   return row.id.toString();
 }
 
-const DRAG_HANDLE_ID = "drag-handle";
+const DRAG_HANDLE_COLUMN_ID = "drag-handle";
 
 function createDragHandleColumn(
   components: Pick<GridComponents, "DragHandle">
 ) {
   return {
-    id: DRAG_HANDLE_ID,
+    id: DRAG_HANDLE_COLUMN_ID,
     Header: "",
     Cell: ({ dragHandleProps }: DragHandleCellProps) => (
       <components.DragHandle {...dragHandleProps} />
@@ -41,7 +41,7 @@ function createDragHandleColumn(
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      boxSizing: "inherit",
+      // boxSizing: "inherit",
     },
     container: {
       position: "relative",
@@ -77,6 +77,7 @@ export interface GridProps<D extends Id = Id>
  * @param props
  *
  * @todo implement styling overrides (classes prop) for all components
+ * @todo decide on functionality for if enableRowDragDrop property change should be reflected
  */
 export function Grid<D extends Id = Id>(props: GridProps<D>) {
   const {
@@ -90,7 +91,7 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     defaultColumn,
     disableSortBy = false,
     dragDropEvents = {},
-    enableRowDragDrop = false,
+    enableRowDragDrop = false, // changes in prop won't have any results
     getRowId = defaultGetRowId,
     getSubRows,
     initialState,
@@ -108,6 +109,9 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
   const [headerBoundingRect, headerRef] = useBoundingRect();
 
   const classes = useStyles();
+
+  // Ref to store initial value
+  const enableRowDragDropRef = useRef(enableRowDragDrop);
 
   const instance = useTable(
     {
@@ -128,19 +132,15 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     useRowSelect,
     // TODO extract this to a hook (plugin)
     (hooks) => {
-      hooks.allColumns.push((columns) => [
-        createDragHandleColumn(components),
-        ...columns,
-      ]);
+      if (enableRowDragDropRef.current) {
+        hooks.allColumns.push((columns) => [
+          createDragHandleColumn(components),
+          ...columns,
+        ]);
+      }
     },
     useFlexLayout
   );
-
-  const { toggleHideColumn } = instance;
-
-  useEffect(() => {
-    toggleHideColumn(DRAG_HANDLE_ID, !enableRowDragDrop);
-  }, [toggleHideColumn, enableRowDragDrop]);
 
   useEffect(() => {
     setOrderedData(data);
@@ -198,7 +198,7 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
           tableHeadRef={headerRef}
         />
         <GridBody<D>
-          isDragDisabled={!enableRowDragDrop}
+          isDragDisabled={!enableRowDragDropRef.current}
           rows={instance.rows}
           loading={loading}
           components={components}
