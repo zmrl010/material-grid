@@ -1,5 +1,3 @@
-import { Row } from "react-table";
-
 export const demoData = [
   {
     id: 38,
