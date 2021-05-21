@@ -7,7 +7,7 @@ export const GridRoot = forwardRef(function GridRoot(
   props: GridRootProps,
   ref: ForwardedRef<HTMLTableElement>
 ) {
-  return <Table ref={ref} tabIndex={0} {...props} component={"div"} />;
+  return <Table ref={ref} tabIndex={0} component={"div"} {...props} />;
 });
 
 export default GridRoot;

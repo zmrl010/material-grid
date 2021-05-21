@@ -3,10 +3,11 @@ import { Droppable } from "react-beautiful-dnd";
 import { createStyles, makeStyles, TableBody } from "@material-ui/core";
 import { Row } from "react-table";
 import clsx from "clsx";
+import merge from "lodash/merge";
 
+import GridRow from "./GridRow";
 import { useApi } from "../api";
 import type { GridComponents, Id } from "../types";
-import GridRow from "./GridRow";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -71,10 +72,7 @@ export function GridBody<D extends Id = Id>(props: Props<D>) {
           {...provided.droppableProps}
           className={clsx("Grid-body", className, tableBodyClassName)}
           classes={{ root: classes.root }}
-          style={{
-            ...style,
-            ...tableBodyStyle,
-          }}
+          style={merge(style, tableBodyStyle)}
           ref={provided.innerRef}
         >
           <div className={classes.innerScrollContainer}>

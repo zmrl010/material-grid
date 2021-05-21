@@ -3,18 +3,11 @@ import { createStyles } from "@material-ui/styles";
 
 export const useStyles = makeStyles(
   (theme: Theme) => {
-    // const borderColor = theme.palette.primary.main;
-    // getThemePaletteMode(theme.palette) === "light"
-    //   ? lighten(muiStyleAlpha(theme.palette.divider, 1), 0.88)
-    //   : darken(muiStyleAlpha(theme.palette.divider, 1), 0.68);
-
     const gridStyle = createStyles({
       root: {
         flex: 1,
         boxSizing: "border-box",
         position: "relative",
-        // border: `1px solid ${borderColor}`,
-        // borderRadius: theme.shape.borderRadius,
         color: theme.palette.text.primary,
         ...theme.typography.body2,
         outline: "none",
@@ -43,14 +36,9 @@ export const useStyles = makeStyles(
           alignSelf: "center",
           alignItems: "center",
           justifyContent: "center",
-          // backgroundColor: muiStyleAlpha(
-          //   theme.palette.background.default,
-          //   theme.palette.action.disabledOpacity
-          // ),
         },
       },
     });
-
     return gridStyle;
   },
   { name: "Grid" }

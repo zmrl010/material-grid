@@ -1,9 +1,7 @@
-import { ThemeProvider, useTheme } from "@material-ui/core";
-import { useMemo } from "react";
 import { DragDropContextProps, DragDropContext } from "react-beautiful-dnd";
 import { GridApiProvider, GridApiProviderProps } from "../api";
-import { theme } from "../theme";
 import { BaseType } from "../types";
+import { GridThemeProvider } from "./GridThemeProvider";
 
 export type GridProviderProps<
   D extends BaseType = {}
@@ -19,14 +17,11 @@ type Props<D extends BaseType = BaseType> = GridProviderProps<D>;
 export function GridProvider<D extends BaseType = BaseType>(props: Props<D>) {
   const { children, instance, components, ...dragDropProps } = props;
 
-  const outerTheme = useTheme() || {};
-  const innerTheme = useMemo(() => ({ ...theme, ...outerTheme }), [outerTheme]);
-
   return (
     <GridApiProvider instance={instance} components={components}>
-      <ThemeProvider theme={innerTheme}>
+      <GridThemeProvider>
         <DragDropContext {...dragDropProps}>{children}</DragDropContext>
-      </ThemeProvider>
+      </GridThemeProvider>
     </GridApiProvider>
   );
 }

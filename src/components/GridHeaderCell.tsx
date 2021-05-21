@@ -15,13 +15,17 @@ import {
 
 type SortDirection = "desc" | "asc";
 
-function getSortDirection({
-  isSorted,
-  isSortedDesc,
-}: {
+/**
+ *
+ * @param param0
+ * @returns
+ */
+function getSortDirection(column: {
   isSorted?: boolean;
   isSortedDesc?: boolean;
 }) {
+  const { isSorted, isSortedDesc } = column;
+
   if (isSorted) {
     return isSortedDesc ? "desc" : "asc";
   }
@@ -67,7 +71,18 @@ export function GridHeaderCell<D extends BaseType = BaseType>(
       sortDirection={sortDirection}
       component="div"
       classes={{
+        root: classes.root,
         head: classes.head,
+        body: classes.body,
+        footer: classes.footer,
+        alignCenter: classes.alignCenter,
+        alignLeft: classes.alignLeft,
+        alignRight: classes.alignRight,
+        alignJustify: classes.alignJustify,
+        sizeSmall: classes.sizeSmall,
+        stickyHeader: classes.stickyHeader,
+        paddingCheckbox: classes.paddingCheckbox,
+        paddingNone: classes.paddingNone,
       }}
     >
       {column.canSort ? (

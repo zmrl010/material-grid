@@ -192,7 +192,7 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
         {...instance.getTableProps(tableProps)}
         className={classes.root}
       >
-        <GridHeader
+        <GridHeader<D>
           components={components}
           headerGroups={instance.headerGroups}
           tableHeadRef={headerRef}

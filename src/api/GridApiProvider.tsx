@@ -1,15 +1,15 @@
 import { ReactNode } from "react";
 import { GridApiContext } from "./GridApiContext";
 import { useApiRef } from "./hooks";
+import type { BaseType } from "../types";
 import type { GridApi } from "./types";
-import { BaseType } from "../types";
 
-export interface GridApiProviderProps<D extends BaseType = {}>
+export interface GridApiProviderProps<D extends BaseType = BaseType>
   extends GridApi<D> {
   children: ReactNode;
 }
 
-export function GridApiProvider<D extends BaseType = {}>(
+export function GridApiProvider<D extends BaseType = BaseType>(
   props: GridApiProviderProps<D>
 ) {
   const { children, ...apiProps } = props;

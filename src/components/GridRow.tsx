@@ -3,12 +3,14 @@ import {
   makeStyles,
   TableCell,
   TableRow,
+  TableRowClassKey,
   Theme,
 } from "@material-ui/core";
 import { Cell, TableRowProps } from "react-table";
 import { Draggable } from "react-beautiful-dnd";
 import clsx from "clsx";
-import { BaseType } from "../types";
+import merge from "lodash/merge";
+import { BaseType, ClassKeyMap } from "../types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,12 +28,15 @@ export interface GridRowClasses {
   root: string;
 }
 
+export type GridRowClassKey = TableRowClassKey;
+
 export interface GridRowProps<D extends BaseType = BaseType>
   extends TableRowProps {
   id: string;
   index: number;
   isDragDisabled: boolean;
   cells: Cell<D>[];
+  classes?: ClassKeyMap<TableRowClassKey>;
 }
 
 /**
@@ -47,6 +52,7 @@ export function GridRow<D extends BaseType = BaseType>(props: GridRowProps<D>) {
     isDragDisabled,
     style,
     className,
+    classes: propClasses = {},
     ...rowProps
   } = props;
 
@@ -59,14 +65,15 @@ export function GridRow<D extends BaseType = BaseType>(props: GridRowProps<D>) {
           component={"div"}
           {...rowProps}
           {...provided.draggableProps}
-          style={{
-            ...style,
-            ...provided.draggableProps.style,
-          }}
-          className={clsx("Grid-row", className)}
           classes={{
-            root: classes.root,
+            root: propClasses.root,
+            footer: propClasses.footer,
+            selected: propClasses.selected,
+            hover: propClasses.hover,
+            head: propClasses.head,
           }}
+          className={clsx("Grid-row", className, classes.root)}
+          style={merge(style, provided.draggableProps.style)}
           ref={provided.innerRef}
         >
           {cells.map((cell) => (
