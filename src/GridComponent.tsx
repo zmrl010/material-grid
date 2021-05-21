@@ -181,7 +181,6 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     : "100%";
 
   return (
-    // <div className={classes.container}>
     <GridProvider<D>
       instance={instance}
       components={components}
@@ -196,7 +195,6 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
         <GridBody loading={loading} height={bodyHeight} />
       </GridRoot>
     </GridProvider>
-    // </div>
   );
 }
 

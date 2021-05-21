@@ -7,9 +7,8 @@ import {
   Theme,
 } from "@material-ui/core";
 import clsx from "clsx";
-import { HeaderGroup } from "react-table";
 import { useApi } from "../api";
-import { BaseType, GridComponents } from "../types";
+import { BaseType } from "../types";
 import { GridHeaderCell } from "./GridHeaderCell";
 
 const useStyles = makeStyles((theme: Theme) =>

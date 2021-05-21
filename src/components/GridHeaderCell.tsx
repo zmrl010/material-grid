@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { HeaderGroup } from "react-table";
 import {
   TableCell,
@@ -6,15 +5,8 @@ import {
   TableCellProps,
   TableSortLabelClassKey,
 } from "@material-ui/core";
-import {
-  BaseType,
-  ClassKeyMap,
-  ExtendClassKey,
-  GridComponents,
-} from "../types";
+import { BaseType, ClassKeyMap, ExtendClassKey } from "../types";
 import { useApi } from "../api";
-
-type SortDirection = "desc" | "asc";
 
 /**
  *

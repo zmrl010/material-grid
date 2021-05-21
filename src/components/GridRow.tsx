@@ -9,7 +9,6 @@ import {
 import { Cell, TableRowProps } from "react-table";
 import { Draggable } from "react-beautiful-dnd";
 import clsx from "clsx";
-import merge from "lodash/merge";
 import { BaseType, ClassKeyMap } from "../types";
 import { useApi } from "../api";
 

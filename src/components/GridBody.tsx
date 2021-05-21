@@ -2,7 +2,6 @@ import { CSSProperties } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { createStyles, makeStyles, TableBody } from "@material-ui/core";
 import clsx from "clsx";
-import merge from "lodash/merge";
 
 import GridRow from "./GridRow";
 import { useApi } from "../api";
