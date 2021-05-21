@@ -5,7 +5,7 @@ import {
   useFlexLayout,
   usePagination,
 } from "react-table";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useMemo } from "react";
 import { useImmer } from "use-immer";
 import {
   DraggableProvidedDragHandleProps,
@@ -15,8 +15,9 @@ import {
 import { Draft, current } from "immer";
 import { createStyles, makeStyles, TableProps } from "@material-ui/core";
 import { GridRoot, GridHeader, GridProvider, GridBody } from "./components";
-import { GridComponents, GridOptions, Id } from "./types";
-import { useBoundingRect, useComponents } from "./hooks";
+import { GridOptions, Id } from "./types";
+import { useBoundingRect, useComponents, useIsomorphicEffect } from "./hooks";
+import { useApi } from "./api";
 
 function defaultGetRowId<D extends Id>(row: D) {
   return row.id.toString();
@@ -24,15 +25,19 @@ function defaultGetRowId<D extends Id>(row: D) {
 
 const DRAG_HANDLE_COLUMN_ID = "drag-handle";
 
-function createDragHandleColumn(
-  components: Pick<GridComponents, "DragHandle">
-) {
+type DragHandleCellProps = {
+  dragHandleProps: DraggableProvidedDragHandleProps;
+};
+
+function createDragHandleColumn() {
   return {
     id: DRAG_HANDLE_COLUMN_ID,
     Header: "",
-    Cell: ({ dragHandleProps }: DragHandleCellProps) => (
-      <components.DragHandle {...dragHandleProps} />
-    ),
+    Cell: ({ dragHandleProps }: DragHandleCellProps) => {
+      const getApi = useApi();
+      const { components } = getApi();
+      return <components.DragHandle {...dragHandleProps} />;
+    },
     disableSortBy: true,
     width: 25,
   };
@@ -57,19 +62,11 @@ export interface GridEvents<D extends Id = Id> {
   ) => void;
 }
 
-type DragHandleCellProps = {
-  dragHandleProps: DraggableProvidedDragHandleProps;
-};
-
 export interface GridProps<D extends Id = Id>
   extends GridOptions<D>,
     GridEvents<D>,
     TableProps {
   loading?: boolean;
-  // classes?: {
-  //   root: string;
-  //   body?: string;
-  // };
 }
 
 /**
@@ -110,9 +107,6 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
 
   const classes = useStyles();
 
-  // Ref to store initial value
-  const enableRowDragDropRef = useRef(enableRowDragDrop);
-
   const instance = useTable(
     {
       columns,
@@ -132,9 +126,9 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     useRowSelect,
     // TODO extract this to a hook (plugin)
     (hooks) => {
-      if (enableRowDragDropRef.current) {
+      if (enableRowDragDrop) {
         hooks.allColumns.push((columns) => [
-          createDragHandleColumn(components),
+          createDragHandleColumn(),
           ...columns,
         ]);
       }
@@ -142,7 +136,8 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     useFlexLayout
   );
 
-  useEffect(() => {
+  // effect to "reset" the data when data prop changes
+  useIsomorphicEffect(() => {
     setOrderedData(data);
   }, [data, setOrderedData]);
 
@@ -187,23 +182,18 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
 
   return (
     // <div className={classes.container}>
-    <GridProvider<D> instance={instance} components={components} {...events}>
+    <GridProvider<D>
+      instance={instance}
+      components={components}
+      rowDragDropEnabled={enableRowDragDrop}
+      {...events}
+    >
       <GridRoot
         {...instance.getTableProps(tableProps)}
         className={classes.root}
       >
-        <GridHeader<D>
-          components={components}
-          headerGroups={instance.headerGroups}
-          tableHeadRef={headerRef}
-        />
-        <GridBody<D>
-          isDragDisabled={!enableRowDragDropRef.current}
-          rows={instance.rows}
-          loading={loading}
-          components={components}
-          height={bodyHeight}
-        />
+        <GridHeader tableHeadRef={headerRef} />
+        <GridBody loading={loading} height={bodyHeight} />
       </GridRoot>
     </GridProvider>
     // </div>

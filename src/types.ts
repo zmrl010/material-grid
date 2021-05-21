@@ -18,8 +18,6 @@ export type DragEventMap = Pick<
 >;
 
 export interface GridOptions<D extends Id = Id> extends TableOptions<D> {
-  // TODO conditional disableRowDragDrop based on defaultCanSort
-  // TODO make error if both are set the same
   enableRowDragDrop?: boolean;
   components?: GridComponents;
   dragDropEvents?: Partial<DragEventMap>;

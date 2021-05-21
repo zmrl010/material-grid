@@ -1,13 +1,12 @@
 import { CSSProperties } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { createStyles, makeStyles, TableBody } from "@material-ui/core";
-import { Row } from "react-table";
 import clsx from "clsx";
 import merge from "lodash/merge";
 
 import GridRow from "./GridRow";
 import { useApi } from "../api";
-import type { GridComponents, Id } from "../types";
+import type { Id } from "../types";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -26,67 +25,54 @@ const useStyles = makeStyles(() =>
   })
 );
 
-export interface GridBodyClasses {}
-
-export interface GridBodyProps<D extends Id = Id> {
+export interface GridBodyProps {
   className?: string;
   style?: CSSProperties;
   height?: string | number;
-  rows: Row<D>[];
   loading: boolean;
-  isDragDisabled: boolean;
-  components: Pick<GridComponents, "NoRowsOverlay" | "LoadingOverlay">;
 }
 
-type Props<D extends Id = Id> = GridBodyProps<D>;
+type Props = GridBodyProps;
 
-export function GridBody<D extends Id = Id>(props: Props<D>) {
-  const {
-    rows,
-    loading,
-    className,
-    style,
-    height,
-    isDragDisabled,
-    components,
-  } = props;
+export function GridBody<D extends Id = Id>(props: Props) {
+  const { loading, className, style, height } = props;
+
+  const getApi = useApi<D>();
 
   const classes = useStyles({ height });
-  const apiRef = useApi<D>();
 
-  const { getTableBodyProps, prepareRow } = apiRef.current.instance;
+  const { instance, components, hasRows } = getApi();
   const {
     className: tableBodyClassName,
     style: tableBodyStyle,
-    ...tableBodyProps
-  } = getTableBodyProps();
+    role,
+  } = instance.getTableBodyProps();
 
-  const showNoRows = !loading && rows.length === 0;
+  const showNoRows = !loading && !hasRows();
 
   return (
     <Droppable droppableId="table-body">
       {(provided) => (
         <TableBody
           component={"div"}
-          {...tableBodyProps}
-          {...provided.droppableProps}
+          role={role}
           className={clsx("Grid-body", className, tableBodyClassName)}
           classes={{ root: classes.root }}
-          style={merge(style, tableBodyStyle)}
+          style={{ ...style, ...tableBodyStyle }}
           ref={provided.innerRef}
+          {...provided.droppableProps}
         >
           <div className={classes.innerScrollContainer}>
             {showNoRows && <components.NoRowsOverlay />}
             {loading && <components.LoadingOverlay />}
-            {rows.map((row) => {
-              prepareRow(row);
+            {instance.rows.map((row) => {
+              instance.prepareRow(row);
               return (
                 <GridRow
                   {...row.getRowProps()}
                   id={row.id}
                   index={row.index}
                   cells={row.cells}
-                  isDragDisabled={isDragDisabled}
                 />
               );
             })}

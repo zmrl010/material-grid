@@ -12,6 +12,7 @@ import {
   ExtendClassKey,
   GridComponents,
 } from "../types";
+import { useApi } from "../api";
 
 type SortDirection = "desc" | "asc";
 
@@ -41,26 +42,20 @@ export type GridHeaderCellClassKey =
   | TableCellClassKey
   | HeaderCellSortLabelClassKey;
 
-export type SortLabelProps = {
-  active: boolean;
-  direction?: SortDirection;
-  children?: ReactNode;
-  classes?: ClassKeyMap<TableSortLabelClassKey>;
-};
-
-export type GridHeaderCellComponents = Pick<GridComponents, "SortLabel">;
-
 export interface GridHeaderCellProps<D extends BaseType = BaseType>
   extends TableCellProps {
   column: HeaderGroup<D>;
-  components: GridHeaderCellComponents;
   classes?: ClassKeyMap<GridHeaderCellClassKey>;
 }
 
 export function GridHeaderCell<D extends BaseType = BaseType>(
   props: GridHeaderCellProps<D>
 ) {
-  const { column, components, classes = {} } = props;
+  const { column, classes = {} } = props;
+
+  const getApi = useApi();
+
+  const { SortLabel } = getApi().components;
 
   const sortDirection = getSortDirection(column);
 
@@ -70,30 +65,17 @@ export function GridHeaderCell<D extends BaseType = BaseType>(
       {...column.getHeaderProps()}
       sortDirection={sortDirection}
       component="div"
-      classes={{
-        root: classes.root,
-        head: classes.head,
-        body: classes.body,
-        footer: classes.footer,
-        alignCenter: classes.alignCenter,
-        alignLeft: classes.alignLeft,
-        alignRight: classes.alignRight,
-        alignJustify: classes.alignJustify,
-        sizeSmall: classes.sizeSmall,
-        stickyHeader: classes.stickyHeader,
-        paddingCheckbox: classes.paddingCheckbox,
-        paddingNone: classes.paddingNone,
-      }}
+      classes={classes}
     >
       {column.canSort ? (
-        <components.SortLabel
+        <SortLabel
           active={column.isSorted}
           direction={sortDirection}
           {...column.getSortByToggleProps()}
           classes={classes}
         >
           {column.render("Header")}
-        </components.SortLabel>
+        </SortLabel>
       ) : (
         column.render("Header")
       )}

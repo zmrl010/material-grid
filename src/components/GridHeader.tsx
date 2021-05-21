@@ -6,7 +6,9 @@ import {
   TableRow,
   Theme,
 } from "@material-ui/core";
+import clsx from "clsx";
 import { HeaderGroup } from "react-table";
+import { useApi } from "../api";
 import { BaseType, GridComponents } from "../types";
 import { GridHeaderCell } from "./GridHeaderCell";
 
@@ -14,7 +16,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       backgroundColor: theme.palette.background.paper,
-      // paddingRight: "16px",
       boxSizing: "border-box",
       display: "flex",
     },
@@ -22,34 +23,32 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 // TODO pass TableHeadProps to TableHead properly
-export interface GridHeaderProps<D extends BaseType = BaseType>
-  extends TableHeadProps {
-  headerGroups: HeaderGroup<D>[];
-  components: Pick<GridComponents, "SortLabel">;
+export interface GridHeaderProps extends TableHeadProps {
   tableHeadRef: (element: HTMLElement | null) => void;
 }
 
-type Props<D extends BaseType = BaseType> = GridHeaderProps<D>;
+type Props = GridHeaderProps;
 
-export function GridHeader<D extends BaseType = BaseType>(props: Props<D>) {
-  const { headerGroups, components, tableHeadRef } = props;
+export function GridHeader<D extends BaseType = BaseType>(props: Props) {
+  const { tableHeadRef, className, ...gridHeadProps } = props;
+
+  const getApi = useApi<D>();
 
   const classes = useStyles();
 
+  const { headerGroups } = getApi().instance;
+
   return (
     <TableHead
-      ref={tableHeadRef}
+      {...gridHeadProps}
+      className={clsx("Grid-header", className, classes.root)}
       component="div"
-      classes={{ root: classes.root }}
+      ref={tableHeadRef}
     >
       {headerGroups.map((headerGroup) => (
         <TableRow {...headerGroup.getHeaderGroupProps()} component="div">
           {headerGroup.headers.map((column) => (
-            <GridHeaderCell
-              column={column}
-              components={components}
-              {...column.getHeaderProps()}
-            />
+            <GridHeaderCell column={column} {...column.getHeaderProps()} />
           ))}
         </TableRow>
       ))}
