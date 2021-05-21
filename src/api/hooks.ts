@@ -7,7 +7,8 @@ import { useGetLatest } from "react-table";
 export function createApi<D extends BaseType = BaseType>(
   props: GridApiOptions<D>
 ): GridApi<D> {
-  return { ...props, hasRows: () => props.instance.rows.length !== 0 };
+  const hasRows = () => props.instance.rows.length !== 0;
+  return { ...props, hasRows };
 }
 
 const INITIAL_STATE = {};
