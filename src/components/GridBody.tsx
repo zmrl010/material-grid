@@ -12,14 +12,18 @@ const useStyles = makeStyles(() =>
     root: (props: { height?: string | number }) => ({
       position: "relative",
       height: props.height,
-      display: "block",
+      width: "100%",
+      display: "table",
       boxSizing: "border-box",
       overflow: "hidden auto",
     }),
-    innerScrollContainer: {
-      width: "auto",
+    middleBlock: {
+      height: "100%",
+      display: "flex",
+    },
+    innerBlock: {
       overflow: "hidden",
-      position: "relative",
+      flexGrow: 1,
     },
   })
 );
@@ -61,20 +65,22 @@ export function GridBody<D extends Id = Id>(props: Props) {
           ref={provided.innerRef}
           {...provided.droppableProps}
         >
-          <div className={classes.innerScrollContainer}>
-            {showNoRows && <components.NoRowsOverlay />}
-            {loading && <components.LoadingOverlay />}
-            {instance.rows.map((row) => {
-              instance.prepareRow(row);
-              return (
-                <GridRow
-                  {...row.getRowProps()}
-                  id={row.id}
-                  index={row.index}
-                  cells={row.cells}
-                />
-              );
-            })}
+          <div className={classes.middleBlock}>
+            <div className={classes.innerBlock}>
+              {showNoRows && <components.NoRowsOverlay />}
+              {loading && <components.LoadingOverlay />}
+              {instance.rows.map((row) => {
+                instance.prepareRow(row);
+                return (
+                  <GridRow
+                    {...row.getRowProps()}
+                    id={row.id}
+                    index={row.index}
+                    cells={row.cells}
+                  />
+                );
+              })}
+            </div>
           </div>
         </TableBody>
       )}
