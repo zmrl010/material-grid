@@ -1,16 +1,17 @@
 import { HTMLAttributes } from "react";
 import { DragIndicator } from "@material-ui/icons";
-import { createStyles, makeStyles } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
+import { capitalize } from "lodash";
 
 type Anchor = "left" | "right" | "top" | "bottom";
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: (props: { anchor: Anchor }) => ({
-      cursor: "grab",
-      [props.anchor]: 0,
+      display: "flex",
+      [`margin${capitalize(props.anchor)}`]: -theme.spacing(2),
     }),
   })
 );
