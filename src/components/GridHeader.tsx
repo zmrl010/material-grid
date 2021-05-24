@@ -15,8 +15,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       backgroundColor: theme.palette.background.paper,
-      boxSizing: "border-box",
-      display: "flex",
     },
   })
 );

@@ -13,7 +13,7 @@ import {
   ResponderProvided,
 } from "react-beautiful-dnd";
 import { Draft, current } from "immer";
-import { createStyles, makeStyles, TableProps } from "@material-ui/core";
+import { TableProps } from "@material-ui/core";
 import { GridRoot, GridHeader, GridProvider, GridBody } from "./components";
 import { GridOptions, Id } from "./types";
 import { useBoundingRect, useComponents, useIsomorphicEffect } from "./hooks";
@@ -43,17 +43,6 @@ function createDragHandleColumn() {
   };
 }
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    root: {
-      // boxSizing: "inherit",
-    },
-    container: {
-      position: "relative",
-    },
-  })
-);
-
 export interface GridEvents<D extends Id = Id> {
   onRowReorder?: (
     data: D[],
@@ -78,34 +67,32 @@ export interface GridProps<D extends Id = Id>
  */
 export function Grid<D extends Id = Id>(props: GridProps<D>) {
   const {
-    // required props
     columns,
     data,
-    // option props
-    autoResetHiddenColumns,
+
     components: propComponents,
+    dragDropEvents = {},
+    // changes in enableRowDragDrop prop won't have any effect after mount
+    enableRowDragDrop = false,
+    loading = false,
+    onRowReorder = () => {},
+
+    autoResetHiddenColumns,
     defaultCanSort = true,
     defaultColumn,
     disableSortBy = false,
-    dragDropEvents = {},
-    enableRowDragDrop = false, // changes in prop won't have any results
     getRowId = defaultGetRowId,
     getSubRows,
     initialState,
-    loading = false,
-    onRowReorder = () => {},
     stateReducer,
     useControlledState,
     ...tableProps
   } = props;
 
-  // TODO update records from outside the component
   const [orderedData, setOrderedData] = useImmer(data);
   const components = useComponents(propComponents);
 
   const [headerBoundingRect, headerRef] = useBoundingRect();
-
-  const classes = useStyles();
 
   const instance = useTable(
     {
@@ -187,10 +174,7 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
       rowDragDropEnabled={enableRowDragDrop}
       {...events}
     >
-      <GridRoot
-        {...instance.getTableProps(tableProps)}
-        className={classes.root}
-      >
+      <GridRoot {...instance.getTableProps(tableProps)}>
         <GridHeader tableHeadRef={headerRef} />
         <GridBody loading={loading} height={bodyHeight} />
       </GridRoot>
