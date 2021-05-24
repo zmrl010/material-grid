@@ -1,13 +1,10 @@
-import { CSSProperties, HTMLAttributes } from "react";
+import { CSSProperties } from "react";
 import { DragIndicator } from "@material-ui/icons";
-import { createStyles, IconButton, makeStyles, Theme } from "@material-ui/core";
+import { createStyles, IconButton, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
-import { capitalize } from "lodash";
 
-type Anchor = "left" | "right" | "top" | "bottom";
-
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     root: {
       display: "flex",
