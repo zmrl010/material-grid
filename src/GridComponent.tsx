@@ -1,46 +1,21 @@
-import {
-  useTable,
-  useSortBy,
-  useRowSelect,
-  useFlexLayout,
-  usePagination,
-} from "react-table";
+import { useTable, useSortBy, useRowSelect, usePagination } from "react-table";
 import { useCallback, useMemo } from "react";
 import { useImmer } from "use-immer";
-import {
-  DraggableProvidedDragHandleProps,
-  DropResult,
-  ResponderProvided,
-} from "react-beautiful-dnd";
+import { DropResult, ResponderProvided } from "react-beautiful-dnd";
 import { Draft, current } from "immer";
 import { TableProps } from "@material-ui/core";
-import { GridRoot, GridHeader, GridProvider, GridBody } from "./components";
+import {
+  GridRoot,
+  GridHeader,
+  GridProvider,
+  GridBody,
+  dragHandleColumn,
+} from "./components";
 import { GridOptions, Id } from "./types";
 import { useBoundingRect, useComponents, useIsomorphicEffect } from "./hooks";
-import { useApi } from "./api";
 
 function defaultGetRowId<D extends Id>(row: D) {
   return row.id.toString();
-}
-
-const DRAG_HANDLE_COLUMN_ID = "drag-handle";
-
-type DragHandleCellProps = {
-  dragHandleProps: DraggableProvidedDragHandleProps;
-};
-
-function createDragHandleColumn() {
-  return {
-    id: DRAG_HANDLE_COLUMN_ID,
-    Header: "",
-    Cell: ({ dragHandleProps }: DragHandleCellProps) => {
-      const getApi = useApi();
-      const { components } = getApi();
-      return <components.DragHandle {...dragHandleProps} />;
-    },
-    disableSortBy: true,
-    width: 25,
-  };
 }
 
 export interface GridEvents<D extends Id = Id> {
@@ -63,7 +38,6 @@ export interface GridProps<D extends Id = Id>
  * @param props
  *
  * @todo implement styling overrides (classes prop) for all components
- * @todo decide on functionality for if enableRowDragDrop property change should be reflected
  */
 export function Grid<D extends Id = Id>(props: GridProps<D>) {
   const {
@@ -114,13 +88,10 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     // TODO extract this to a hook (plugin)
     (hooks) => {
       if (enableRowDragDrop) {
-        hooks.allColumns.push((columns) => [
-          createDragHandleColumn(),
-          ...columns,
-        ]);
+        hooks.allColumns.push((columns) => [dragHandleColumn, ...columns]);
       }
-    },
-    useFlexLayout
+    }
+    // useFlexLayout
   );
 
   // effect to "reset" the data when data prop changes

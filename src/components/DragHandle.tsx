@@ -3,6 +3,31 @@ import { DragIndicator } from "@material-ui/icons";
 import { createStyles, IconButton, makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
+import { useApi } from "../api";
+
+export const DRAG_HANDLE_COLUMN_ID = "drag-handle";
+
+function createDragHandleColumn() {
+  return {
+    id: DRAG_HANDLE_COLUMN_ID,
+    Header: "",
+    Cell: DragHandleCell,
+    disableSortBy: true,
+    width: 25,
+  };
+}
+
+type DragHandleCellProps = {
+  dragHandleProps: DraggableProvidedDragHandleProps;
+};
+
+export function DragHandleCell({ dragHandleProps }: DragHandleCellProps) {
+  const getApi = useApi();
+  const { components } = getApi();
+  return <components.DragHandle {...dragHandleProps} />;
+}
+
+export const dragHandleColumn = createDragHandleColumn();
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -28,7 +53,7 @@ export function DragHandle(props: Props) {
       className={clsx("Grid-drag-handle", className, classes.root)}
       style={style}
     >
-      <IconButton {...dragHandleProps} size="small">
+      <IconButton {...dragHandleProps}>
         <DragIndicator />
       </IconButton>
     </div>

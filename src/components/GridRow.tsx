@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       backgroundColor: theme.palette.background.paper,
     },
+    dragging: {
+      display: "table",
+    },
   })
 );
 
@@ -56,13 +59,15 @@ export function GridRow<D extends BaseType = BaseType>(props: GridRowProps<D>) {
       index={index}
       isDragDisabled={!getApi().rowDragDropEnabled}
     >
-      {(provided) => (
+      {(provided, snapshot) => (
         <TableRow
           component={"div"}
           {...rowProps}
           {...provided.draggableProps}
           style={{ ...style, ...provided.draggableProps.style }}
-          className={clsx("Grid-row", className, classes.root)}
+          className={clsx("Grid-row", className, classes.root, {
+            [classes.dragging]: snapshot.isDragging,
+          })}
           ref={provided.innerRef}
         >
           {cells.map((cell) => (
