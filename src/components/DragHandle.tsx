@@ -1,6 +1,6 @@
-import { HTMLAttributes } from "react";
+import { CSSProperties, HTMLAttributes } from "react";
 import { DragIndicator } from "@material-ui/icons";
-import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import { createStyles, IconButton, makeStyles, Theme } from "@material-ui/core";
 import clsx from "clsx";
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
 import { capitalize } from "lodash";
@@ -9,31 +9,31 @@ type Anchor = "left" | "right" | "top" | "bottom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: (props: { anchor: Anchor }) => ({
+    root: {
       display: "flex",
-      [`margin${capitalize(props.anchor)}`]: -theme.spacing(2),
-    }),
+    },
   })
 );
 
-export interface DragHandleProps {
-  anchor?: Anchor;
+export interface DragHandleProps extends DraggableProvidedDragHandleProps {
+  className?: string;
+  style?: CSSProperties;
 }
 
-type Props = DragHandleProps &
-  HTMLAttributes<HTMLDivElement> &
-  DraggableProvidedDragHandleProps;
+type Props = DragHandleProps;
 
 export function DragHandle(props: Props) {
-  const { anchor = "left", className, ...divProps } = props;
-  const classes = useStyles({ anchor });
+  const { className, style, ...dragHandleProps } = props;
+  const classes = useStyles();
 
   return (
     <div
       className={clsx("Grid-drag-handle", className, classes.root)}
-      {...divProps}
+      style={style}
     >
-      <DragIndicator fontSize={"small"} />
+      <IconButton {...dragHandleProps} size="small">
+        <DragIndicator />
+      </IconButton>
     </div>
   );
 }
