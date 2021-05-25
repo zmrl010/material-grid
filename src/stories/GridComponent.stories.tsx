@@ -41,3 +41,13 @@ export const RowDragDrop = Template.bind({});
 RowDragDrop.args = {
   enableRowDragDrop: true,
 };
+
+export const NoRows = Template.bind({});
+NoRows.args = {
+  data: [],
+};
+
+export const Loading = Template.bind({});
+Loading.args = {
+  loading: true,
+};
