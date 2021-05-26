@@ -3,7 +3,6 @@ export * from "./GridBody";
 export * from "./GridCell";
 export * from "./GridHeader";
 export * from "./GridProvider";
-export * from "./GridMainContainer";
 export * from "./GridRoot";
 export * from "./GridRow";
 export * from "./Overlay";

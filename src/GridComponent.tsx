@@ -16,7 +16,6 @@ import {
   GridProvider,
   GridBody,
   dragHandleColumn,
-  GridMainContainer,
 } from "./components";
 import { GridOptions, Id } from "./types";
 import { useBoundingRect, useComponents, useIsomorphicEffect } from "./hooks";
