@@ -50,7 +50,7 @@ export function DragHandle(props: Props) {
 
   return (
     <div
-      className={clsx("Grid-drag-handle", className, classes.root)}
+      className={clsx("Grid-dragHandle", className, classes.root)}
       style={style}
     >
       <IconButton {...dragHandleProps}>

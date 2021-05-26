@@ -1,15 +1,22 @@
-import { useTable, useSortBy, useRowSelect, usePagination } from "react-table";
+import {
+  useTable,
+  useSortBy,
+  useRowSelect,
+  usePagination,
+  useFlexLayout,
+} from "react-table";
 import { useCallback, useMemo } from "react";
 import { useImmer } from "use-immer";
 import { DropResult, ResponderProvided } from "react-beautiful-dnd";
 import { Draft, current } from "immer";
-import { TableProps } from "@material-ui/core";
+import { NoSsr, TableProps } from "@material-ui/core";
 import {
   GridRoot,
   GridHeader,
   GridProvider,
   GridBody,
   dragHandleColumn,
+  GridMainContainer,
 } from "./components";
 import { GridOptions, Id } from "./types";
 import { useBoundingRect, useComponents, useIsomorphicEffect } from "./hooks";
@@ -38,6 +45,7 @@ export interface GridProps<D extends Id = Id>
  * @param props
  *
  * @todo implement styling overrides (classes prop) for all components
+ * @todo wrap entire component in error boundary
  */
 export function Grid<D extends Id = Id>(props: GridProps<D>) {
   const {
@@ -90,14 +98,14 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
       if (enableRowDragDrop) {
         hooks.allColumns.push((columns) => [dragHandleColumn, ...columns]);
       }
-    }
-    // useFlexLayout
+    },
+    useFlexLayout
   );
 
   // effect to "reset" the data when data prop changes
   useIsomorphicEffect(() => {
     setOrderedData(data);
-  }, [data, setOrderedData]);
+  }, [data]);
 
   const reorder = useCallback(
     (sourceIndex: number, destinationIndex: number) => {
@@ -107,7 +115,7 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
 
         // FIXME propper typing needed to avoid assertion
         onRowReorder(
-          current(draftRecords as D[]),
+          current(draftRecords) as D[],
           sourceIndex,
           destinationIndex
         );
@@ -145,10 +153,12 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
       rowDragDropEnabled={enableRowDragDrop}
       {...events}
     >
-      <GridRoot {...instance.getTableProps(tableProps)}>
-        <GridHeader tableHeadRef={headerRef} />
-        <GridBody loading={loading} height={bodyHeight} />
-      </GridRoot>
+      <NoSsr>
+        <GridRoot {...instance.getTableProps(tableProps)}>
+          <GridHeader ref={headerRef} />
+          <GridBody loading={loading} height={bodyHeight} />
+        </GridRoot>
+      </NoSsr>
     </GridProvider>
   );
 }

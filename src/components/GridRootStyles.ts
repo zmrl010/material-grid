@@ -1,32 +1,42 @@
 import { makeStyles, Theme } from "@material-ui/core";
 import { createStyles } from "@material-ui/styles";
+import { theme } from "../theme";
 
 export const useStyles = makeStyles(
   (theme: Theme) => {
+    const borderColor = theme.palette.divider;
+    const border = `1px solid ${borderColor}`;
+
     const gridStyle = createStyles({
       root: {
-        flex: 1,
         boxSizing: "border-box",
-        position: "relative",
         color: theme.palette.text.primary,
         ...theme.typography.body2,
         outline: "none",
         height: "100%",
-        display: "flex",
-        flexDirection: "column",
+        display: "block",
+        overflow: "auto",
+
         "& *, & *::before, & *::after": {
           boxSizing: "inherit",
         },
         "& .Grid-autoHeight": {
           height: "auto",
         },
-        "& .Grid-main": {
-          position: "relative",
-          flexGrow: 1,
+        "& .Grid-head": {
+          overflowY: "auto",
+          overflowX: "hidden",
+          backgroundColor: theme.palette.background.paper,
           display: "flex",
-          flexDirection: "column",
+        },
+        "& .Grid-body": {
+          overflowY: "auto",
+          overflowX: "hidden",
+          display: "block",
+          position: "relative",
         },
         "& .Grid-overlay": {
+          backgroundColor: theme.palette.background.paper,
           display: "flex",
           position: "absolute",
           top: 0,
@@ -37,9 +47,30 @@ export const useStyles = makeStyles(
           alignItems: "center",
           justifyContent: "center",
         },
+        "& .Grid-cell": {
+          display: "flex",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+          borderBottom: border,
+          alignItems: "flex-start",
+        },
+        "& .Grid-row": {
+          backgroundColor: theme.palette.background.paper,
+          // width: "fit-content",
+        },
+        "& .Grid-row-dragging": {
+          display: "table",
+          borderLeft: border,
+          borderRight: border,
+          "& .Grid-cell": {
+            borderTop: border,
+            borderBottom: border,
+          },
+        },
       },
     });
     return gridStyle;
   },
-  { name: "Grid" }
+  { name: "Grid", defaultTheme: theme }
 );

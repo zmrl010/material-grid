@@ -1,7 +1,6 @@
 import { DragDropContextProps, DragDropContext } from "react-beautiful-dnd";
 import { GridApiProvider, GridApiProviderProps } from "../api";
 import { BaseType } from "../types";
-import { GridThemeProvider } from "./GridThemeProvider";
 
 export type GridProviderProps<
   D extends BaseType = {}
@@ -29,9 +28,7 @@ export function GridProvider<D extends BaseType = BaseType>(props: Props<D>) {
       components={components}
       rowDragDropEnabled={rowDragDropEnabled}
     >
-      <GridThemeProvider>
-        <DragDropContext {...dragDropProps}>{children}</DragDropContext>
-      </GridThemeProvider>
+      <DragDropContext {...dragDropProps}>{children}</DragDropContext>
     </GridApiProvider>
   );
 }

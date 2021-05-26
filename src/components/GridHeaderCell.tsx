@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core";
 import { BaseType, ClassKeyMap, ExtendClassKey } from "../types";
 import { useApi } from "../api";
+import GridCell from "./GridCell";
 
 /**
  *
@@ -43,7 +44,7 @@ export interface GridHeaderCellProps<D extends BaseType = BaseType>
 export function GridHeaderCell<D extends BaseType = BaseType>(
   props: GridHeaderCellProps<D>
 ) {
-  const { column, classes = {} } = props;
+  const { column } = props;
 
   const getApi = useApi();
 
@@ -53,24 +54,22 @@ export function GridHeaderCell<D extends BaseType = BaseType>(
 
   // FIXME label shows even when col doesnt sort
   return (
-    <TableCell
+    <GridCell
       {...column.getHeaderProps()}
       sortDirection={sortDirection}
-      component="div"
-      classes={classes}
+      variant="head"
     >
       {column.canSort ? (
         <SortLabel
           active={column.isSorted}
           direction={sortDirection}
           {...column.getSortByToggleProps()}
-          classes={classes}
         >
           {column.render("Header")}
         </SortLabel>
       ) : (
         column.render("Header")
       )}
-    </TableCell>
+    </GridCell>
   );
 }

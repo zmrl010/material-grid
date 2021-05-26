@@ -17,7 +17,7 @@ export interface GridBodyProps {
 type Props = GridBodyProps;
 
 export function GridBody<D extends Id = Id>(props: Props) {
-  const { loading, className, style } = props;
+  const { loading, className, height, style } = props;
 
   const getApi = useApi<D>();
 
@@ -37,23 +37,27 @@ export function GridBody<D extends Id = Id>(props: Props) {
           component={"div"}
           role={role}
           className={clsx("Grid-body", className, tableBodyClassName)}
-          style={{ ...style, ...tableBodyStyle }}
+          style={{ ...style, ...tableBodyStyle, height }}
           ref={provided.innerRef}
           {...provided.droppableProps}
         >
-          {showNoRows && <components.NoRowsOverlay />}
-          {loading && <components.LoadingOverlay />}
-          {instance.rows.map((row) => {
-            instance.prepareRow(row);
-            return (
-              <GridRow
-                {...row.getRowProps()}
-                id={row.id}
-                index={row.index}
-                cells={row.cells}
-              />
-            );
-          })}
+          {showNoRows ? (
+            <components.NoRowsOverlay />
+          ) : loading ? (
+            <components.LoadingOverlay />
+          ) : (
+            instance.rows.map((row) => {
+              instance.prepareRow(row);
+              return (
+                <GridRow
+                  {...row.getRowProps()}
+                  id={row.id}
+                  index={row.index}
+                  cells={row.cells}
+                />
+              );
+            })
+          )}
         </TableBody>
       )}
     </Droppable>

@@ -1,46 +1,30 @@
-import {
-  createStyles,
-  makeStyles,
-  TableHead,
-  TableHeadProps,
-  TableRow,
-  Theme,
-} from "@material-ui/core";
+import { TableHead, TableHeadProps, TableRow } from "@material-ui/core";
 import clsx from "clsx";
+import { ForwardedRef, forwardRef } from "react";
 import { useApi } from "../api";
 import { BaseType } from "../types";
 import { GridHeaderCell } from "./GridHeaderCell";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      backgroundColor: theme.palette.background.paper,
-    },
-  })
-);
-
 // TODO pass TableHeadProps to TableHead properly
-export interface GridHeaderProps extends TableHeadProps {
-  tableHeadRef: (element: HTMLElement | null) => void;
-}
+export interface GridHeaderProps extends TableHeadProps {}
 
 type Props = GridHeaderProps;
 
-export function GridHeader<D extends BaseType = BaseType>(props: Props) {
-  const { tableHeadRef, className, ...gridHeadProps } = props;
+export const GridHeader = forwardRef<HTMLDivElement, Props>(function GridHeader<
+  D extends BaseType = BaseType
+>(props: Props, ref: ForwardedRef<HTMLDivElement>) {
+  const { className, ...gridHeadProps } = props;
 
   const getApi = useApi<D>();
-
-  const classes = useStyles();
 
   const { headerGroups } = getApi().instance;
 
   return (
     <TableHead
       {...gridHeadProps}
-      className={clsx("Grid-header", className, classes.root)}
+      className={clsx("Grid-head", className)}
       component="div"
-      ref={tableHeadRef}
+      ref={ref}
     >
       {headerGroups.map((headerGroup) => (
         <TableRow {...headerGroup.getHeaderGroupProps()} component="div">
@@ -51,6 +35,6 @@ export function GridHeader<D extends BaseType = BaseType>(props: Props) {
       ))}
     </TableHead>
   );
-}
+});
 
 export default GridHeader;

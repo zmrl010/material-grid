@@ -1,27 +1,10 @@
-import {
-  createStyles,
-  makeStyles,
-  TableCell,
-  TableRow,
-  TableRowClassKey,
-  Theme,
-} from "@material-ui/core";
+import { TableCell, TableRow, TableRowClassKey } from "@material-ui/core";
 import { Cell, TableRowProps } from "react-table";
 import { Draggable } from "react-beautiful-dnd";
 import clsx from "clsx";
 import { BaseType, ClassKeyMap } from "../types";
 import { useApi } from "../api";
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      backgroundColor: theme.palette.background.paper,
-    },
-    dragging: {
-      display: "table",
-    },
-  })
-);
+import GridCell from "./GridCell";
 
 export interface RowItem {
   index: number;
@@ -49,8 +32,6 @@ export interface GridRowProps<D extends BaseType = BaseType>
 export function GridRow<D extends BaseType = BaseType>(props: GridRowProps<D>) {
   const { id, index, cells, style, className, ...rowProps } = props;
 
-  const classes = useStyles();
-
   const getApi = useApi();
 
   return (
@@ -65,17 +46,17 @@ export function GridRow<D extends BaseType = BaseType>(props: GridRowProps<D>) {
           {...rowProps}
           {...provided.draggableProps}
           style={{ ...style, ...provided.draggableProps.style }}
-          className={clsx("Grid-row", className, classes.root, {
-            [classes.dragging]: snapshot.isDragging,
+          className={clsx("Grid-row", className, {
+            "Grid-row-dragging": snapshot.isDragging,
           })}
           ref={provided.innerRef}
         >
           {cells.map((cell) => (
-            <TableCell {...cell.getCellProps()} component="div">
+            <GridCell {...cell.getCellProps()} variant="body">
               {cell.render("Cell", {
                 dragHandleProps: provided.dragHandleProps,
               })}
-            </TableCell>
+            </GridCell>
           ))}
         </TableRow>
       )}
