@@ -1,7 +1,7 @@
 import { TableHead, TableHeadProps, TableRow } from "@material-ui/core";
 import clsx from "clsx";
 import { ForwardedRef, forwardRef } from "react";
-import { useApi } from "../api";
+import { useGetApi } from "../api";
 import { BaseType } from "../types";
 import { GridHeaderCell } from "./GridHeaderCell";
 
@@ -15,7 +15,7 @@ export const GridHeader = forwardRef<HTMLDivElement, Props>(function GridHeader<
 >(props: Props, ref: ForwardedRef<HTMLDivElement>) {
   const { className, ...gridHeadProps } = props;
 
-  const getApi = useApi<D>();
+  const getApi = useGetApi<D>();
 
   const { headerGroups } = getApi().instance;
 

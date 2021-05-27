@@ -68,6 +68,9 @@ export const useStyles = makeStyles(
             borderBottom: border,
           },
         },
+        "& .Grid-dragHandle": {
+          display: "flex",
+        },
       },
     });
     return gridStyle;

@@ -5,7 +5,7 @@ import {
   TableSortLabelClassKey,
 } from "@material-ui/core";
 import { BaseType, ClassKeyMap, ExtendClassKey } from "../types";
-import { useApi } from "../api";
+import { useGetApi } from "../api";
 import GridCell from "./GridCell";
 
 /**
@@ -45,7 +45,7 @@ export function GridHeaderCell<D extends BaseType = BaseType>(
 ) {
   const { column } = props;
 
-  const getApi = useApi();
+  const getApi = useGetApi();
 
   const { SortLabel } = getApi().components;
 

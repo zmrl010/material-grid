@@ -1,9 +1,9 @@
 import { CSSProperties } from "react";
 import { DragIndicator } from "@material-ui/icons";
-import { createStyles, IconButton, makeStyles } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import clsx from "clsx";
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
-import { useApi } from "../api";
+import { useGetApi } from "../api";
 
 export const DRAG_HANDLE_COLUMN_ID = "drag-handle";
 
@@ -22,20 +22,12 @@ type DragHandleCellProps = {
 };
 
 export function DragHandleCell({ dragHandleProps }: DragHandleCellProps) {
-  const getApi = useApi();
+  const getApi = useGetApi();
   const { components } = getApi();
   return <components.DragHandle {...dragHandleProps} />;
 }
 
 export const dragHandleColumn = createDragHandleColumn();
-
-const useStyles = makeStyles(() =>
-  createStyles({
-    root: {
-      display: "flex",
-    },
-  })
-);
 
 export interface DragHandleProps extends DraggableProvidedDragHandleProps {
   className?: string;
@@ -46,13 +38,9 @@ type Props = DragHandleProps;
 
 export function DragHandle(props: Props) {
   const { className, style, ...dragHandleProps } = props;
-  const classes = useStyles();
 
   return (
-    <div
-      className={clsx("Grid-dragHandle", className, classes.root)}
-      style={style}
-    >
+    <div className={clsx("Grid-dragHandle", className)} style={style}>
       <IconButton {...dragHandleProps}>
         <DragIndicator />
       </IconButton>

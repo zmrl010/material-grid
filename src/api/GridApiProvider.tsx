@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { GridApiContext } from "./GridApiContext";
-import { useCreateApi } from "./hooks";
+import { useCreateApiRef } from "./hooks";
 import type { BaseType } from "../types";
 import type { GridApiOptions } from "./types";
 
@@ -13,10 +13,10 @@ export function GridApiProvider<D extends BaseType = BaseType>(
   props: GridApiProviderProps<D>
 ) {
   const { children, ...apiProps } = props;
-  const getApi = useCreateApi<D>(apiProps);
+  const apiRef = useCreateApiRef<D>(apiProps);
 
   return (
-    <GridApiContext.Provider value={getApi}>{children}</GridApiContext.Provider>
+    <GridApiContext.Provider value={apiRef}>{children}</GridApiContext.Provider>
   );
 }
 

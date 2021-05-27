@@ -1,6 +1,6 @@
 import { useRef, useContext } from "react";
 import { GridApiContext } from "./GridApiContext";
-import { GridApi, GridApiOptions } from "./types";
+import { GridApi, GridApiOptions, GridApiRef } from "./types";
 import { BaseType } from "../types";
 import { useGetLatest } from "react-table";
 
@@ -18,31 +18,40 @@ const INITIAL_STATE = {};
  * @param params api parameters
  * @returns getter function that returns api ref
  */
-export function useCreateApi<D extends BaseType = BaseType>(
+export function useCreateApiRef<D extends BaseType = BaseType>(
   props: GridApiOptions<D>
 ) {
   const apiRef = useRef(INITIAL_STATE as GridApi<D>);
 
-  const getApi = useGetLatest(apiRef.current);
-
-  if (getApi() === INITIAL_STATE) {
+  if (apiRef.current === INITIAL_STATE) {
     const api = createApi(props);
-    Object.assign(getApi(), api);
+    Object.assign(apiRef.current, api);
   }
 
-  return getApi;
+  return apiRef;
 }
 
 /**
  * Use api returned from parent context
  * @returns GridApiContext value
  */
-export function useApi<D extends BaseType = BaseType>() {
-  const context = useContext<(() => GridApi<D>) | null>(GridApiContext);
+export function useApiRef<D extends BaseType = BaseType>() {
+  const context = useContext<GridApiRef<D> | null>(GridApiContext);
 
   if (!context) {
     throw new Error("useApi requires a parent GridApiProvider component.");
   }
 
   return context;
+}
+
+/**
+ * Use api returned from parent context
+ * @returns GridApiContext value
+ */
+export function useGetApi<D extends BaseType = BaseType>() {
+  const apiRef = useApiRef<D>();
+  const getApi = useGetLatest(apiRef.current);
+
+  return getApi;
 }

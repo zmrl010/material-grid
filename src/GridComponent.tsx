@@ -5,7 +5,7 @@ import {
   usePagination,
   useFlexLayout,
 } from "react-table";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import { useImmer } from "use-immer";
 import { DropResult, ResponderProvided } from "react-beautiful-dnd";
 import { Draft, current } from "immer";
@@ -74,6 +74,7 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
   const components = useComponents(propComponents);
 
   const [headerBoundingRect, headerRef] = useBoundingRect();
+  const bodyRef = useRef<HTMLDivElement | null>(null);
 
   const instance = useTable(
     {
@@ -155,7 +156,7 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
       <NoSsr>
         <GridRoot {...instance.getTableProps(tableProps)}>
           <GridHeader ref={headerRef} />
-          <GridBody loading={loading} height={bodyHeight} />
+          <GridBody loading={loading} height={bodyHeight} ref={bodyRef} />
         </GridRoot>
       </NoSsr>
     </GridProvider>

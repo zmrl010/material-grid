@@ -1,9 +1,9 @@
-import { TableCell, TableRow, TableRowClassKey } from "@material-ui/core";
+import { TableRow, TableRowClassKey } from "@material-ui/core";
 import { Cell, TableRowProps } from "react-table";
 import { Draggable } from "react-beautiful-dnd";
 import clsx from "clsx";
 import { BaseType, ClassKeyMap } from "../types";
-import { useApi } from "../api";
+import { useGetApi } from "../api";
 import GridCell from "./GridCell";
 
 export interface RowItem {
@@ -32,7 +32,7 @@ export interface GridRowProps<D extends BaseType = BaseType>
 export function GridRow<D extends BaseType = BaseType>(props: GridRowProps<D>) {
   const { id, index, cells, style, className, ...rowProps } = props;
 
-  const getApi = useApi();
+  const getApi = useGetApi();
 
   return (
     <Draggable
@@ -47,7 +47,8 @@ export function GridRow<D extends BaseType = BaseType>(props: GridRowProps<D>) {
           {...provided.draggableProps}
           style={{ ...style, ...provided.draggableProps.style }}
           className={clsx("Grid-row", className, {
-            "Grid-row-dragging": snapshot.isDragging,
+            "Grid-row-dragging":
+              snapshot.isDragging && !snapshot.isDropAnimating,
           })}
           ref={provided.innerRef}
         >

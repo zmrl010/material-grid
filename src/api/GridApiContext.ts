@@ -1,8 +1,8 @@
 import { createContext } from "react";
 
-import { GridApi } from "./types";
+import { GridApiRef } from "./types";
 
-const GridApiContext = createContext<(() => GridApi<any>) | null>(null);
+const GridApiContext = createContext<GridApiRef<any> | null>(null);
 GridApiContext.displayName = "GridApiContext";
 
 export { GridApiContext };
