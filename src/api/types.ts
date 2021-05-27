@@ -5,7 +5,6 @@ import { BaseType, GridComponents } from "../types";
 export interface GridApiOptions<D extends BaseType = BaseType> {
   instance: TableInstance<D>;
   components: GridComponents;
-  rowDragDropEnabled: boolean;
 }
 
 export interface GridApi<D extends BaseType = BaseType>

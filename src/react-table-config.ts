@@ -1,4 +1,8 @@
 import { CSSProperties } from "react";
+import {
+  UseRowDragDropOptions,
+  UseRowDragDropRowProps,
+} from "./plugins/useRowDragDrop/types";
 export interface ColumnStyling {
   style?: CSSProperties;
   className?: string;
@@ -16,21 +20,13 @@ declare module "react-table" {
     extends UseExpandedOptions<D>,
       UseFiltersOptions<D>,
       UseGlobalFiltersOptions<D>,
-      UseGroupByOptions<D>,
       UsePaginationOptions<D>,
       UseResizeColumnsOptions<D>,
-      UseRowSelectOptions<D>,
-      UseRowStateOptions<D>,
       UseSortByOptions<D>,
-      // note that having Record here allows you to add anything to the options, this matches the spirit of the
-      // underlying js library, but might be cleaner if it's replaced by a more specific type that matches your
-      // feature set, this is a safe default.
-      Record<string, any> {}
+      UseRowDragDropOptions {}
 
   export interface Hooks<D extends object>
     extends UseExpandedHooks<D>,
-      UseGroupByHooks<D>,
-      UseRowSelectHooks<D>,
       UseSortByHooks<D> {}
 
   export interface TableInstance<D extends object>
@@ -38,10 +34,7 @@ declare module "react-table" {
       UseExpandedInstanceProps<D>,
       UseFiltersInstanceProps<D>,
       UseGlobalFiltersInstanceProps<D>,
-      UseGroupByInstanceProps<D>,
       UsePaginationInstanceProps<D>,
-      UseRowSelectInstanceProps<D>,
-      UseRowStateInstanceProps<D>,
       UseSortByInstanceProps<D> {}
 
   export interface TableState<D extends object>
@@ -49,17 +42,13 @@ declare module "react-table" {
       UseExpandedState<D>,
       UseFiltersState<D>,
       UseGlobalFiltersState<D>,
-      UseGroupByState<D>,
       UsePaginationState<D>,
       UseResizeColumnsState<D>,
-      UseRowSelectState<D>,
-      UseRowStateState<D>,
       UseSortByState<D> {}
 
   export interface ColumnInterface<D extends object>
     extends UseFiltersColumnOptions<D>,
       UseGlobalFiltersColumnOptions<D>,
-      UseGroupByColumnOptions<D>,
       UseResizeColumnsColumnOptions<D>,
       UseSortByColumnOptions<D>,
       ColumnStyling {}
@@ -70,13 +59,7 @@ declare module "react-table" {
       UseResizeColumnsColumnProps<D>,
       UseSortByColumnProps<D> {}
 
-  export interface Cell<D extends object>
-    extends UseGroupByCellProps<D>,
-      UseRowStateCellProps<D> {}
-
   export interface Row<D extends object>
     extends UseExpandedRowProps<D>,
-      UseGroupByRowProps<D>,
-      UseRowSelectRowProps<D>,
-      UseRowStateRowProps<D> {}
+      UseRowDragDropRowProps {}
 }

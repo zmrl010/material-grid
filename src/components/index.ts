@@ -1,4 +1,6 @@
 export * from "./const";
+export * from "./DragHandle";
+export * from "./DragHandleCell";
 export * from "./GridBody";
 export * from "./GridCell";
 export * from "./GridHeader";
@@ -9,4 +11,3 @@ export * from "./GridRow";
 export * from "./Overlay";
 export * from "./LoadingOverlay";
 export * from "./NoRowsOverlay";
-export * from "./DragHandle";

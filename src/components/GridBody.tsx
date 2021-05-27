@@ -68,6 +68,7 @@ export const GridBody = forwardRef(function GridBody<D extends Id = Id>(
                 return (
                   <GridRow
                     {...row.getRowProps()}
+                    dragDropEnabled={row.dragDropEnabled}
                     id={row.id}
                     index={row.index}
                     cells={row.cells}

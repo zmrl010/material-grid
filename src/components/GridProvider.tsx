@@ -14,20 +14,10 @@ type Props<D extends BaseType = BaseType> = GridProviderProps<D>;
  * @returns
  */
 export function GridProvider<D extends BaseType = BaseType>(props: Props<D>) {
-  const {
-    children,
-    instance,
-    components,
-    rowDragDropEnabled,
-    ...dragDropProps
-  } = props;
+  const { children, instance, components, ...dragDropProps } = props;
 
   return (
-    <GridApiProvider
-      instance={instance}
-      components={components}
-      rowDragDropEnabled={rowDragDropEnabled}
-    >
+    <GridApiProvider instance={instance} components={components}>
       <DragDropContext {...dragDropProps}>{children}</DragDropContext>
     </GridApiProvider>
   );

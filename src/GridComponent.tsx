@@ -19,6 +19,7 @@ import {
 } from "./components";
 import { GridOptions, Id } from "./types";
 import { useBoundingRect, useComponents, useIsomorphicEffect } from "./hooks";
+import { useRowDragDrop } from "./plugins/useRowDragDrop";
 
 function defaultGetRowId<D extends Id>(row: D) {
   return row.id.toString();
@@ -74,6 +75,7 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
   const components = useComponents(propComponents);
 
   const [headerBoundingRect, headerRef] = useBoundingRect();
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const bodyRef = useRef<HTMLDivElement | null>(null);
 
   const instance = useTable(
@@ -89,10 +91,12 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
       defaultColumn,
       getSubRows,
       autoResetHiddenColumns,
+      enableRowDragDrop,
     },
     useSortBy,
     usePagination,
     useRowSelect,
+    useRowDragDrop,
     // TODO extract this to a hook (plugin)
     (hooks) => {
       if (enableRowDragDrop) {
@@ -121,7 +125,7 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
         );
       });
     },
-    [setOrderedData, onRowReorder]
+    [onRowReorder]
   );
 
   const onDragEnd = useCallback(
@@ -147,14 +151,9 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     : "100%";
 
   return (
-    <GridProvider<D>
-      instance={instance}
-      components={components}
-      rowDragDropEnabled={enableRowDragDrop}
-      {...events}
-    >
+    <GridProvider<D> instance={instance} components={components} {...events}>
       <NoSsr>
-        <GridRoot {...instance.getTableProps(tableProps)}>
+        <GridRoot {...instance.getTableProps(tableProps)} ref={rootRef}>
           <GridHeader ref={headerRef} />
           <GridBody loading={loading} height={bodyHeight} ref={bodyRef} />
         </GridRoot>

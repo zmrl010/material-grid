@@ -7,7 +7,7 @@ export type GridRootProps = TableProps;
 
 export const GridRoot = forwardRef(function GridRoot(
   props: GridRootProps,
-  ref: ForwardedRef<HTMLTableElement>
+  ref: ForwardedRef<HTMLDivElement>
 ) {
   const { className, ...tableProps } = props;
   const classes = useStyles();

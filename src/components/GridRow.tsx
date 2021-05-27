@@ -3,7 +3,6 @@ import { Cell, TableRowProps } from "react-table";
 import { Draggable } from "react-beautiful-dnd";
 import clsx from "clsx";
 import { BaseType, ClassKeyMap } from "../types";
-import { useGetApi } from "../api";
 import GridCell from "./GridCell";
 
 export interface RowItem {
@@ -22,6 +21,7 @@ export interface GridRowProps<D extends BaseType = BaseType>
   index: number;
   cells: Cell<D>[];
   classes?: ClassKeyMap<TableRowClassKey>;
+  dragDropEnabled?: boolean;
 }
 
 /**
@@ -30,16 +30,18 @@ export interface GridRowProps<D extends BaseType = BaseType>
  * @returns
  */
 export function GridRow<D extends BaseType = BaseType>(props: GridRowProps<D>) {
-  const { id, index, cells, style, className, ...rowProps } = props;
-
-  const getApi = useGetApi();
+  const {
+    id,
+    index,
+    cells,
+    style,
+    className,
+    dragDropEnabled,
+    ...rowProps
+  } = props;
 
   return (
-    <Draggable
-      draggableId={id}
-      index={index}
-      isDragDisabled={!getApi().rowDragDropEnabled}
-    >
+    <Draggable draggableId={id} index={index} isDragDisabled={!dragDropEnabled}>
       {(provided, snapshot) => (
         <TableRow
           component={"div"}
