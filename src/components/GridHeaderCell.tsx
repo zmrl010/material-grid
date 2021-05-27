@@ -1,6 +1,5 @@
 import { HeaderGroup } from "react-table";
 import {
-  TableCell,
   TableCellClassKey,
   TableCellProps,
   TableSortLabelClassKey,
