@@ -6,11 +6,13 @@ import clsx from "clsx";
 import GridRow from "./GridRow";
 import { useGetApi } from "../api";
 import type { Id } from "../types";
+import { setRef } from "../util";
 
 export interface GridBodyProps {
   className?: string;
   style?: CSSProperties;
   height?: string | number;
+  width?: string | number;
   loading: boolean;
 }
 
@@ -20,7 +22,7 @@ export const GridBody = forwardRef(function GridBody<D extends Id = Id>(
   props: Props,
   ref: ForwardedRef<HTMLDivElement>
 ) {
-  const { loading, className, height, style } = props;
+  const { loading, className, height, width, style } = props;
 
   const getApi = useGetApi<D>();
 
@@ -40,13 +42,9 @@ export const GridBody = forwardRef(function GridBody<D extends Id = Id>(
          * Set both the passed ref from outside the component
          * and the provided ref from the droppable callback
          */
-        const setRef = useCallback((instance: HTMLDivElement | null) => {
-          if (typeof ref === "function") {
-            ref(instance);
-          } else if (ref) {
-            ref.current = instance;
-          }
-          provided.innerRef(instance);
+        const bodyRef = useCallback((instance: HTMLDivElement | null) => {
+          setRef(ref, instance);
+          setRef(provided.innerRef, instance);
         }, []);
 
         return (
@@ -54,8 +52,8 @@ export const GridBody = forwardRef(function GridBody<D extends Id = Id>(
             component={"div"}
             role={role}
             className={clsx("Grid-body", className, tableBodyClassName)}
-            style={{ ...style, ...tableBodyStyle, height }}
-            ref={setRef}
+            style={{ ...style, ...tableBodyStyle, height, width }}
+            ref={bodyRef}
             {...provided.droppableProps}
           >
             {showNoRows ? (

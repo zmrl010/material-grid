@@ -18,7 +18,12 @@ import {
   dragHandleColumn,
 } from "./components";
 import { GridOptions, Id } from "./types";
-import { useBoundingRect, useComponents, useIsomorphicEffect } from "./hooks";
+import {
+  useBoundingRect,
+  useComponents,
+  useIsomorphicEffect,
+  useScrollbarSizeDetector,
+} from "./hooks";
 import { useRowDragDrop } from "./plugins/useRowDragDrop";
 
 function defaultGetRowId<D extends Id>(row: D) {
@@ -77,6 +82,8 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
   const [headerBoundingRect, headerRef] = useBoundingRect();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const bodyRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollbarSize = useScrollbarSizeDetector(rootRef);
 
   const instance = useTable(
     {
@@ -154,7 +161,10 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     <GridProvider<D> instance={instance} components={components} {...events}>
       <NoSsr>
         <GridRoot {...instance.getTableProps(tableProps)} ref={rootRef}>
-          <GridHeader ref={headerRef} />
+          <GridHeader
+            ref={headerRef}
+            width={`calc(100% - ${scrollbarSize}px)`}
+          />
           <GridBody loading={loading} height={bodyHeight} ref={bodyRef} />
         </GridRoot>
       </NoSsr>

@@ -6,14 +6,16 @@ import { BaseType } from "../types";
 import { GridHeaderCell } from "./GridHeaderCell";
 
 // TODO pass TableHeadProps to TableHead properly
-export interface GridHeaderProps extends TableHeadProps {}
+export interface GridHeaderProps extends TableHeadProps {
+  width?: string | number;
+}
 
 type Props = GridHeaderProps;
 
 export const GridHeader = forwardRef<HTMLDivElement, Props>(function GridHeader<
   D extends BaseType = BaseType
 >(props: Props, ref: ForwardedRef<HTMLDivElement>) {
-  const { className, ...gridHeadProps } = props;
+  const { className, style, width, ...gridHeadProps } = props;
 
   const getApi = useGetApi<D>();
 
@@ -23,6 +25,7 @@ export const GridHeader = forwardRef<HTMLDivElement, Props>(function GridHeader<
     <TableHead
       {...gridHeadProps}
       className={clsx("Grid-head", className)}
+      style={{ ...style, width }}
       component="div"
       ref={ref}
     >
