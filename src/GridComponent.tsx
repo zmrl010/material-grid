@@ -83,7 +83,7 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const bodyRef = useRef<HTMLDivElement | null>(null);
 
-  const scrollbarSize = useScrollbarSizeDetector(rootRef);
+  const scrollbarSize = useScrollbarSizeDetector(bodyRef);
 
   const instance = useTable(
     {
