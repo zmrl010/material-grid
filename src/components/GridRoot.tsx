@@ -12,8 +12,6 @@ export const GridRoot = forwardRef(function GridRoot(
   const { className, ...tableProps } = props;
   const classes = useStyles();
 
-  console.log(ref);
-
   return (
     <Table
       ref={ref}
