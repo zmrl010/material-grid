@@ -59,20 +59,12 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
 
     components: propComponents,
     dragDropEvents = {},
-    // changes in enableRowDragDrop prop won't have any effect after mount
     enableRowDragDrop = false,
     loading = false,
     onRowReorder = () => {},
-
-    autoResetHiddenColumns,
     defaultCanSort = true,
-    defaultColumn,
     disableSortBy = false,
     getRowId = defaultGetRowId,
-    getSubRows,
-    initialState,
-    stateReducer,
-    useControlledState,
     ...tableProps
   } = props;
 
@@ -92,12 +84,6 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
       disableSortBy,
       defaultCanSort,
       getRowId,
-      initialState,
-      stateReducer,
-      useControlledState,
-      defaultColumn,
-      getSubRows,
-      autoResetHiddenColumns,
       enableRowDragDrop,
     },
     useSortBy,
@@ -153,6 +139,7 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     [dragDropEvents, onDragEnd]
   );
 
+  const headerWidth = `calc(100% - ${scrollbarSize}px)`;
   const bodyHeight = headerBoundingRect
     ? `calc(100% - ${headerBoundingRect.height || 0}px)`
     : "100%";
@@ -161,10 +148,7 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     <GridProvider<D> instance={instance} components={components} {...events}>
       <NoSsr>
         <GridRoot {...instance.getTableProps(tableProps)} ref={rootRef}>
-          <GridHeader
-            ref={headerRef}
-            width={`calc(100% - ${scrollbarSize}px)`}
-          />
+          <GridHeader ref={headerRef} width={headerWidth} />
           <GridBody loading={loading} height={bodyHeight} ref={bodyRef} />
         </GridRoot>
       </NoSsr>

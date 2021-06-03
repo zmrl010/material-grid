@@ -53,7 +53,7 @@ export const useStyles = makeStyles(
           textOverflow: "ellipsis",
           whiteSpace: "nowrap",
           borderBottom: border,
-          alignItems: "flex-start",
+          alignItems: "center",
         },
         "& .Grid-row": {
           backgroundColor: theme.palette.background.paper,
