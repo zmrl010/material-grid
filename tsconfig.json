@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "allowJs": false, 
+    "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "declaration": true, // Generate corresponding .d.ts file
     "esModuleInterop": true,
@@ -8,11 +8,7 @@
     "incremental": true, // Enable incremental compilation by reading/writing information from prior compilations to a file on disk
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "lib": [
-      "dom.iterable",
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom.iterable", "dom", "esnext"],
     "module": "esnext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
@@ -23,10 +19,8 @@
     "skipLibCheck": true,
     "sourceMap": true, // Generate corrresponding .map file
     "strict": true,
-    "target": "es6",
-  }, 
-  "include": [
-    "src", 
-  ],
+    "target": "es6"
+  },
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
