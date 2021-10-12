@@ -18,6 +18,9 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
+    "@mui/icons-material": "^5.0.3",
+    "@mui/material": "^5.0.3",
+    "@mui/styles": "^5.0.1",
     "@types/react-table": "^7.7.0",
     "clsx": "^1.1.1",
     "date-fns": "^2.20.1",
@@ -25,7 +28,7 @@
     "lodash": "^4.17.21",
     "react-beautiful-dnd": "^13.1.0",
     "react-table": "^7.6.3",
-    "typescript": "^4.2.4",
+    "typescript": "^4.4.4",
     "use-immer": "^0.5.1"
   },
   "devDependencies": {

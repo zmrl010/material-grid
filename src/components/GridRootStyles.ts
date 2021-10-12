@@ -61,12 +61,6 @@ export const useStyles = makeStyles(
         },
         "& .Grid-row-dragging": {
           display: "table",
-          borderLeft: border,
-          borderRight: border,
-          "& .Grid-cell": {
-            borderTop: border,
-            borderBottom: border,
-          },
         },
         "& .Grid-dragHandle": {
           display: "flex",

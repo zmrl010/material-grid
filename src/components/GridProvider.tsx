@@ -1,5 +1,7 @@
+import { ThemeProvider } from "@material-ui/core";
 import { DragDropContextProps, DragDropContext } from "react-beautiful-dnd";
 import { GridApiProvider, GridApiProviderProps } from "../api";
+import { theme } from "../theme";
 import { BaseType } from "../types";
 
 export type GridProviderProps<
@@ -18,7 +20,9 @@ export function GridProvider<D extends BaseType = BaseType>(props: Props<D>) {
 
   return (
     <GridApiProvider instance={instance} components={components}>
-      <DragDropContext {...dragDropProps}>{children}</DragDropContext>
+      <ThemeProvider theme={theme}>
+        <DragDropContext {...dragDropProps}>{children}</DragDropContext>
+      </ThemeProvider>
     </GridApiProvider>
   );
 }
