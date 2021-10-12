@@ -1,6 +1,6 @@
 import { CSSProperties, ForwardedRef, forwardRef, useCallback } from "react";
 import { Droppable } from "react-beautiful-dnd";
-import { TableBody } from "@material-ui/core";
+import { TableBody } from "@mui/material";
 import clsx from "clsx";
 
 import GridRow from "./GridRow";

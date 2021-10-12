@@ -1,4 +1,4 @@
-import { TableCell, TableCellProps } from "@material-ui/core";
+import { TableCell, TableCellProps } from "@mui/material";
 import clsx from "clsx";
 import { forwardRef } from "react";
 

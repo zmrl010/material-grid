@@ -9,7 +9,7 @@ import { useCallback, useMemo, useRef } from "react";
 import { useImmer } from "use-immer";
 import { DropResult, ResponderProvided } from "react-beautiful-dnd";
 import { Draft, current } from "immer";
-import { NoSsr, TableProps } from "@material-ui/core";
+import { NoSsr, TableProps } from "@mui/material";
 import {
   GridRoot,
   GridHeader,

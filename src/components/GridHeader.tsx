@@ -1,4 +1,4 @@
-import { TableHead, TableHeadProps, TableRow } from "@material-ui/core";
+import { TableHead, TableHeadProps, TableRow } from "@mui/material";
 import clsx from "clsx";
 import { ForwardedRef, forwardRef } from "react";
 import { useGetApi } from "../api";

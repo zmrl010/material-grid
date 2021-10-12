@@ -1,5 +1,5 @@
-import { createMuiTheme } from "@material-ui/core";
+import { createTheme } from "@mui/material";
 
-export const theme = createMuiTheme({});
+export const theme = createTheme({});
 
 export type GridTheme = typeof theme;

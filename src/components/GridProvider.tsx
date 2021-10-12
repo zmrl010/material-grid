@@ -1,8 +1,15 @@
-import { ThemeProvider } from "@material-ui/core";
+import { ThemeProvider, Theme, StyledEngineProvider } from "@mui/material";
 import { DragDropContextProps, DragDropContext } from "react-beautiful-dnd";
 import { GridApiProvider, GridApiProviderProps } from "../api";
 import { theme } from "../theme";
 import { BaseType } from "../types";
+
+
+declare module '@mui/styles/defaultTheme' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DefaultTheme extends Theme {}
+}
+
 
 export type GridProviderProps<
   D extends BaseType = {}
@@ -20,9 +27,11 @@ export function GridProvider<D extends BaseType = BaseType>(props: Props<D>) {
 
   return (
     <GridApiProvider instance={instance} components={components}>
-      <ThemeProvider theme={theme}>
-        <DragDropContext {...dragDropProps}>{children}</DragDropContext>
-      </ThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <DragDropContext {...dragDropProps}>{children}</DragDropContext>
+        </ThemeProvider>
+      </StyledEngineProvider>
     </GridApiProvider>
   );
 }

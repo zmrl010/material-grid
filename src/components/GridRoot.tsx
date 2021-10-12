@@ -1,5 +1,5 @@
 import { ForwardedRef, forwardRef } from "react";
-import { Table, TableProps } from "@material-ui/core";
+import { Table, TableProps } from "@mui/material";
 import clsx from "clsx";
 import { useStyles } from "./GridRootStyles";
 

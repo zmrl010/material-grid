@@ -1,4 +1,4 @@
-import { TableSortLabel } from "@material-ui/core";
+import { TableSortLabel } from "@mui/material";
 import { NoRowsOverlay } from "./NoRowsOverlay";
 import { LoadingOverlay } from "./LoadingOverlay";
 import { DragHandle } from "./DragHandle";

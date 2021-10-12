@@ -1,6 +1,5 @@
 import { CSSProperties } from "react";
-import { DragIndicator } from "@material-ui/icons";
-import { IconButton } from "@material-ui/core";
+import { DragIndicator } from "@mui/icons-material";
 import clsx from "clsx";
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
 
@@ -17,13 +16,11 @@ type Props = DragHandleProps;
  * @returns
  */
 export function DragHandle(props: Props) {
-  const { className, style, ...dragHandleProps } = props;
+  const { className, ...dragHandleProps } = props;
 
   return (
-    <div className={clsx("Grid-dragHandle", className)} style={style}>
-      <IconButton {...dragHandleProps}>
-        <DragIndicator />
-      </IconButton>
+    <div className={clsx("Grid-dragHandle", className)} {...dragHandleProps}>
+      <DragIndicator fontSize="large" />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import {
   TableCellClassKey,
   TableCellProps,
   TableSortLabelClassKey,
-} from "@material-ui/core";
+} from "@mui/material";
 import { BaseType, ClassKeyMap, ExtendClassKey } from "../types";
 import { useGetApi } from "../api";
 import GridCell from "./GridCell";

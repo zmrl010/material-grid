@@ -1,4 +1,4 @@
-import { TableRow, TableRowClassKey } from "@material-ui/core";
+import { TableRow, TableRowClassKey } from "@mui/material";
 import { Cell, TableRowProps } from "react-table";
 import { Draggable } from "react-beautiful-dnd";
 import clsx from "clsx";

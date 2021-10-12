@@ -1,4 +1,4 @@
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import { forwardRef } from "react";
 
 import { Overlay, OverlayProps } from "./Overlay";
