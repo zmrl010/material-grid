@@ -1,10 +1,5 @@
 import { MutableRefObject } from "react";
 
-/**
- * basic function that does nothing
- */
-export function noop() {}
-
 export const isBrowser = typeof window !== "undefined";
 
 export function ownerDocument(node: Node | null | undefined): Document {

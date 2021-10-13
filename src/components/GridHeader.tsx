@@ -4,6 +4,7 @@ import { ForwardedRef, forwardRef } from "react";
 import { useGetApi } from "../api";
 import { BaseType } from "../types";
 import { GridHeaderCell } from "./GridHeaderCell";
+import { classes } from "./GridRoot";
 
 // TODO pass TableHeadProps to TableHead properly
 export interface GridHeaderProps extends TableHeadProps {
@@ -24,7 +25,7 @@ export const GridHeader = forwardRef<HTMLDivElement, Props>(function GridHeader<
   return (
     <TableHead
       {...gridHeadProps}
-      className={clsx("Grid-head", className)}
+      className={clsx(classes.head, className)}
       style={{ ...style, width }}
       component="div"
       ref={ref}

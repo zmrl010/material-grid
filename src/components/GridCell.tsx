@@ -1,6 +1,7 @@
 import { TableCell, TableCellProps } from "@mui/material";
 import clsx from "clsx";
 import { forwardRef } from "react";
+import { classes } from "./GridRoot";
 
 export interface GridCellProps extends TableCellProps {}
 
@@ -14,7 +15,7 @@ export const GridCell = forwardRef<HTMLDivElement, Props>(function GridCell(
   return (
     <TableCell
       component="div"
-      className={clsx("Grid-cell", className)}
+      className={clsx(classes.cell, className)}
       ref={ref}
       {...cellProps}
     >

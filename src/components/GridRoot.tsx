@@ -4,8 +4,7 @@ import { Table, TableProps } from "@mui/material";
 
 const PREFIX = "Grid";
 
-const classes = {
-  root: `${PREFIX}-root`,
+export const classes = {
   autoHeight: `${PREFIX}-autoHeight`,
   head: `${PREFIX}-head`,
   body: `${PREFIX}-body`,
@@ -16,7 +15,18 @@ const classes = {
   dragHandle: `${PREFIX}-dragHandle`,
 };
 
-const StyledTable = styled(Table)(({ theme }) => ({
+export type GridRootProps = TableProps;
+
+export const GridRootBase = forwardRef(function GridRootBase(
+  props: GridRootProps,
+  ref: ForwardedRef<HTMLDivElement>
+) {
+  return <Table ref={ref} tabIndex={0} component={"div"} {...props} />;
+});
+
+export const GridRoot = styled(GridRootBase, {
+  name: "GridRoot",
+})(({ theme }) => ({
   boxSizing: "border-box",
   color: theme.palette.text.primary,
   ...theme.typography.body2,
@@ -74,24 +84,5 @@ const StyledTable = styled(Table)(({ theme }) => ({
     display: "flex",
   },
 }));
-
-export {};
-
-export type GridRootProps = TableProps;
-
-export const GridRoot = forwardRef(function GridRoot(
-  props: GridRootProps,
-  ref: ForwardedRef<HTMLDivElement>
-) {
-  return (
-    <StyledTable
-      //@ts-ignore - ref from styled table isnt narrowed by component properly
-      ref={ref}
-      tabIndex={0}
-      component={"div"}
-      {...props}
-    />
-  );
-});
 
 export default GridRoot;

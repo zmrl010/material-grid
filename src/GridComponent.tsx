@@ -144,6 +144,7 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     ? `calc(100% - ${headerBoundingRect.height || 0}px)`
     : "100%";
 
+  // TODO wrap in Box component?
   return (
     <GridProvider<D> instance={instance} components={components} {...events}>
       <NoSsr>

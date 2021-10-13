@@ -7,6 +7,7 @@ import GridRow from "./GridRow";
 import { useGetApi } from "../api";
 import type { Id } from "../types";
 import { setRef } from "../util";
+import { classes } from "./GridRoot";
 
 export interface GridBodyProps {
   className?: string;
@@ -51,7 +52,7 @@ export const GridBody = forwardRef(function GridBody<D extends Id = Id>(
           <TableBody
             component={"div"}
             role={role}
-            className={clsx("Grid-body", className, tableBodyClassName)}
+            className={clsx(classes.body, className, tableBodyClassName)}
             style={{ ...style, ...tableBodyStyle, height, width }}
             ref={bodyRef}
             {...provided.droppableProps}

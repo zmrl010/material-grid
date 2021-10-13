@@ -4,6 +4,7 @@ import { Draggable } from "react-beautiful-dnd";
 import clsx from "clsx";
 import { BaseType, ClassKeyMap } from "../types";
 import GridCell from "./GridCell";
+import { classes } from "./GridRoot";
 
 export interface RowItem {
   index: number;
@@ -48,8 +49,8 @@ export function GridRow<D extends BaseType = BaseType>(props: GridRowProps<D>) {
           {...rowProps}
           {...provided.draggableProps}
           style={{ ...style, ...provided.draggableProps.style }}
-          className={clsx("Grid-row", className, {
-            "Grid-row-dragging":
+          className={clsx(classes.row, className, {
+            [classes.rowDragging]:
               snapshot.isDragging && !snapshot.isDropAnimating,
           })}
           ref={provided.innerRef}
