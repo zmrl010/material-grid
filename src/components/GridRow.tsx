@@ -1,10 +1,13 @@
-import { TableRow, TableRowClassKey } from "@mui/material";
-import { Cell, TableRowProps } from "react-table";
+import {
+  styled,
+  TableRow,
+  TableRowClassKey,
+  TableRowProps,
+} from "@mui/material";
+import { Cell } from "react-table";
 import { Draggable } from "react-beautiful-dnd";
-import clsx from "clsx";
 import { BaseType, ClassKeyMap } from "../types";
 import GridCell from "./GridCell";
-import { classes } from "./GridRoot";
 
 export interface RowItem {
   index: number;
@@ -30,29 +33,23 @@ export interface GridRowProps<D extends BaseType = BaseType>
  * @param props
  * @returns
  */
-export function GridRow<D extends BaseType = BaseType>(props: GridRowProps<D>) {
-  const {
-    id,
-    index,
-    cells,
-    style,
-    className,
-    dragDropEnabled,
-    ...rowProps
-  } = props;
+function DraggableGridRow<D extends BaseType = BaseType>(
+  props: GridRowProps<D>
+) {
+  const { id, index, cells, style, dragDropEnabled, ...rowProps } = props;
 
   return (
     <Draggable draggableId={id} index={index} isDragDisabled={!dragDropEnabled}>
       {(provided, snapshot) => (
         <TableRow
-          component={"div"}
+          component="div"
           {...rowProps}
           {...provided.draggableProps}
+          sx={{
+            ...(snapshot.isDragging &&
+              !snapshot.isDropAnimating && { display: "table" }),
+          }}
           style={{ ...style, ...provided.draggableProps.style }}
-          className={clsx(classes.row, className, {
-            [classes.rowDragging]:
-              snapshot.isDragging && !snapshot.isDropAnimating,
-          })}
           ref={provided.innerRef}
         >
           {cells.map((cell) => (
@@ -67,5 +64,12 @@ export function GridRow<D extends BaseType = BaseType>(props: GridRowProps<D>) {
     </Draggable>
   );
 }
+
+export const GridRow = styled(DraggableGridRow, {
+  name: "Grid",
+  slot: "Row",
+})(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+}));
 
 export default GridRow;

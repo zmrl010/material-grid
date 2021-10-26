@@ -1,20 +1,21 @@
-import clsx from "clsx";
-import { forwardRef, HTMLAttributes } from "react";
-import { classes } from "./GridRoot";
+import { styled } from "@mui/material";
+import { HTMLAttributes } from "react";
 
 export type OverlayProps = HTMLAttributes<HTMLDivElement>;
 
-export const Overlay = forwardRef<HTMLDivElement, OverlayProps>(
-  function Overlay(props, ref) {
-    const { className, style, ...other } = props;
-
-    return (
-      <div
-        ref={ref}
-        className={clsx(classes.overlay, className)}
-        style={style}
-        {...other}
-      />
-    );
-  }
+export const Overlay = styled("div", { name: "Grid", slot: "Overlay" })(
+  ({ theme }) => ({
+    backgroundColor: theme.palette.background.paper,
+    display: "flex",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+  })
 );
+
+export default Overlay;

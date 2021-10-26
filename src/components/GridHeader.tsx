@@ -1,35 +1,22 @@
-import { TableHead, TableHeadProps, TableRow } from "@mui/material";
-import clsx from "clsx";
+import { TableHead, TableHeadProps, TableRow, styled } from "@mui/material";
 import { ForwardedRef, forwardRef } from "react";
-import { useGetApi } from "../api";
+import { useApiRef, useGridInstance } from "../api";
 import { BaseType } from "../types";
 import { GridHeaderCell } from "./GridHeaderCell";
-import { classes } from "./GridRoot";
 
 // TODO pass TableHeadProps to TableHead properly
-export interface GridHeaderProps extends TableHeadProps {
-  width?: string | number;
-}
+export interface GridHeaderProps extends TableHeadProps {}
 
 type Props = GridHeaderProps;
 
-export const GridHeader = forwardRef<HTMLDivElement, Props>(function GridHeader<
+const GridHead = forwardRef<HTMLDivElement, Props>(function GridHeader<
   D extends BaseType = BaseType
 >(props: Props, ref: ForwardedRef<HTMLDivElement>) {
-  const { className, style, width, ...gridHeadProps } = props;
-
-  const getApi = useGetApi<D>();
-
-  const { headerGroups } = getApi().instance;
+  const apiRef = useApiRef<D>();
+  const { headerGroups } = useGridInstance<D>(apiRef);
 
   return (
-    <TableHead
-      {...gridHeadProps}
-      className={clsx(classes.head, className)}
-      style={{ ...style, width }}
-      component="div"
-      ref={ref}
-    >
+    <TableHead component="div" {...props} ref={ref}>
       {headerGroups.map((headerGroup) => (
         <TableRow {...headerGroup.getHeaderGroupProps()} component="div">
           {headerGroup.headers.map((column) => (
@@ -40,5 +27,14 @@ export const GridHeader = forwardRef<HTMLDivElement, Props>(function GridHeader<
     </TableHead>
   );
 });
+
+export const GridHeader = styled(GridHead, { name: "Grid", slot: "Head" })(
+  ({ theme }) => ({
+    overflowY: "auto",
+    overflowX: "hidden",
+    backgroundColor: theme.palette.background.paper,
+    display: "flex",
+  })
+);
 
 export default GridHeader;

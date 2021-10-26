@@ -1,59 +1,81 @@
-import { CSSProperties, ForwardedRef, forwardRef, useCallback } from "react";
+import {
+  CSSProperties,
+  ForwardedRef,
+  forwardRef,
+  useCallback,
+  memo,
+} from "react";
 import { Droppable } from "react-beautiful-dnd";
-import { TableBody } from "@mui/material";
-import clsx from "clsx";
-
+import { styled, TableBody } from "@mui/material";
 import GridRow from "./GridRow";
-import { useGetApi } from "../api";
-import type { Id } from "../types";
+import { useApiRef, useGridApi, useGridInstance } from "../api";
 import { setRef } from "../util";
-import { classes } from "./GridRoot";
+import { Row } from "react-table";
+
+import type { Id } from "../types";
 
 export interface GridBodyProps {
   className?: string;
   style?: CSSProperties;
-  height?: string | number;
-  width?: string | number;
   loading: boolean;
 }
 
 type Props = GridBodyProps;
 
-export const GridBody = forwardRef(function GridBody<D extends Id = Id>(
+interface GridBodyRowsProps {
+  rows: Row<any>[];
+  prepareRow: (row: Row<any>) => void;
+}
+
+const GridBodyRows = memo(function GridBodyRows(props: GridBodyRowsProps) {
+  return (
+    <>
+      {props.rows.map((row) => {
+        props.prepareRow(row);
+        return (
+          <GridRow
+            {...row.getRowProps()}
+            dragDropEnabled={row.dragDropEnabled}
+            id={row.id}
+            index={row.index}
+            cells={row.cells}
+          />
+        );
+      })}
+    </>
+  );
+});
+
+const DroppableBody = forwardRef(function DroppableBody<D extends Id = Id>(
   props: Props,
   ref: ForwardedRef<HTMLDivElement>
 ) {
-  const { loading, className, height, width, style } = props;
+  const { loading, className, style } = props;
 
-  const getApi = useGetApi<D>();
-
-  const { instance, components, hasRows } = getApi();
-  const {
-    className: tableBodyClassName,
-    style: tableBodyStyle,
-    role,
-  } = instance.getTableBodyProps();
+  const apiRef = useApiRef<D>();
+  const { instance, components, hasRows } = useGridApi(apiRef);
+  const { role } = instance.getTableBodyProps();
 
   const showNoRows = !loading && !hasRows();
 
   return (
-    <Droppable droppableId="table-body">
+    <Droppable droppableId="grid-body">
       {(provided) => {
         /**
          * Set both the passed ref from outside the component
          * and the provided ref from the droppable callback
          */
-        const bodyRef = useCallback((instance: HTMLDivElement | null) => {
-          setRef(ref, instance);
-          setRef(provided.innerRef, instance);
+        const bodyRef = useCallback((element: HTMLDivElement | null) => {
+          setRef(ref, element);
+          setRef(provided.innerRef, element);
         }, []);
 
         return (
           <TableBody
             component={"div"}
             role={role}
-            className={clsx(classes.body, className, tableBodyClassName)}
-            style={{ ...style, ...tableBodyStyle, height, width }}
+            className={className}
+            style={style}
             ref={bodyRef}
             {...provided.droppableProps}
           >
@@ -62,24 +84,24 @@ export const GridBody = forwardRef(function GridBody<D extends Id = Id>(
             ) : loading ? (
               <components.LoadingOverlay />
             ) : (
-              instance.rows.map((row) => {
-                instance.prepareRow(row);
-                return (
-                  <GridRow
-                    {...row.getRowProps()}
-                    dragDropEnabled={row.dragDropEnabled}
-                    id={row.id}
-                    index={row.index}
-                    cells={row.cells}
-                  />
-                );
-              })
+              <GridBodyRows
+                rows={instance.rows}
+                prepareRow={instance.prepareRow}
+              />
             )}
+            {provided.placeholder}
           </TableBody>
         );
       }}
     </Droppable>
   );
+});
+
+export const GridBody = styled(DroppableBody, { name: "Grid", slot: "Body" })({
+  overflowY: "auto",
+  overflowX: "hidden",
+  display: "block",
+  position: "relative",
 });
 
 export default GridBody;

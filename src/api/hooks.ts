@@ -49,9 +49,32 @@ export function useApiRef<D extends BaseType = BaseType>() {
  * Use api returned from parent context
  * @returns GridApiContext value
  */
-export function useGetApi<D extends BaseType = BaseType>() {
-  const apiRef = useApiRef<D>();
-  const getApi = useGetLatest(apiRef.current);
+export function useGetApi<D extends BaseType = BaseType>(
+  apiRef: GridApiRef<D>
+) {
+  return useGetLatest(apiRef.current);
+}
 
-  return getApi;
+export function useGridApi<D extends BaseType = BaseType>(
+  apiRef: GridApiRef<D>
+) {
+  const getApi = useGetApi<D>(apiRef);
+
+  return getApi();
+}
+
+export function useGridInstance<D extends BaseType = BaseType>(
+  apiRef: GridApiRef<D>
+) {
+  const getApi = useGetApi<D>(apiRef);
+
+  return getApi().instance;
+}
+
+export function useGridComponents<D extends BaseType = BaseType>(
+  apiRef: GridApiRef<D>
+) {
+  const getApi = useGetApi<D>(apiRef);
+
+  return getApi().components;
 }

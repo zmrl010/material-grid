@@ -1,8 +1,7 @@
 import { CSSProperties } from "react";
 import { DragIndicator } from "@mui/icons-material";
-import clsx from "clsx";
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
-import { classes } from "./GridRoot";
+import { Box } from "@mui/material";
 
 export interface DragHandleProps extends DraggableProvidedDragHandleProps {
   className?: string;
@@ -17,12 +16,10 @@ type Props = DragHandleProps;
  * @returns
  */
 export function DragHandle(props: Props) {
-  const { className, ...dragHandleProps } = props;
-
   return (
-    <div className={clsx(classes.dragHandle, className)} {...dragHandleProps}>
-      <DragIndicator fontSize="large" />
-    </div>
+    <Box sx={{ display: "flex" }} {...props}>
+      <DragIndicator />
+    </Box>
   );
 }
 

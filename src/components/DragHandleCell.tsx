@@ -1,5 +1,5 @@
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
-import { useGetApi } from "../api";
+import { useApiRef, useGridComponents } from "../api";
 
 export type DragHandleCellProps = {
   dragHandleProps: DraggableProvidedDragHandleProps;
@@ -24,7 +24,7 @@ export const dragHandleColumn = {
  * @returns
  */
 export function DragHandleCell({ dragHandleProps }: DragHandleCellProps) {
-  const getApi = useGetApi();
-  const { DragHandle } = getApi().components;
+  const apiRef = useApiRef();
+  const { DragHandle } = useGridComponents(apiRef);
   return <DragHandle {...dragHandleProps} />;
 }

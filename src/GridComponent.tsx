@@ -69,6 +69,14 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
   } = props;
 
   const [orderedData, setOrderedData] = useImmer(data);
+  // effect to "reset" the data when data prop changes
+  const prevData = useRef(data);
+  useIsomorphicEffect(() => {
+    if (prevData.current !== data) {
+      setOrderedData(data);
+      prevData.current = data;
+    }
+  }, [data]);
   const components = useComponents(propComponents);
 
   const [headerBoundingRect, headerRef] = useBoundingRect();
@@ -77,9 +85,13 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
 
   const scrollbarSize = useScrollbarSizeDetector(bodyRef);
 
+  const columnsWithDragHandle = useMemo(() => [dragHandleColumn, ...columns], [
+    columns,
+  ]);
+
   const instance = useTable(
     {
-      columns,
+      columns: columnsWithDragHandle,
       data: orderedData,
       disableSortBy,
       defaultCanSort,
@@ -90,19 +102,8 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     usePagination,
     useRowSelect,
     useRowDragDrop,
-    // TODO extract this to a hook (plugin)
-    (hooks) => {
-      if (enableRowDragDrop) {
-        hooks.allColumns.push((columns) => [dragHandleColumn, ...columns]);
-      }
-    },
     useFlexLayout
   );
-
-  // effect to "reset" the data when data prop changes
-  useIsomorphicEffect(() => {
-    setOrderedData(data);
-  }, [data]);
 
   const reorder = useCallback(
     (sourceIndex: number, destinationIndex: number) => {
@@ -149,8 +150,12 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     <GridProvider<D> instance={instance} components={components} {...events}>
       <NoSsr>
         <GridRoot {...instance.getTableProps(tableProps)} ref={rootRef}>
-          <GridHeader ref={headerRef} width={headerWidth} />
-          <GridBody loading={loading} height={bodyHeight} ref={bodyRef} />
+          <GridHeader ref={headerRef} style={{ width: headerWidth }} />
+          <GridBody
+            loading={loading}
+            style={{ height: bodyHeight }}
+            ref={bodyRef}
+          />
         </GridRoot>
       </NoSsr>
     </GridProvider>

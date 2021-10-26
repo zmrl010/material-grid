@@ -3,17 +3,28 @@
  * TODO append column
  * TODO useInstance for config and related settings
  */
-import { Hooks, Meta, Row } from "react-table";
+import { useEffect } from "react";
+import { Hooks, Meta, Row, TableInstance } from "react-table";
+import { DRAG_HANDLE_COLUMN_ID } from "../../components";
 // import { dragHandleColumn } from "./dragHandleColumn";
 
 export function useRowDragDrop<D extends object = {}>(hooks: Hooks<D>) {
   hooks.prepareRow.push(prepareRow);
+  hooks.useInstance.push(useInstance);
 }
 
 function prepareRow<D extends object = {}>(row: Row<D>, { instance }: Meta<D>) {
-  row.dragDropEnabled = instance.enableRowDragDrop || false;
+  row.dragDropEnabled = instance.enableRowDragDrop ?? false;
 }
 
-// function reducer<D extends object>(state);
+function useInstance<D extends object = {}>(instance: TableInstance<D>) {
+  const { enableRowDragDrop } = instance;
+  useEffect(() => {
+    instance.toggleHideColumn(
+      DRAG_HANDLE_COLUMN_ID,
+      !instance.enableRowDragDrop
+    );
+  }, [enableRowDragDrop]);
+}
 
 useRowDragDrop.pluginName = "useRowDragDrop";

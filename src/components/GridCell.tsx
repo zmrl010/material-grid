@@ -1,27 +1,24 @@
-import { TableCell, TableCellProps } from "@mui/material";
-import clsx from "clsx";
+import { styled, TableCell, TableCellProps } from "@mui/material";
 import { forwardRef } from "react";
-import { classes } from "./GridRoot";
 
 export interface GridCellProps extends TableCellProps {}
 
-type Props = GridCellProps;
-
-export const GridCell = forwardRef<HTMLDivElement, Props>(function GridCell(
+const DivCell = forwardRef<HTMLDivElement, GridCellProps>(function DivCell(
   props,
   ref
 ) {
-  const { children, className, ...cellProps } = props;
-  return (
-    <TableCell
-      component="div"
-      className={clsx(classes.cell, className)}
-      ref={ref}
-      {...cellProps}
-    >
-      {children}
-    </TableCell>
-  );
+  return <TableCell component="div" ref={ref} {...props} />;
 });
+
+export const GridCell = styled(DivCell, { name: "Grid", slot: "Cell" })(
+  ({ theme }) => ({
+    display: "flex",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    alignItems: "center",
+  })
+);
 
 export default GridCell;
