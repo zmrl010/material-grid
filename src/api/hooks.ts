@@ -18,7 +18,7 @@ const INITIAL_STATE = {};
  * @param params api parameters
  * @returns getter function that returns api ref
  */
-export function useCreateApiRef<D extends BaseType = BaseType>(
+export function useApiRef<D extends BaseType = BaseType>(
   props: GridApiOptions<D>
 ) {
   const apiRef = useRef(INITIAL_STATE as GridApi<D>);
@@ -35,7 +35,7 @@ export function useCreateApiRef<D extends BaseType = BaseType>(
  * Use api returned from parent context
  * @returns GridApiContext value
  */
-export function useApiRef<D extends BaseType = BaseType>() {
+export function useApiContext<D extends BaseType = BaseType>() {
   const context = useContext<GridApiRef<D> | null>(GridApiContext);
 
   if (!context) {

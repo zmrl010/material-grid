@@ -3,12 +3,9 @@ import { forwardRef } from "react";
 
 export interface GridCellProps extends TableCellProps {}
 
-const DivCell = forwardRef<HTMLDivElement, GridCellProps>(function DivCell(
-  props,
-  ref
-) {
-  return <TableCell component="div" ref={ref} {...props} />;
-});
+const DivCell = forwardRef<HTMLDivElement, GridCellProps>((props, ref) => (
+  <TableCell component="div" ref={ref} {...props} />
+));
 
 export const GridCell = styled(DivCell, { name: "Grid", slot: "Cell" })(
   ({ theme }) => ({

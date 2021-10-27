@@ -8,7 +8,7 @@ import {
 import { Droppable } from "react-beautiful-dnd";
 import { styled, TableBody } from "@mui/material";
 import GridRow from "./GridRow";
-import { useApiRef, useGridApi, useGridInstance } from "../api";
+import { useApiContext, useGridApi } from "../api";
 import { setRef } from "../util";
 import { Row } from "react-table";
 
@@ -27,7 +27,9 @@ interface GridBodyRowsProps {
   prepareRow: (row: Row<any>) => void;
 }
 
-const GridBodyRows = memo(function GridBodyRows(props: GridBodyRowsProps) {
+export const GridBodyRows = memo(function GridBodyRows(
+  props: GridBodyRowsProps
+) {
   return (
     <>
       {props.rows.map((row) => {
@@ -52,11 +54,13 @@ const DroppableBody = forwardRef(function DroppableBody<D extends Id = Id>(
 ) {
   const { loading, className, style } = props;
 
-  const apiRef = useApiRef<D>();
-  const { instance, components, hasRows } = useGridApi(apiRef);
+  const apiRef = useApiContext<D>();
+  const {
+    instance,
+    components: { LoadingOverlay, NoRowsOverlay },
+    hasRows,
+  } = useGridApi(apiRef);
   const { role } = instance.getTableBodyProps();
-
-  const showNoRows = !loading && !hasRows();
 
   return (
     <Droppable droppableId="grid-body">
@@ -79,10 +83,10 @@ const DroppableBody = forwardRef(function DroppableBody<D extends Id = Id>(
             ref={bodyRef}
             {...provided.droppableProps}
           >
-            {showNoRows ? (
-              <components.NoRowsOverlay />
-            ) : loading ? (
-              <components.LoadingOverlay />
+            {loading ? (
+              <LoadingOverlay />
+            ) : !hasRows() ? (
+              <NoRowsOverlay />
             ) : (
               <GridBodyRows
                 rows={instance.rows}

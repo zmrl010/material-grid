@@ -1,6 +1,6 @@
 import { TableHead, TableHeadProps, TableRow, styled } from "@mui/material";
 import { ForwardedRef, forwardRef } from "react";
-import { useApiRef, useGridInstance } from "../api";
+import { useApiContext, useGridInstance } from "../api";
 import { BaseType } from "../types";
 import { GridHeaderCell } from "./GridHeaderCell";
 
@@ -12,7 +12,7 @@ type Props = GridHeaderProps;
 const GridHead = forwardRef<HTMLDivElement, Props>(function GridHeader<
   D extends BaseType = BaseType
 >(props: Props, ref: ForwardedRef<HTMLDivElement>) {
-  const apiRef = useApiRef<D>();
+  const apiRef = useApiContext<D>();
   const { headerGroups } = useGridInstance<D>(apiRef);
 
   return (

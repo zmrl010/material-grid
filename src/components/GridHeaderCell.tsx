@@ -5,7 +5,7 @@ import {
   TableSortLabelClassKey,
 } from "@mui/material";
 import { BaseType, ClassKeyMap, ExtendClassKey } from "../types";
-import { useApiRef, useGridComponents } from "../api";
+import { useApiContext, useGridComponents } from "../api";
 import GridCell from "./GridCell";
 
 /**
@@ -45,7 +45,7 @@ export function GridHeaderCell<D extends BaseType = BaseType>(
 ) {
   const { column } = props;
 
-  const apiRef = useApiRef<D>();
+  const apiRef = useApiContext<D>();
   const { SortLabel } = useGridComponents(apiRef);
 
   const sortDirection = getSortDirection(column);

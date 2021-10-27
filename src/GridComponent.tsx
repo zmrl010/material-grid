@@ -30,12 +30,12 @@ function defaultGetRowId<D extends Id>(row: D) {
   return row.id.toString();
 }
 
+interface RowReorderEvent<D extends Id = Id> {
+  (data: D[], sourceIndex: number, destinationIndex: number): void;
+}
+
 export interface GridEvents<D extends Id = Id> {
-  onRowReorder?: (
-    data: D[],
-    sourceIndex: number,
-    destinationIndex: number
-  ) => void;
+  onRowReorder?: RowReorderEvent<D>;
 }
 
 export interface GridProps<D extends Id = Id>
@@ -43,6 +43,42 @@ export interface GridProps<D extends Id = Id>
     GridEvents<D>,
     TableProps {
   loading?: boolean;
+}
+
+/** Custom hook to encapsulate ordering functionality */
+function useOrderedRows<D extends Id = Id>(
+  rows: D[],
+  onRowReorder?: RowReorderEvent<D>
+) {
+  const [orderedRows, setOrderedRows] = useImmer(rows);
+
+  // effect to "reset" the data when data prop changes
+  const prevRows = useRef(rows);
+  useIsomorphicEffect(() => {
+    if (prevRows.current !== rows) {
+      setOrderedRows(rows);
+      prevRows.current = rows;
+    }
+  }, [rows]);
+
+  const moveRow = useCallback(
+    (sourceIndex: number, destinationIndex: number) => {
+      setOrderedRows((draftRecords) => {
+        const [record] = draftRecords.splice(sourceIndex, 1);
+        draftRecords.splice(destinationIndex, 0, record as Draft<D>);
+
+        // FIXME propper typing needed to avoid assertion
+        onRowReorder?.(
+          current(draftRecords) as D[],
+          sourceIndex,
+          destinationIndex
+        );
+      });
+    },
+    [onRowReorder]
+  );
+
+  return [orderedRows, moveRow] as const;
 }
 
 /**
@@ -61,22 +97,15 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     dragDropEvents = {},
     enableRowDragDrop = false,
     loading = false,
-    onRowReorder = () => {},
+    onRowReorder,
     defaultCanSort = true,
     disableSortBy = false,
     getRowId = defaultGetRowId,
     ...tableProps
   } = props;
 
-  const [orderedData, setOrderedData] = useImmer(data);
-  // effect to "reset" the data when data prop changes
-  const prevData = useRef(data);
-  useIsomorphicEffect(() => {
-    if (prevData.current !== data) {
-      setOrderedData(data);
-      prevData.current = data;
-    }
-  }, [data]);
+  const [orderedRows, moveRow] = useOrderedRows(data, onRowReorder);
+
   const components = useComponents(propComponents);
 
   const [headerBoundingRect, headerRef] = useBoundingRect();
@@ -92,7 +121,7 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
   const instance = useTable(
     {
       columns: columnsWithDragHandle,
-      data: orderedData,
+      data: orderedRows,
       disableSortBy,
       defaultCanSort,
       getRowId,
@@ -105,31 +134,14 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     useFlexLayout
   );
 
-  const reorder = useCallback(
-    (sourceIndex: number, destinationIndex: number) => {
-      setOrderedData((draftRecords) => {
-        const [record] = draftRecords.splice(sourceIndex, 1);
-        draftRecords.splice(destinationIndex, 0, record as Draft<D>);
-
-        // FIXME propper typing needed to avoid assertion
-        onRowReorder(
-          current(draftRecords) as D[],
-          sourceIndex,
-          destinationIndex
-        );
-      });
-    },
-    [onRowReorder]
-  );
-
   const onDragEnd = useCallback(
     (result: DropResult, provided: ResponderProvided) => {
       if (result.destination) {
-        reorder(result.source.index, result.destination.index);
+        moveRow(result.source.index, result.destination.index);
       }
       dragDropEvents.onDragEnd?.(result, provided);
     },
-    [reorder, dragDropEvents.onDragEnd]
+    [moveRow, dragDropEvents.onDragEnd]
   );
 
   const events = useMemo(
