@@ -17,7 +17,6 @@ export const GridRoot = styled(GridRootBase, {
 })(({ theme }) => ({
   boxSizing: "border-box",
   color: theme.palette.text.primary,
-  ...theme.typography.body2,
   outline: "none",
   height: "100%",
   display: "flex",
