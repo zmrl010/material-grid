@@ -50,7 +50,7 @@ export function GridHeaderCell<D extends BaseType = BaseType>(
 
   const sortDirection = getSortDirection(column);
 
-  // FIXME label shows even when col doesnt sort
+  // FIXME label shows even when col doesn't sort
   return (
     <GridCell
       {...column.getHeaderProps()}

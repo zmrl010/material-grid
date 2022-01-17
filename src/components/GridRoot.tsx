@@ -20,7 +20,8 @@ export const GridRoot = styled(GridRootBase, {
   ...theme.typography.body2,
   outline: "none",
   height: "100%",
-  display: "block",
+  display: "flex",
+  flexFlow: "column nowrap",
   overflow: "auto",
 
   "& *, & *::before, & *::after": {

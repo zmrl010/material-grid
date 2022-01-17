@@ -52,7 +52,7 @@ function useOrderedRows<D extends Id = Id>(
 ) {
   const [orderedRows, setOrderedRows] = useImmer(rows);
 
-  // effect to "reset" the data when data prop changes
+  // effect to "reset" rows when data changes
   const prevRows = useRef(rows);
   useIsomorphicEffect(() => {
     if (prevRows.current !== rows) {
@@ -67,7 +67,7 @@ function useOrderedRows<D extends Id = Id>(
         const [record] = draftRecords.splice(sourceIndex, 1);
         draftRecords.splice(destinationIndex, 0, record as Draft<D>);
 
-        // FIXME propper typing needed to avoid assertion
+        // FIXME proper typing needed to avoid assertion
         onRowReorder?.(
           current(draftRecords) as D[],
           sourceIndex,
