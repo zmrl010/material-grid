@@ -17,7 +17,7 @@
     "outDir": "./build",
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "sourceMap": true, // Generate corrresponding .map file
+    // "sourceMap": true, // Generate corrresponding .map file
     "strict": true,
     "target": "es6"
   },
