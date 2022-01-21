@@ -1,7 +1,7 @@
 {
   "name": "material-grid",
   "version": "1.2.0",
-  "description": "",
+  "description": "An extension of material-ui table components coupled with react-table to deliver a feature-rich data grid component.\r Similar to the material-ui data-grid component available from the lab packages.",
   "main": "build/index.js",
   "module": "build/index.js",
   "scripts": {
@@ -13,7 +13,7 @@
   "files": [
     "build"
   ],
-  "author": "",
+  "author": "zimmerel",
   "license": "ISC",
   "dependencies": {
     "@emotion/react": "^11.4.1",
@@ -48,5 +48,19 @@
     "@types/react-dom": "^17.0.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
-  }
+  },
+  "types": "./build\\index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zimmerel/material-grid.git"
+  },
+  "keywords": [
+    "react-table",
+    "mui",
+    "material-ui"
+  ],
+  "bugs": {
+    "url": "https://github.com/zimmerel/material-grid/issues"
+  },
+  "homepage": "https://github.com/zimmerel/material-grid#readme"
 }
