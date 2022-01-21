@@ -6,9 +6,11 @@
   "module": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "tsc --outDir ./build",
+    "build": "tsc --outDir ./build",
+    "prepare": "npm run build",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "postversion": "git push --follow-tags"
   },
   "files": [
     "build"
