@@ -31,3 +31,7 @@ export type ExtendClassKey<
 export type ClassKeyMap<K extends string> = {
   [Key in K]?: string;
 };
+
+export interface RowReorderEvent<D extends Id = Id> {
+  (data: D[], sourceIndex: number, destinationIndex: number): void;
+}

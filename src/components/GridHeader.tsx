@@ -28,13 +28,16 @@ const GridHead = forwardRef<HTMLDivElement, Props>(function GridHeader<
   );
 });
 
-export const GridHeader = styled(GridHead, { name: "Grid", slot: "Head" })(
-  ({ theme }) => ({
-    overflowY: "auto",
-    overflowX: "hidden",
-    backgroundColor: theme.palette.background.paper,
-    display: "flex",
-  })
-);
+export const GridHeader = styled(GridHead, {
+  name: "Grid",
+  slot: "Head",
+  shouldForwardProp: (prop) => prop !== "width",
+})<{ width?: string | number }>(({ theme, width }) => ({
+  width,
+  overflowY: "auto",
+  overflowX: "hidden",
+  backgroundColor: theme.palette.background.paper,
+  display: "flex",
+}));
 
 export default GridHeader;

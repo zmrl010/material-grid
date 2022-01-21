@@ -101,12 +101,17 @@ const DroppableBody = forwardRef(function DroppableBody<D extends Id = Id>(
   );
 });
 
-export const GridBody = styled(DroppableBody, { name: "Grid", slot: "Body" })({
+export const GridBody = styled(DroppableBody, {
+  name: "Grid",
+  slot: "Body",
+  shouldForwardProp: (prop) => prop !== "height",
+})<{ height?: string | number }>(({ height }) => ({
+  height,
   overflowY: "auto",
   overflowX: "hidden",
   flex: 1,
   display: "block",
   position: "relative",
-});
+}));
 
 export default GridBody;
