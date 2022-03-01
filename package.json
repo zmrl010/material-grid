@@ -1,6 +1,6 @@
 {
   "name": "material-grid",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "An extension of material-ui table components coupled with react-table to deliver a feature-rich data grid component.\r Similar to the material-ui data-grid component available from the lab packages.",
   "main": "build/index.js",
   "module": "build/index.js",
