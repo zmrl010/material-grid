@@ -13,15 +13,12 @@
     "postversion": "git push --follow-tags"
   },
   "files": [
-    "build"
+    "build",
+    "src"
   ],
   "author": "zimmerel",
   "license": "ISC",
   "dependencies": {
-    "@emotion/react": "^11.4.1",
-    "@emotion/styled": "^11.3.0",
-    "@mui/icons-material": "^5.2.5",
-    "@mui/material": "^5.2.8",
     "@types/react-table": "^7.7.9",
     "immer": "^9.0.1",
     "lodash": "^4.17.21",
@@ -46,6 +43,10 @@
     "prettier": "^2.2.1"
   },
   "peerDependencies": {
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.4.4",
+    "@mui/material": "^5.4.4",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "react": "^17.0.0",
