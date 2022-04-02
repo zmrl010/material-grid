@@ -1,12 +1,17 @@
 /**
  * WIP module for plugin to facilitate drag and drop functionality
- * TODO append column
- * TODO useInstance for config and related settings
  */
 import { useEffect } from "react";
 import { Hooks, Meta, Row, TableInstance } from "react-table";
-import { DRAG_HANDLE_COLUMN_ID } from "../../components";
-// import { dragHandleColumn } from "./dragHandleColumn";
+import { DRAG_HANDLE_COLUMN_ID } from "./column";
+
+export interface UseRowDragDropOptions {
+  enableRowDragDrop?: boolean;
+}
+
+export interface UseRowDragDropRowProps {
+  dragDropEnabled: boolean;
+}
 
 export function useRowDragDrop<D extends object = {}>(hooks: Hooks<D>) {
   hooks.prepareRow.push(prepareRow);
@@ -18,13 +23,10 @@ function prepareRow<D extends object = {}>(row: Row<D>, { instance }: Meta<D>) {
 }
 
 function useInstance<D extends object = {}>(instance: TableInstance<D>) {
-  const { enableRowDragDrop } = instance;
+  const { enableRowDragDrop, toggleHideColumn } = instance;
   useEffect(() => {
-    instance.toggleHideColumn(
-      DRAG_HANDLE_COLUMN_ID,
-      !instance.enableRowDragDrop
-    );
-  }, [enableRowDragDrop]);
+    toggleHideColumn(DRAG_HANDLE_COLUMN_ID, !enableRowDragDrop);
+  }, [enableRowDragDrop, toggleHideColumn]);
 }
 
 useRowDragDrop.pluginName = "useRowDragDrop";

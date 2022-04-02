@@ -1,62 +1,45 @@
-import {
-  styled,
-  TableRow,
-  TableRowClassKey,
-  TableRowProps,
-} from "@mui/material";
+import { TableRow, TableRowProps } from "@mui/material";
 import { Cell } from "react-table";
 import { Draggable } from "react-beautiful-dnd";
-import { BaseType, ClassKeyMap } from "../types";
+import { BaseType } from "../types";
 import GridCell from "./GridCell";
-
-export interface RowItem {
-  index: number;
-}
-
-export interface GridRowClasses {
-  root: string;
-}
-
-export type GridRowClassKey = TableRowClassKey;
 
 export interface GridRowProps<D extends BaseType = BaseType>
   extends TableRowProps {
   id: string;
   index: number;
   cells: Cell<D>[];
-  classes?: ClassKeyMap<TableRowClassKey>;
   dragDropEnabled?: boolean;
 }
 
-/**
- * Datatable Row with custom functionality
- * @param props
- * @returns
- */
-function DraggableGridRow<D extends BaseType = BaseType>(
-  props: GridRowProps<D>
-) {
-  const { id, index, cells, style, dragDropEnabled, ...rowProps } = props;
-
+export default function GridRow<D extends BaseType = BaseType>({
+  id,
+  index,
+  cells,
+  style,
+  dragDropEnabled,
+  ...rowProps
+}: GridRowProps<D>) {
   return (
     <Draggable draggableId={id} index={index} isDragDisabled={!dragDropEnabled}>
-      {(provided, snapshot) => (
+      {(
+        { innerRef, draggableProps, dragHandleProps },
+        { isDragging, isDropAnimating }
+      ) => (
         <TableRow
           component="div"
           {...rowProps}
-          {...provided.draggableProps}
+          {...draggableProps}
           sx={{
-            ...(snapshot.isDragging &&
-              !snapshot.isDropAnimating && { display: "table" }),
+            bgcolor: "background.paper",
+            display: isDragging && !isDropAnimating ? "table" : undefined,
           }}
-          style={{ ...style, ...provided.draggableProps.style }}
-          ref={provided.innerRef}
+          style={{ ...style, ...draggableProps.style }}
+          ref={innerRef}
         >
           {cells.map((cell) => (
-            <GridCell {...cell.getCellProps()} variant="body">
-              {cell.render("Cell", {
-                dragHandleProps: provided.dragHandleProps,
-              })}
+            <GridCell {...cell.getCellProps()} variant="body" component="div">
+              {cell.render("Cell", { dragHandleProps })}
             </GridCell>
           ))}
         </TableRow>
@@ -64,12 +47,3 @@ function DraggableGridRow<D extends BaseType = BaseType>(
     </Draggable>
   );
 }
-
-export const GridRow = styled(DraggableGridRow, {
-  name: "Grid",
-  slot: "Row",
-})(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-}));
-
-export default GridRow;

@@ -15,7 +15,7 @@ export interface MeasureRect {
 /**
  * simple helper to get only MeasureRect props from DOMRect object
  */
-function getMeasureRect(rect: DOMRect) {
+function getMeasureRect(rect: DOMRect): MeasureRect {
   const { x, y, width, height, top, left, bottom, right } = rect;
 
   return {

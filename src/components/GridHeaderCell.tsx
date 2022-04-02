@@ -1,73 +1,44 @@
 import { HeaderGroup } from "react-table";
-import {
-  TableCellClassKey,
-  TableCellProps,
-  TableSortLabelClassKey,
-} from "@mui/material";
-import { BaseType, ClassKeyMap, ExtendClassKey } from "../types";
-import { useApiContext, useGridComponents } from "../api";
+import { TableCellProps, TableSortLabel } from "@mui/material";
+import { BaseType } from "../types";
 import GridCell from "./GridCell";
 
-/**
- *
- * @param param0
- * @returns
- */
-function getSortDirection(column: {
-  isSorted?: boolean;
-  isSortedDesc?: boolean;
-}) {
-  const { isSorted, isSortedDesc } = column;
-
+function getSortDirection({
+  isSorted,
+  isSortedDesc,
+}: Pick<HeaderGroup, "isSorted" | "isSortedDesc">) {
   if (isSorted) {
     return isSortedDesc ? "desc" : "asc";
   }
   return undefined;
 }
 
-type HeaderCellSortLabelClassKey = ExtendClassKey<
-  "sortLabel",
-  TableSortLabelClassKey
->;
-
-export type GridHeaderCellClassKey =
-  | TableCellClassKey
-  | HeaderCellSortLabelClassKey;
-
 export interface GridHeaderCellProps<D extends BaseType = BaseType>
   extends TableCellProps {
   column: HeaderGroup<D>;
-  classes?: ClassKeyMap<GridHeaderCellClassKey>;
 }
 
-export function GridHeaderCell<D extends BaseType = BaseType>(
-  props: GridHeaderCellProps<D>
-) {
-  const { column } = props;
-
-  const apiRef = useApiContext<D>();
-  const { SortLabel } = useGridComponents(apiRef);
-
+export default function GridHeaderCell<D extends BaseType = BaseType>({
+  column,
+  ...props
+}: GridHeaderCellProps<D>) {
   const sortDirection = getSortDirection(column);
 
-  // FIXME label shows even when col doesn't sort
   return (
     <GridCell
-      {...column.getHeaderProps()}
+      {...props}
       sortDirection={sortDirection}
       variant="head"
+      component="div"
     >
-      {column.canSort ? (
-        <SortLabel
-          active={column.isSorted}
-          direction={sortDirection}
-          {...column.getSortByToggleProps()}
-        >
-          {column.render("Header")}
-        </SortLabel>
-      ) : (
-        column.render("Header")
-      )}
+      <TableSortLabel
+        active={column.canSort && column.isSorted}
+        direction={sortDirection}
+        hideSortIcon
+        {...column.getSortByToggleProps()}
+      >
+        {column.render("Header")}
+      </TableSortLabel>
     </GridCell>
   );
 }

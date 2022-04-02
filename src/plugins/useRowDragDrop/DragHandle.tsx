@@ -8,19 +8,15 @@ export interface DragHandleProps extends DraggableProvidedDragHandleProps {
   style?: CSSProperties;
 }
 
-type Props = DragHandleProps;
-
 /**
  * Icon-button handle for drag and drop
  * @param props
  * @returns
  */
-export function DragHandle(props: Props) {
+export default function DragHandle(props: DragHandleProps) {
   return (
-    <Box sx={{ display: "flex" }} {...props}>
+    <Box display="flex" {...props}>
       <DragIndicator />
     </Box>
   );
 }
-
-export default DragHandle;

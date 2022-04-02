@@ -24,15 +24,3 @@ export function setRef<T>(ref: Ref<T>, value: T | null) {
     ref.current = value;
   }
 }
-
-/**
- * Pass multiple refs and return a setter function
- * that accepts a single value and sets all the refs that were passed to it
- */
-export function createRefSetter<T>(...refs: Ref<T>[]) {
-  return (value: T | null) => {
-    for (let ref of refs) {
-      setRef(ref, value);
-    }
-  };
-}

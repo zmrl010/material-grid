@@ -1,13 +1,6 @@
-import { styled, TableCell, TableCellProps } from "@mui/material";
-import { forwardRef } from "react";
+import { styled, TableCell } from "@mui/material";
 
-export interface GridCellProps extends TableCellProps {}
-
-const DivCell = forwardRef<HTMLDivElement, GridCellProps>((props, ref) => (
-  <TableCell component="div" ref={ref} {...props} />
-));
-
-export const GridCell = styled(DivCell, { name: "Grid", slot: "Cell" })(
+const GridCell = styled(TableCell, { name: "Grid", slot: "Cell" })(
   ({ theme }) => ({
     display: "flex",
     overflow: "hidden",

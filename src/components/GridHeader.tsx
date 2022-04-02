@@ -1,19 +1,14 @@
 import { TableHead, TableHeadProps, TableRow, styled } from "@mui/material";
 import { ForwardedRef, forwardRef } from "react";
-import { useApiContext, useGridInstance } from "../api";
+import { useTableInstance } from "../table-context";
 import { BaseType } from "../types";
-import { GridHeaderCell } from "./GridHeaderCell";
+import GridHeaderCell from "./GridHeaderCell";
 
-// TODO pass TableHeadProps to TableHead properly
-export interface GridHeaderProps extends TableHeadProps {}
-
-type Props = GridHeaderProps;
-
-const GridHead = forwardRef<HTMLDivElement, Props>(function GridHeader<
-  D extends BaseType = BaseType
->(props: Props, ref: ForwardedRef<HTMLDivElement>) {
-  const apiRef = useApiContext<D>();
-  const { headerGroups } = useGridInstance<D>(apiRef);
+const GridHead = forwardRef(function GridHeader<D extends BaseType = BaseType>(
+  props: TableHeadProps,
+  ref: ForwardedRef<HTMLDivElement>
+) {
+  const { headerGroups } = useTableInstance<D>();
 
   return (
     <TableHead component="div" {...props} ref={ref}>

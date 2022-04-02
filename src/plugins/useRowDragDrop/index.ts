@@ -1,3 +1,2 @@
 export * from "./useRowDragDrop";
-
-export * from "./types";
+export * from "./column";

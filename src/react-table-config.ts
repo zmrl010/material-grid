@@ -2,7 +2,7 @@ import { CSSProperties } from "react";
 import {
   UseRowDragDropOptions,
   UseRowDragDropRowProps,
-} from "./plugins/useRowDragDrop/types";
+} from "./plugins/useRowDragDrop";
 export interface ColumnStyling {
   style?: CSSProperties;
   className?: string;

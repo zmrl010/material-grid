@@ -1,8 +1,5 @@
 import { DragDropContextProps } from "react-beautiful-dnd";
 import { TableOptions } from "react-table";
-import { DEFAULT_COMPONENTS } from "./components/const";
-
-export type GridComponents = typeof DEFAULT_COMPONENTS;
 
 export type BaseType = {};
 
@@ -19,7 +16,6 @@ export type DragEventMap = Pick<
 
 export interface GridOptions<D extends Id = Id> extends TableOptions<D> {
   enableRowDragDrop?: boolean;
-  components?: GridComponents;
   dragDropEvents?: Partial<DragEventMap>;
 }
 

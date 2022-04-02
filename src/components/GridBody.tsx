@@ -1,26 +1,14 @@
-import {
-  CSSProperties,
-  ForwardedRef,
-  forwardRef,
-  useCallback,
-  memo,
-} from "react";
+import { CSSProperties, ForwardedRef, forwardRef, memo } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { styled, TableBody } from "@mui/material";
+import { useForkRef } from "../hooks";
+import { useTableInstance } from "../table-context";
 import GridRow from "./GridRow";
-import { useApiContext, useGridApi } from "../api";
-import { setRef } from "../util";
 import { Row } from "react-table";
 
 import type { Id } from "../types";
-
-export interface GridBodyProps {
-  className?: string;
-  style?: CSSProperties;
-  loading: boolean;
-}
-
-type Props = GridBodyProps;
+import LoadingOverlay from "./LoadingOverlay";
+import NoRowsOverlay from "./NoRowsOverlay";
 
 interface GridBodyRowsProps {
   rows: Row<any>[];
@@ -48,35 +36,27 @@ export const GridBodyRows = memo(function GridBodyRows(
   );
 });
 
+export interface GridBodyProps {
+  className?: string;
+  style?: CSSProperties;
+  loading?: boolean;
+}
+
 const DroppableBody = forwardRef(function DroppableBody<D extends Id = Id>(
-  props: Props,
+  { loading, className, style }: GridBodyProps,
   ref: ForwardedRef<HTMLDivElement>
 ) {
-  const { loading, className, style } = props;
-
-  const apiRef = useApiContext<D>();
-  const {
-    instance,
-    components: { LoadingOverlay, NoRowsOverlay },
-    hasRows,
-  } = useGridApi(apiRef);
+  const instance = useTableInstance<D>();
   const { role } = instance.getTableBodyProps();
 
   return (
     <Droppable droppableId="grid-body">
       {(provided) => {
-        /**
-         * Set both the passed ref from outside the component
-         * and the provided ref from the droppable callback
-         */
-        const bodyRef = useCallback((element: HTMLDivElement | null) => {
-          setRef(ref, element);
-          setRef(provided.innerRef, element);
-        }, []);
+        const bodyRef = useForkRef<HTMLDivElement>(ref, provided.innerRef);
 
         return (
           <TableBody
-            component={"div"}
+            component="div"
             role={role}
             className={className}
             style={style}
@@ -85,7 +65,7 @@ const DroppableBody = forwardRef(function DroppableBody<D extends Id = Id>(
           >
             {loading ? (
               <LoadingOverlay />
-            ) : !hasRows() ? (
+            ) : instance.rows.length === 0 ? (
               <NoRowsOverlay />
             ) : (
               <GridBodyRows
