@@ -2,25 +2,25 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
-    "declaration": true, // Generate corresponding .d.ts file
+    "declaration": true,
+    "declarationMap": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "incremental": true, // Enable incremental compilation by reading/writing information from prior compilations to a file on disk
+    "incremental": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
     "lib": ["dom.iterable", "dom", "esnext"],
     "module": "esnext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true, // Report errors on unused locals
-    "noUnusedParameters": true, // Report errors on unused parameters
-    "outDir": "./build",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "./dist",
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    // "sourceMap": true, // Generate corrresponding .map file
+    "sourceMap": true,
     "strict": true,
     "target": "es6"
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "build"]
+  "include": ["src"]
 }
