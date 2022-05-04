@@ -4,6 +4,7 @@ import {
   useRowSelect,
   usePagination,
   useFlexLayout,
+  Column,
 } from "react-table";
 import { useMemo, useRef } from "react";
 import { DropResult, ResponderProvided } from "react-beautiful-dnd";
@@ -50,10 +51,10 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
   const rootRef = useRef<HTMLDivElement | null>(null);
 
   const columnsWithDragHandle = useMemo(
-    () => [dragHandleColumn, ...columns],
+    () => [dragHandleColumn as Column<D>, ...columns],
     [columns]
   );
-  const instance = useTable(
+  const instance = useTable<D>(
     {
       columns: columnsWithDragHandle,
       data: orderedRows,
