@@ -7,7 +7,7 @@ Install this in your project and import the Grid component to use where needed.
 
 ## Install
 
-This package currently is not in the npm registry. To install it, run `npm install https://github.com/zimmerel/material-grid.git`.
+This package currently is not in the npm registry. To install it, run `npm install https://github.com/zmrl010/material-grid.git`.
 
 ## Usage
 
