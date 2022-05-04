@@ -1,14 +1,13 @@
 import { TableHead, TableHeadProps, TableRow, styled } from "@mui/material";
-import { ForwardedRef, forwardRef } from "react";
+import { forwardRef } from "react";
 import { useTableInstance } from "../table-context";
-import { BaseType } from "../types";
 import GridHeaderCell from "./GridHeaderCell";
 
-const GridHead = forwardRef(function GridHeader<D extends BaseType = BaseType>(
-  props: TableHeadProps,
-  ref: ForwardedRef<HTMLDivElement>
+const GridHead = forwardRef<HTMLDivElement, TableHeadProps>(function GridHeader(
+  props,
+  ref
 ) {
-  const { headerGroups } = useTableInstance<D>();
+  const { headerGroups } = useTableInstance();
 
   return (
     <TableHead component="div" {...props} ref={ref}>
@@ -31,7 +30,7 @@ const GridHead = forwardRef(function GridHeader<D extends BaseType = BaseType>(
   );
 });
 
-export const GridHeader = styled(GridHead, {
+const GridHeader = styled(GridHead, {
   name: "Grid",
   slot: "Head",
   shouldForwardProp: (prop) => prop !== "width",

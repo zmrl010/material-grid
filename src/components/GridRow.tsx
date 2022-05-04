@@ -3,15 +3,10 @@ import type { Cell } from "react-table";
 import type { BaseType } from "../types";
 import GridCell from "./GridCell";
 
-export interface GridRowProps<D extends BaseType = BaseType>
-  extends TableRowProps {
-  cells: Cell<D>[];
-}
-
 export default function GridRow<D extends BaseType = BaseType>({
   cells,
   ...rowProps
-}: GridRowProps<D>) {
+}: TableRowProps & { cells: Cell<D>[] }) {
   return (
     <TableRow
       component="div"

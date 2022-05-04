@@ -1,6 +1,6 @@
-import { HeaderGroup } from "react-table";
-import { TableCellProps, TableSortLabel } from "@mui/material";
-import { BaseType } from "../types";
+import type { HeaderGroup } from "react-table";
+import { type TableCellProps, TableSortLabel } from "@mui/material";
+import type { BaseType } from "../types";
 import GridCell from "./GridCell";
 
 function getSortDirection({
@@ -13,15 +13,10 @@ function getSortDirection({
   return undefined;
 }
 
-export interface GridHeaderCellProps<D extends BaseType = BaseType>
-  extends TableCellProps {
-  column: HeaderGroup<D>;
-}
-
 export default function GridHeaderCell<D extends BaseType = BaseType>({
   column,
   ...props
-}: GridHeaderCellProps<D>) {
+}: TableCellProps & { column: HeaderGroup<D> }) {
   const sortDirection = getSortDirection(column);
 
   return (

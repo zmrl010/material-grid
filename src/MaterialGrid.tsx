@@ -4,36 +4,28 @@ import {
   useRowSelect,
   usePagination,
   useFlexLayout,
-  TableOptions,
+  type TableOptions,
 } from "react-table";
 import { useRef } from "react";
-import { NoSsr, TableProps } from "@mui/material";
-import { GridRoot } from "./components";
+import { NoSsr, type TableProps } from "@mui/material";
+import GridRoot from "./components/GridRoot";
 import { Id } from "./types";
 import { TableContext } from "./table-context";
 
-function defaultGetRowId<D extends Id>(row: D) {
-  return row.id.toString();
-}
-
-export interface GridProps<D extends Id = Id>
-  extends TableOptions<D>,
+export interface MaterialGridProps<D extends Id = Id>
+  extends Pick<TableOptions<D>, "data" | "columns">,
     TableProps {
   loading?: boolean;
+  options?: TableOptions<D>;
 }
 
 /**
  * Main grid component
  */
-export function Grid<D extends Id = Id>(props: GridProps<D>) {
-  const {
-    columns,
-    data,
-    defaultCanSort = false,
-    disableSortBy = false,
-    getRowId = defaultGetRowId,
-    ...tableProps
-  } = props;
+export default function MaterialGrid<D extends Id = Id>(
+  props: MaterialGridProps<D>
+) {
+  const { columns, data, options, ...tableProps } = props;
 
   const rootRef = useRef<HTMLDivElement | null>(null);
 
@@ -41,9 +33,7 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     {
       columns,
       data,
-      disableSortBy,
-      defaultCanSort,
-      getRowId,
+      ...options,
     },
     useSortBy,
     usePagination,
@@ -59,5 +49,3 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     </TableContext.Provider>
   );
 }
-
-export default Grid;

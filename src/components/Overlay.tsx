@@ -1,9 +1,6 @@
 import { styled } from "@mui/material";
-import { HTMLAttributes } from "react";
 
-export type OverlayProps = HTMLAttributes<HTMLDivElement>;
-
-export const Overlay = styled("div", { name: "Grid", slot: "Overlay" })(
+const Overlay = styled("div", { name: "Grid", slot: "Overlay" })(
   ({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
     display: "flex",

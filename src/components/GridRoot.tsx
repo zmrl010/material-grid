@@ -37,7 +37,7 @@ const GridRootBase = forwardRef<HTMLDivElement, GridRootProps>(
   }
 );
 
-export const GridRoot = memo(
+const GridRoot = memo(
   styled(GridRootBase, {
     name: "Grid",
     slot: "Root",
@@ -45,7 +45,7 @@ export const GridRoot = memo(
     boxSizing: "border-box",
     color: theme.palette.text.primary,
     outline: "none",
-    height: "100vh",
+    height: "100%",
     display: "table",
     flexFlow: "column nowrap",
     overflow: "auto",
