@@ -1,12 +1,9 @@
-import { CSSProperties, ForwardedRef, forwardRef, memo } from "react";
-import { Droppable } from "react-beautiful-dnd";
+import { type CSSProperties, forwardRef, memo } from "react";
 import { CircularProgress, styled, TableBody, Typography } from "@mui/material";
 import { useTableInstance } from "../table-context";
 import GridRow from "./GridRow";
 import Overlay from "./Overlay";
 import type { Row } from "react-table";
-import type { Id } from "../types";
-import { setRef } from "../util";
 
 interface GridBodyRowsProps {
   rows: Row[];
@@ -21,14 +18,7 @@ export const GridBodyRows = memo(function GridBodyRows(
       {props.rows.map((row) => {
         props.prepareRow(row);
         return (
-          <GridRow
-            {...row.getRowProps()}
-            key={row.id}
-            dragDropEnabled={row.dragDropEnabled}
-            id={row.id}
-            index={row.index}
-            cells={row.cells}
-          />
+          <GridRow {...row.getRowProps()} key={row.id} cells={row.cells} />
         );
       })}
     </>
@@ -41,51 +31,36 @@ export interface GridBodyProps {
   loading?: boolean;
 }
 
-const DroppableBody = forwardRef(function DroppableBody(
-  { loading, className, style }: GridBodyProps,
-  ref: ForwardedRef<HTMLDivElement>
-) {
-  const instance = useTableInstance();
-  const { role } = instance.getTableBodyProps();
+const GridBodyBase = forwardRef<HTMLDivElement, GridBodyProps>(
+  function GridBodyBase({ loading, className, style }, ref) {
+    const instance = useTableInstance();
+    const { role } = instance.getTableBodyProps();
 
-  return (
-    <Droppable droppableId="grid-body">
-      {(provided) => {
-        return (
-          <TableBody
-            component="div"
-            role={role}
-            className={className}
-            style={style}
-            ref={(element: HTMLDivElement) => {
-              setRef(ref, element);
-              setRef(provided.innerRef, element);
-            }}
-            {...provided.droppableProps}
-          >
-            {loading ? (
-              <Overlay>
-                <CircularProgress />
-              </Overlay>
-            ) : instance.rows.length === 0 ? (
-              <Overlay>
-                <Typography>No data to display.</Typography>
-              </Overlay>
-            ) : (
-              <GridBodyRows
-                rows={instance.rows}
-                prepareRow={instance.prepareRow}
-              />
-            )}
-            {provided.placeholder}
-          </TableBody>
-        );
-      }}
-    </Droppable>
-  );
-});
+    return (
+      <TableBody
+        component="div"
+        role={role}
+        className={className}
+        style={style}
+        ref={ref}
+      >
+        {loading ? (
+          <Overlay>
+            <CircularProgress />
+          </Overlay>
+        ) : instance.rows.length === 0 ? (
+          <Overlay>
+            <Typography>No data to display.</Typography>
+          </Overlay>
+        ) : (
+          <GridBodyRows rows={instance.rows} prepareRow={instance.prepareRow} />
+        )}
+      </TableBody>
+    );
+  }
+);
 
-export const GridBody = styled(DroppableBody, {
+export const GridBody = styled(GridBodyBase, {
   name: "Grid",
   slot: "Body",
   shouldForwardProp: (prop) => prop !== "height",

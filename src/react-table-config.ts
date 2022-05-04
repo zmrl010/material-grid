@@ -1,8 +1,4 @@
 import { CSSProperties } from "react";
-import {
-  UseRowDragDropOptions,
-  UseRowDragDropRowProps,
-} from "./plugins/useRowDragDrop";
 export interface ColumnStyling {
   style?: CSSProperties;
   className?: string;
@@ -22,8 +18,7 @@ declare module "react-table" {
       UseGlobalFiltersOptions<D>,
       UsePaginationOptions<D>,
       UseResizeColumnsOptions<D>,
-      UseSortByOptions<D>,
-      UseRowDragDropOptions {}
+      UseSortByOptions<D> {}
 
   export interface Hooks<D extends object>
     extends UseExpandedHooks<D>,
@@ -58,8 +53,4 @@ declare module "react-table" {
       UseGroupByColumnProps<D>,
       UseResizeColumnsColumnProps<D>,
       UseSortByColumnProps<D> {}
-
-  export interface Row<D extends object>
-    extends UseExpandedRowProps<D>,
-      UseRowDragDropRowProps {}
 }
