@@ -1,18 +1,16 @@
 import { CSSProperties, ForwardedRef, forwardRef, memo } from "react";
 import { Droppable } from "react-beautiful-dnd";
-import { styled, TableBody } from "@mui/material";
-import { useForkRef } from "../hooks";
+import { CircularProgress, styled, TableBody, Typography } from "@mui/material";
 import { useTableInstance } from "../table-context";
 import GridRow from "./GridRow";
-import { Row } from "react-table";
-
+import Overlay from "./Overlay";
+import type { Row } from "react-table";
 import type { Id } from "../types";
-import LoadingOverlay from "./LoadingOverlay";
-import NoRowsOverlay from "./NoRowsOverlay";
+import { setRef } from "../util";
 
 interface GridBodyRowsProps {
-  rows: Row<any>[];
-  prepareRow: (row: Row<any>) => void;
+  rows: Row[];
+  prepareRow: (row: Row) => void;
 }
 
 export const GridBodyRows = memo(function GridBodyRows(
@@ -25,6 +23,7 @@ export const GridBodyRows = memo(function GridBodyRows(
         return (
           <GridRow
             {...row.getRowProps()}
+            key={row.id}
             dragDropEnabled={row.dragDropEnabled}
             id={row.id}
             index={row.index}
@@ -42,31 +41,36 @@ export interface GridBodyProps {
   loading?: boolean;
 }
 
-const DroppableBody = forwardRef(function DroppableBody<D extends Id = Id>(
+const DroppableBody = forwardRef(function DroppableBody(
   { loading, className, style }: GridBodyProps,
   ref: ForwardedRef<HTMLDivElement>
 ) {
-  const instance = useTableInstance<D>();
+  const instance = useTableInstance();
   const { role } = instance.getTableBodyProps();
 
   return (
     <Droppable droppableId="grid-body">
       {(provided) => {
-        const bodyRef = useForkRef<HTMLDivElement>(ref, provided.innerRef);
-
         return (
           <TableBody
             component="div"
             role={role}
             className={className}
             style={style}
-            ref={bodyRef}
+            ref={(element: HTMLDivElement) => {
+              setRef(ref, element);
+              setRef(provided.innerRef, element);
+            }}
             {...provided.droppableProps}
           >
             {loading ? (
-              <LoadingOverlay />
+              <Overlay>
+                <CircularProgress />
+              </Overlay>
             ) : instance.rows.length === 0 ? (
-              <NoRowsOverlay />
+              <Overlay>
+                <Typography>No data to display.</Typography>
+              </Overlay>
             ) : (
               <GridBodyRows
                 rows={instance.rows}

@@ -38,7 +38,12 @@ export default function GridRow<D extends BaseType = BaseType>({
           ref={innerRef}
         >
           {cells.map((cell) => (
-            <GridCell {...cell.getCellProps()} variant="body" component="div">
+            <GridCell
+              {...cell.getCellProps()}
+              key={cell.column.id}
+              variant="body"
+              component="div"
+            >
               {cell.render("Cell", { dragHandleProps })}
             </GridCell>
           ))}

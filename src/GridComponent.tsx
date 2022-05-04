@@ -12,7 +12,7 @@ import { NoSsr, TableProps } from "@mui/material";
 import { GridRoot, GridProvider } from "./components";
 import { GridOptions, Id, RowReorderEvent } from "./types";
 import { useRowDragDrop, dragHandleColumn } from "./plugins/useRowDragDrop";
-import { useOrderedRows } from "./hooks/useOrderedRows";
+import { useOrderedRows } from "./hooks";
 
 function defaultGetRowId<D extends Id>(row: D) {
   return row.id.toString();
@@ -40,7 +40,6 @@ export function Grid<D extends Id = Id>(props: GridProps<D>) {
     onRowReorder,
     dragDropEvents,
     enableRowDragDrop = false,
-    loading = false,
     defaultCanSort = false,
     disableSortBy = false,
     getRowId = defaultGetRowId,

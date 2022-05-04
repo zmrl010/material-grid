@@ -1,36 +1,9 @@
 import { useCallback, useState } from "react";
-import { useResizeObserver } from "./useResizeObserver";
+import useResizeObserver from "./useResizeObserver";
 
-export interface MeasureRect {
-  x: number;
-  y: number;
-  top: number;
-  left: number;
-  right: number;
-  bottom: number;
-  height: number;
-  width: number;
-}
+export type Rect = Omit<DOMRect, "toJSON">;
 
-/**
- * simple helper to get only MeasureRect props from DOMRect object
- */
-function getMeasureRect(rect: DOMRect): MeasureRect {
-  const { x, y, width, height, top, left, bottom, right } = rect;
-
-  return {
-    x,
-    y,
-    width,
-    height,
-    top,
-    left,
-    bottom,
-    right,
-  };
-}
-
-const defaultMeasureData = {
+const defaultRect: Rect = {
   x: 0,
   y: 0,
   top: 0,
@@ -41,20 +14,19 @@ const defaultMeasureData = {
   width: 0,
 };
 
-export type UseMeasureRef<E extends Element = Element> = (element: E) => void;
-export type UseMeasureResults<E extends Element = Element> = [
-  UseMeasureRef<E>,
-  UseMeasureResults
-];
-
-export function useMeasure<E extends Element = Element>() {
+/**
+ * Get rectangular measurements of an HTMLElement
+ * @returns
+ * * ref to pass to element to observe
+ * * state of that element rect
+ */
+export default function useElementRect<E extends Element = Element>() {
   const [element, ref] = useState<E | null>(null);
-  const [rect, setRect] = useState<MeasureRect>(defaultMeasureData);
+  const [rect, setRect] = useState<Rect>(defaultRect);
 
   const measureNode = useCallback(([entry]: ResizeObserverEntry[]) => {
     if (entry) {
-      const rect = getMeasureRect(entry.contentRect);
-      setRect(rect);
+      setRect(entry.contentRect);
     }
   }, []);
 

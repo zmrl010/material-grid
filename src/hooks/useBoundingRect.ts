@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-export function useBoundingRect(): [
+export default function useBoundingRect(): [
   rect: DOMRect | undefined,
   ref: (element: HTMLElement | null) => void
 ] {
@@ -11,5 +11,3 @@ export function useBoundingRect(): [
 
   return [boundingRect, measureRef];
 }
-
-export default useBoundingRect;

@@ -6,5 +6,3 @@ export * from "./GridProvider";
 export * from "./GridRoot";
 export * from "./GridRow";
 export * from "./Overlay";
-export * from "./LoadingOverlay";
-export * from "./NoRowsOverlay";

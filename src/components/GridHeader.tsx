@@ -13,9 +13,17 @@ const GridHead = forwardRef(function GridHeader<D extends BaseType = BaseType>(
   return (
     <TableHead component="div" {...props} ref={ref}>
       {headerGroups.map((headerGroup) => (
-        <TableRow {...headerGroup.getHeaderGroupProps()} component="div">
+        <TableRow
+          {...headerGroup.getHeaderGroupProps()}
+          key={headerGroup.id}
+          component="div"
+        >
           {headerGroup.headers.map((column) => (
-            <GridHeaderCell column={column} {...column.getHeaderProps()} />
+            <GridHeaderCell
+              column={column}
+              {...column.getHeaderProps()}
+              key={column.id}
+            />
           ))}
         </TableRow>
       ))}

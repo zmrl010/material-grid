@@ -2,12 +2,12 @@ import { useCallback, useRef } from "react";
 import { useImmer } from "use-immer";
 import { current } from "immer";
 import { Id, RowReorderEvent } from "../types";
-import { useIsomorphicEffect } from "./useIsomorphicEffect";
+import useIsomorphicEffect from "./useIsomorphicEffect";
 
 /**
  * Stores row data and provide function to move a row to a different index
  */
-export function useOrderedRows<D extends Id = Id>(
+export default function useOrderedRows<D extends Id = Id>(
   rows: readonly D[],
   onRowReorder?: RowReorderEvent<D>
 ) {
@@ -36,7 +36,7 @@ export function useOrderedRows<D extends Id = Id>(
         );
       });
     },
-    [onRowReorder]
+    [onRowReorder, setOrderedRows]
   );
 
   return [orderedRows, moveRow] as const;

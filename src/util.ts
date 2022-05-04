@@ -1,11 +1,5 @@
 import { MutableRefObject } from "react";
 
-export const isBrowser = typeof window !== "undefined";
-
-export function ownerDocument(node: Node | null | undefined): Document {
-  return (node && node.ownerDocument) || document;
-}
-
 type Ref<T> =
   | MutableRefObject<T | null>
   | ((instance: T | null) => void)
