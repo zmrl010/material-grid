@@ -3,7 +3,7 @@ import { useRef } from "react";
 import type { TableInstance } from "react-table";
 import useBoundingRect from "../hooks/useBoundingRect";
 import useScrollbarSizeDetector from "../hooks/useScrollbarSizeDetector";
-import GridBodyContent from "./GridBodyContent";
+import GridContent from "./GridContent";
 import GridContainer from "./GridContainer";
 import GridHeaderRow from "./GridHeaderRow";
 
@@ -39,7 +39,7 @@ export default function GridRoot({
           sx={{ height: bodyHeight }}
           {...instance.getTableBodyProps()}
         >
-          <GridBodyContent loading={loading} instance={instance} />
+          <GridContent loading={loading} instance={instance} />
         </TableBody>
       </Table>
     </GridContainer>

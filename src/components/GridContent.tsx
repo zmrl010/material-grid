@@ -4,7 +4,7 @@ import type { TableInstance } from "react-table";
 import GridRow from "./GridRow";
 import Overlay from "./Overlay";
 
-export interface GridBodyProps {
+export interface GridContentProps {
   className?: string;
   height: number | string;
   instance: TableInstance;
@@ -12,10 +12,10 @@ export interface GridBodyProps {
   style?: CSSProperties;
 }
 
-export default function GridBodyContent({
+export default function GridContent({
   loading,
   instance,
-}: Pick<GridBodyProps, "loading" | "instance">) {
+}: Pick<GridContentProps, "loading" | "instance">) {
   if (loading) {
     return (
       <Overlay>
