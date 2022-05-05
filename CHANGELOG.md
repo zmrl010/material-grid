@@ -1,3 +1,24 @@
+# [3.0.0](https://github.com/zmrl010/material-grid/compare/v2.0.0...v3.0.0) (2022-05-05)
+
+
+### Bug Fixes
+
+* **ci:** fix misnamed job condition ([bc72653](https://github.com/zmrl010/material-grid/commit/bc72653174356d78aa68fbec09ab52f0fb1200b1))
+* **tests:** ignore dist dir ([b387659](https://github.com/zmrl010/material-grid/commit/b38765970bb47fe4ba0fd1408774779497e4bd5f))
+
+
+* chore!: remove generics and context ([7032446](https://github.com/zmrl010/material-grid/commit/7032446b08c38732c1b6287d1f4b421cf5afbc89))
+
+
+### Features
+
+* include npm publish with release ([6b31b05](https://github.com/zmrl010/material-grid/commit/6b31b0566d4566abee75f59e04bf01018dd47674))
+
+
+### BREAKING CHANGES
+
+* Both features are too complex and provide little benefit.
+
 # [2.0.0](https://github.com/zmrl010/material-grid/compare/v1.4.0...v2.0.0) (2022-05-04)
 
 
