@@ -1,66 +1,60 @@
-import { type CSSProperties, forwardRef } from "react";
-import { CircularProgress, styled, TableBody, Typography } from "@mui/material";
-import { useTableInstance } from "../table-context";
+import { CircularProgress, TableBody, Typography } from "@mui/material";
+import { forwardRef, type CSSProperties } from "react";
+import type { TableInstance } from "react-table";
 import GridRow from "./GridRow";
 import Overlay from "./Overlay";
 
 export interface GridBodyProps {
   className?: string;
-  style?: CSSProperties;
+  height: number | string;
+  instance: TableInstance;
   loading?: boolean;
+  style?: CSSProperties;
 }
 
-const GridBodyBase = forwardRef<HTMLDivElement, GridBodyProps>(
-  function GridBodyBase({ loading, className, style }, ref) {
-    const { rows, getTableBodyProps, prepareRow } = useTableInstance();
-    const { role } = getTableBodyProps();
-
+function GridBodyContent({
+  loading,
+  instance,
+}: Pick<GridBodyProps, "loading" | "instance">) {
+  if (loading) {
     return (
-      <TableBody
-        component="div"
-        role={role}
-        className={className}
-        style={style}
-        ref={ref}
-      >
-        {loading ? (
-          <Overlay>
-            <CircularProgress />
-          </Overlay>
-        ) : rows.length === 0 ? (
-          <Overlay>
-            <Typography>No data to display.</Typography>
-          </Overlay>
-        ) : (
-          <>
-            {rows.map((row) => {
-              prepareRow(row);
-              return (
-                <GridRow
-                  {...row.getRowProps()}
-                  key={row.id}
-                  cells={row.cells}
-                />
-              );
-            })}
-          </>
-        )}
-      </TableBody>
+      <Overlay>
+        <CircularProgress />
+      </Overlay>
     );
   }
-);
 
-const GridBody = styled(GridBodyBase, {
-  name: "Grid",
-  slot: "Body",
-  shouldForwardProp: (prop) => prop !== "height",
-})<{ height?: string | number }>(({ height }) => ({
-  height,
-  overflowY: "auto",
-  overflowX: "hidden",
-  flex: 1,
-  display: "block",
-  position: "relative",
-}));
+  if (instance.rows.length === 0) {
+    return (
+      <Overlay>
+        <Typography>No data to display.</Typography>
+      </Overlay>
+    );
+  }
+
+  return (
+    <>
+      {instance.rows.map((row) => {
+        instance.prepareRow(row);
+        return (
+          <GridRow {...row.getRowProps()} key={row.id} cells={row.cells} />
+        );
+      })}
+    </>
+  );
+}
+
+const GridBody = forwardRef<HTMLDivElement, GridBodyProps>(function GridBody(
+  { loading, height, instance, ...props },
+  ref
+) {
+  const { role } = instance.getTableBodyProps();
+
+  return (
+    <TableBody component="div" role={role} ref={ref} sx={{ height }} {...props}>
+      <GridBodyContent loading={loading} instance={instance} />
+    </TableBody>
+  );
+});
 
 export default GridBody;

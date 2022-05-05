@@ -6,30 +6,23 @@ import {
   useFlexLayout,
   type TableOptions,
 } from "react-table";
-import { useRef } from "react";
-import { NoSsr, type TableProps } from "@mui/material";
+import { type TableProps } from "@mui/material";
 import GridRoot from "./components/GridRoot";
-import { Id } from "./types";
-import { TableContext } from "./table-context";
 
-export interface MaterialGridProps<D extends Id = Id>
-  extends Pick<TableOptions<D>, "data" | "columns">,
+export interface MaterialGridProps
+  extends Pick<TableOptions, "data" | "columns">,
     TableProps {
   loading?: boolean;
-  options?: TableOptions<D>;
+  options?: TableOptions;
 }
 
 /**
  * Main grid component
  */
-export default function MaterialGrid<D extends Id = Id>(
-  props: MaterialGridProps<D>
-) {
+export default function MaterialGrid(props: MaterialGridProps) {
   const { columns, data, options, ...tableProps } = props;
 
-  const rootRef = useRef<HTMLDivElement | null>(null);
-
-  const instance = useTable<D>(
+  const instance = useTable(
     {
       columns,
       data,
@@ -41,11 +34,5 @@ export default function MaterialGrid<D extends Id = Id>(
     useFlexLayout
   );
 
-  return (
-    <TableContext.Provider value={instance}>
-      <NoSsr>
-        <GridRoot {...instance.getTableProps()} {...tableProps} ref={rootRef} />
-      </NoSsr>
-    </TableContext.Provider>
-  );
+  return <GridRoot instance={instance} {...tableProps} />;
 }

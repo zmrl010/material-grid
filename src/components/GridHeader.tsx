@@ -1,45 +1,41 @@
-import { TableHead, TableHeadProps, TableRow, styled } from "@mui/material";
+import { TableHead, type TableHeadProps, TableRow } from "@mui/material";
 import { forwardRef } from "react";
-import { useTableInstance } from "../table-context";
+import type { HeaderGroup } from "react-table";
 import GridHeaderCell from "./GridHeaderCell";
 
-const GridHead = forwardRef<HTMLDivElement, TableHeadProps>(function GridHeader(
-  props,
-  ref
-) {
-  const { headerGroups } = useTableInstance();
+interface GridHeaderProps extends TableHeadProps {
+  width: number | string;
+  headerGroups: HeaderGroup[];
+}
 
+function HeaderRow({ headerGroup }: { headerGroup: HeaderGroup }) {
   return (
-    <TableHead component="div" {...props} ref={ref}>
-      {headerGroups.map((headerGroup) => (
-        <TableRow
-          {...headerGroup.getHeaderGroupProps()}
-          key={headerGroup.id}
-          component="div"
-        >
-          {headerGroup.headers.map((column) => (
-            <GridHeaderCell
-              column={column}
-              {...column.getHeaderProps()}
-              key={column.id}
-            />
-          ))}
-        </TableRow>
+    <TableRow
+      {...headerGroup.getHeaderGroupProps()}
+      key={headerGroup.id}
+      component="div"
+    >
+      {headerGroup.headers.map((column) => (
+        <GridHeaderCell
+          column={column}
+          {...column.getHeaderProps()}
+          key={column.id}
+        />
       ))}
-    </TableHead>
+    </TableRow>
   );
-});
+}
 
-const GridHeader = styled(GridHead, {
-  name: "Grid",
-  slot: "Head",
-  shouldForwardProp: (prop) => prop !== "width",
-})<{ width?: string | number }>(({ theme, width }) => ({
-  width,
-  overflowY: "auto",
-  overflowX: "hidden",
-  backgroundColor: theme.palette.background.paper,
-  display: "flex",
-}));
+const GridHeader = forwardRef<HTMLDivElement, GridHeaderProps>(
+  function GridHeader({ width, headerGroups, ...props }, ref) {
+    return (
+      <TableHead component="div" ref={ref} sx={{ width }} {...props}>
+        {headerGroups.map((headerGroup) => (
+          <HeaderRow key={headerGroup.id} headerGroup={headerGroup} />
+        ))}
+      </TableHead>
+    );
+  }
+);
 
 export default GridHeader;

@@ -1,4 +1,5 @@
 import { CSSProperties } from "react";
+import { BaseType } from "./types";
 export interface ColumnStyling {
   style?: CSSProperties;
   className?: string;
@@ -12,7 +13,7 @@ export interface WithAlign {
 
 declare module "react-table" {
   // take this file as-is, or comment out the sections that don't apply to your plugin configuration
-  export interface TableOptions<D extends object>
+  export interface TableOptions<D extends object = BaseType>
     extends UseExpandedOptions<D>,
       UseFiltersOptions<D>,
       UseGlobalFiltersOptions<D>,

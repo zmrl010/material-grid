@@ -1,59 +1,45 @@
-import { forwardRef, memo, useRef } from "react";
-import {
-  Table,
-  TableProps,
-  TableContainer,
-  Paper,
-  styled,
-} from "@mui/material";
-import { useBoundingRect, useScrollbarSizeDetector } from "../hooks";
+import { useRef } from "react";
+import { Table, type TableProps } from "@mui/material";
+import useBoundingRect from "../hooks/useBoundingRect";
+import useScrollbarSizeDetector from "../hooks/useScrollbarSizeDetector";
 import GridBody from "./GridBody";
 import GridHeader from "./GridHeader";
+import GridContainer from "./GridContainer";
+import type { TableInstance } from "react-table";
 
 export interface GridRootProps extends TableProps {
   loading?: boolean;
+  instance: TableInstance;
 }
 
-const GridRootBase = forwardRef<HTMLDivElement, GridRootProps>(
-  function GridRootBase({ loading, ...props }, ref) {
-    const [headerBoundingRect, headerRef] = useBoundingRect();
+export default function GridRoot({
+  loading,
+  instance,
+  ...props
+}: GridRootProps) {
+  const [headerBoundingRect, headerRef] = useBoundingRect();
+  const bodyRef = useRef<HTMLDivElement | null>(null);
+  const scrollbarSize = useScrollbarSizeDetector(bodyRef);
 
-    const bodyRef = useRef<HTMLDivElement | null>(null);
-    const scrollbarSize = useScrollbarSizeDetector(bodyRef);
+  const headerWidth = `calc(100% - ${scrollbarSize}px)`;
+  const headerHeight = headerBoundingRect?.height ?? 0;
+  const bodyHeight = `calc(100% - ${headerHeight}px)`;
 
-    const headerWidth = `calc(100% - ${scrollbarSize}px)`;
-    const bodyHeight = headerBoundingRect
-      ? `calc(100% - ${headerBoundingRect.height || 0}px)`
-      : "100%";
-
-    return (
-      <TableContainer component={Paper}>
-        <Table ref={ref} tabIndex={0} component={"div"} {...props}>
-          <GridHeader width={headerWidth} ref={headerRef} />
-          <GridBody loading={loading} height={bodyHeight} ref={bodyRef} />
-        </Table>
-      </TableContainer>
-    );
-  }
-);
-
-const GridRoot = memo(
-  styled(GridRootBase, {
-    name: "Grid",
-    slot: "Root",
-  })(({ theme }) => ({
-    boxSizing: "border-box",
-    color: theme.palette.text.primary,
-    outline: "none",
-    height: "100%",
-    display: "table",
-    flexFlow: "column nowrap",
-    overflow: "auto",
-
-    "& *, & *::before, & *::after": {
-      boxSizing: "inherit",
-    },
-  }))
-);
-
-export default GridRoot;
+  return (
+    <GridContainer>
+      <Table tabIndex={0} component="div" {...props}>
+        <GridHeader
+          headerGroups={instance.headerGroups}
+          ref={headerRef}
+          width={headerWidth}
+        />
+        <GridBody
+          height={bodyHeight}
+          instance={instance}
+          loading={loading}
+          ref={bodyRef}
+        />
+      </Table>
+    </GridContainer>
+  );
+}

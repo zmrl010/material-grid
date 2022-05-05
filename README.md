@@ -1,6 +1,6 @@
 # material-grid
 
-An extension of material-ui table components coupled with react-table to deliver a feature-rich data grid component.
+An extension of material-ui `Table` components coupled with `react-table` to deliver a feature-rich data grid component.
 Similar to the material-ui data-grid component available from the lab packages.
 
 Install this in your project and import the Grid component to use where needed.

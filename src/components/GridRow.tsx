@@ -1,27 +1,21 @@
-import { TableRow, type TableRowProps } from "@mui/material";
+import { TableCell, TableRow, type TableRowProps } from "@mui/material";
 import type { Cell } from "react-table";
-import type { BaseType } from "../types";
-import GridCell from "./GridCell";
 
-export default function GridRow<D extends BaseType = BaseType>({
+export default function GridRow({
   cells,
   ...rowProps
-}: TableRowProps & { cells: Cell<D>[] }) {
+}: TableRowProps & { cells: Cell[] }) {
   return (
-    <TableRow
-      component="div"
-      sx={{ bgcolor: "background.paper" }}
-      {...rowProps}
-    >
+    <TableRow component="div" {...rowProps}>
       {cells.map((cell) => (
-        <GridCell
+        <TableCell
           {...cell.getCellProps()}
           key={cell.column.id}
           variant="body"
           component="div"
         >
           {cell.render("Cell")}
-        </GridCell>
+        </TableCell>
       ))}
     </TableRow>
   );
