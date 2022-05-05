@@ -22,11 +22,19 @@ export interface MaterialGridProps
    */
   options?: TableOptions;
   /**
-   * If passed, will replace the default plugins passed to `useTable`
+   * List of plugins to **replace** the default plugins passed to `useTable`
+   * @default
+   * - useSortBy
+   * - usePagination
+   * - useRowSelect
+   * - useFlexLayout
    */
   plugins?: PluginHook<Record<string, unknown>>[];
 }
 
+/**
+ * Default plugins passed to `useTable`
+ */
 const defaultPlugins = [useSortBy, usePagination, useRowSelect, useFlexLayout];
 
 /**

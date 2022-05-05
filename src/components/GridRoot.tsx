@@ -1,11 +1,11 @@
+import { Table, TableBody, TableHead, type TableProps } from "@mui/material";
 import { useRef } from "react";
-import { Table, type TableProps } from "@mui/material";
+import type { TableInstance } from "react-table";
 import useBoundingRect from "../hooks/useBoundingRect";
 import useScrollbarSizeDetector from "../hooks/useScrollbarSizeDetector";
-import GridBody from "./GridBody";
-import GridHeader from "./GridHeader";
+import GridBodyContent from "./GridBodyContent";
 import GridContainer from "./GridContainer";
-import type { TableInstance } from "react-table";
+import GridHeaderRow from "./GridHeaderRow";
 
 export interface GridRootProps extends TableProps {
   loading?: boolean;
@@ -28,17 +28,19 @@ export default function GridRoot({
   return (
     <GridContainer>
       <Table tabIndex={0} component="div" {...props}>
-        <GridHeader
-          headerGroups={instance.headerGroups}
-          ref={headerRef}
-          width={headerWidth}
-        />
-        <GridBody
-          height={bodyHeight}
-          instance={instance}
-          loading={loading}
+        <TableHead component="div" ref={headerRef} sx={{ width: headerWidth }}>
+          {instance.headerGroups.map((headerGroup) => (
+            <GridHeaderRow key={headerGroup.id} headerGroup={headerGroup} />
+          ))}
+        </TableHead>
+        <TableBody
+          component="div"
           ref={bodyRef}
-        />
+          sx={{ height: bodyHeight }}
+          {...instance.getTableBodyProps()}
+        >
+          <GridBodyContent loading={loading} instance={instance} />
+        </TableBody>
       </Table>
     </GridContainer>
   );

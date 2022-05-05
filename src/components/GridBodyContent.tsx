@@ -1,5 +1,5 @@
-import { CircularProgress, TableBody, Typography } from "@mui/material";
-import { forwardRef, type CSSProperties } from "react";
+import { CircularProgress, Typography } from "@mui/material";
+import { type CSSProperties } from "react";
 import type { TableInstance } from "react-table";
 import GridRow from "./GridRow";
 import Overlay from "./Overlay";
@@ -12,7 +12,7 @@ export interface GridBodyProps {
   style?: CSSProperties;
 }
 
-function GridBodyContent({
+export default function GridBodyContent({
   loading,
   instance,
 }: Pick<GridBodyProps, "loading" | "instance">) {
@@ -43,18 +43,3 @@ function GridBodyContent({
     </>
   );
 }
-
-const GridBody = forwardRef<HTMLDivElement, GridBodyProps>(function GridBody(
-  { loading, height, instance, ...props },
-  ref
-) {
-  const { role } = instance.getTableBodyProps();
-
-  return (
-    <TableBody component="div" role={role} ref={ref} sx={{ height }} {...props}>
-      <GridBodyContent loading={loading} instance={instance} />
-    </TableBody>
-  );
-});
-
-export default GridBody;
