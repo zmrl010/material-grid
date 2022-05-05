@@ -39,7 +39,11 @@ export default function GridRoot({
           sx={{ height: bodyHeight }}
           {...instance.getTableBodyProps()}
         >
-          <GridContent loading={loading} instance={instance} />
+          <GridContent
+            loading={loading}
+            rows={instance.rows}
+            prepareRow={instance.prepareRow}
+          />
         </TableBody>
       </Table>
     </GridContainer>

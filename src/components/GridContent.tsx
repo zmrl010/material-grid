@@ -1,21 +1,19 @@
-import { CircularProgress, Typography } from "@mui/material";
-import { type CSSProperties } from "react";
-import type { TableInstance } from "react-table";
+import { CircularProgress, TableRowProps, Typography } from "@mui/material";
+import type { Row } from "react-table";
 import GridRow from "./GridRow";
 import Overlay from "./Overlay";
 
-export interface GridContentProps {
-  className?: string;
-  height: number | string;
-  instance: TableInstance;
+export interface GridContentProps extends TableRowProps {
   loading?: boolean;
-  style?: CSSProperties;
+  prepareRow: (row: Row) => void;
+  rows: Row[];
 }
 
 export default function GridContent({
   loading,
-  instance,
-}: Pick<GridContentProps, "loading" | "instance">) {
+  rows,
+  prepareRow,
+}: GridContentProps) {
   if (loading) {
     return (
       <Overlay>
@@ -24,7 +22,7 @@ export default function GridContent({
     );
   }
 
-  if (instance.rows.length === 0) {
+  if (rows.length === 0) {
     return (
       <Overlay>
         <Typography>No data to display.</Typography>
@@ -34,8 +32,8 @@ export default function GridContent({
 
   return (
     <>
-      {instance.rows.map((row) => {
-        instance.prepareRow(row);
+      {rows.map((row) => {
+        prepareRow(row);
         return (
           <GridRow {...row.getRowProps()} key={row.id} cells={row.cells} />
         );
