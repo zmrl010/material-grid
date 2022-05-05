@@ -13,8 +13,3 @@ This package currently is not in the npm registry. To install it, run `npm insta
 
 Start by importing the `MaterialGrid` component and supplying it `data` and `columns` props.
 This will use the default configuration and any additional config should be supplied as properties to this component as well.
-
-### TODO
-
-- Publish to npm and modify README.md
-- Write up basic usages and examples
