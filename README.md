@@ -1,6 +1,6 @@
 # material-grid
 
-A dynamic data table component, rendered with MUI's `Table` components. It uses `react-table` to allow for powerful features like sorting and filtering.
+A dynamic data table component, rendered with MUI's `Table` components. It uses `react-table` to power features like sorting and filtering.
 
 ## Install
 
