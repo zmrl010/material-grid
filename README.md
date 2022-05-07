@@ -1,9 +1,6 @@
 # material-grid
 
-An extension of material-ui `Table` components coupled with `react-table` to deliver a feature-rich data grid component.
-Similar to the material-ui data-grid component available from the lab packages.
-
-Install this in your project and import the Grid component to use where needed.
+A dynamic data table component, rendered with MUI's `Table` components. It uses `react-table` to allow for powerful features like sorting and filtering.
 
 ## Install
 
