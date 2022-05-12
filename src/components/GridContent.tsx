@@ -3,17 +3,17 @@ import type { Row } from "react-table";
 import GridRow from "./GridRow";
 import Overlay from "./Overlay";
 
-export interface GridContentProps extends TableRowProps {
+export interface GridContentProps<T extends object> extends TableRowProps {
   loading?: boolean;
-  prepareRow: (row: Row) => void;
-  rows: Row[];
+  prepareRow: (row: Row<T>) => void;
+  rows: Row<T>[];
 }
 
-export default function GridContent({
+export default function GridContent<T extends object>({
   loading,
   rows,
   prepareRow,
-}: GridContentProps) {
+}: GridContentProps<T>) {
   if (loading) {
     return (
       <Overlay>

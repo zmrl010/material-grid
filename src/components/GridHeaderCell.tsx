@@ -11,10 +11,10 @@ function getSortDirection({
   return undefined;
 }
 
-export default function GridHeaderCell({
+export default function GridHeaderCell<T extends object>({
   column,
   ...props
-}: TableCellProps & { column: HeaderGroup }) {
+}: TableCellProps & { column: HeaderGroup<T> }) {
   const sortDirection = getSortDirection(column);
 
   return (

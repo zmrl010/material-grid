@@ -1,22 +1,28 @@
-import { Table, TableBody, TableHead, type TableProps } from "@mui/material";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+  type TableProps,
+} from "@mui/material";
 import { useRef } from "react";
 import type { TableInstance } from "react-table";
 import useBoundingRect from "../hooks/useBoundingRect";
 import useScrollbarSizeDetector from "../hooks/useScrollbarSizeDetector";
 import GridContent from "./GridContent";
 import GridContainer from "./GridContainer";
-import GridHeaderRow from "./GridHeaderRow";
+import GridHeaderCell from "./GridHeaderCell";
 
-export interface GridRootProps extends TableProps {
+export interface GridRootProps<T extends object> extends TableProps {
   loading?: boolean;
-  instance: TableInstance;
+  instance: TableInstance<T>;
 }
 
-export default function GridRoot({
+export default function GridRoot<T extends object>({
   loading,
   instance,
   ...props
-}: GridRootProps) {
+}: GridRootProps<T>) {
   const [headerBoundingRect, headerRef] = useBoundingRect();
   const bodyRef = useRef<HTMLDivElement | null>(null);
   const scrollbarSize = useScrollbarSizeDetector(bodyRef);
@@ -30,7 +36,11 @@ export default function GridRoot({
       <Table tabIndex={0} component="div" {...props}>
         <TableHead component="div" ref={headerRef} sx={{ width: headerWidth }}>
           {instance.headerGroups.map((headerGroup) => (
-            <GridHeaderRow key={headerGroup.id} headerGroup={headerGroup} />
+            <TableRow key={headerGroup.id} component="div">
+              {headerGroup.headers.map((column) => (
+                <GridHeaderCell column={column} key={column.id} />
+              ))}
+            </TableRow>
           ))}
         </TableHead>
         <TableBody

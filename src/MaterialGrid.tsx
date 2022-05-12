@@ -9,8 +9,8 @@ import {
 import { type TableProps } from "@mui/material";
 import GridRoot from "./components/GridRoot";
 
-export interface MaterialGridProps
-  extends Pick<TableOptions, "data" | "columns">,
+export interface MaterialGridProps<T extends object>
+  extends Pick<TableOptions<T>, "data" | "columns">,
     TableProps {
   /**
    * Loading state
@@ -19,14 +19,16 @@ export interface MaterialGridProps
   /**
    * Additional options passed to `useTable`
    */
-  options?: TableOptions;
+  options?: TableOptions<T>;
 }
 
 /**
  * Dynamic data table component.
  * @see https://react-table.tanstack.com/docs/overview
  */
-export default function MaterialGrid(props: MaterialGridProps) {
+export default function MaterialGrid<T extends object>(
+  props: MaterialGridProps<T>
+) {
   const { columns, data, options, ...tableProps } = props;
 
   const instance = useTable(
