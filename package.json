@@ -1,6 +1,6 @@
 {
   "name": "@zmrl/material-grid",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Feature-rich data grid react component, built with react-table and MUI.",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

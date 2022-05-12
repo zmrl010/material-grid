@@ -1,3 +1,10 @@
+## [3.0.2](https://github.com/zmrl010/material-grid/compare/v3.0.1...v3.0.2) (2022-05-12)
+
+
+### Bug Fixes
+
+* add minimal generics ([ce5c121](https://github.com/zmrl010/material-grid/commit/ce5c1218b49f84f05abb5b65523f920fcc8cb3a2))
+
 ## [3.0.1](https://github.com/zmrl010/material-grid/compare/v3.0.0...v3.0.1) (2022-05-12)
 
 
