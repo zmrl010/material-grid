@@ -10,11 +10,10 @@ export interface WithAlign {
   align?: Align;
 }
 
-type BaseObject = Record<string, unknown>;
-
 declare module "react-table" {
   // take this file as-is, or comment out the sections that don't apply to your plugin configuration
-  export interface TableOptions<D extends object = BaseObject>
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  export interface TableOptions<D extends object = {}>
     extends UseExpandedOptions<D>,
       UseFiltersOptions<D>,
       UseGlobalFiltersOptions<D>,
