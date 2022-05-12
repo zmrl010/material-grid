@@ -1,3 +1,11 @@
+## [3.0.1](https://github.com/zmrl010/material-grid/compare/v3.0.0...v3.0.1) (2022-05-12)
+
+
+### Bug Fixes
+
+* less strict types ([4f5019c](https://github.com/zmrl010/material-grid/commit/4f5019c8d65e249a73133aa635253903f534ea21))
+* turn off eslint type-checking rules ([4a95700](https://github.com/zmrl010/material-grid/commit/4a957006cb762c61c1954fb7c4eae3937704f470))
+
 # [3.0.0](https://github.com/zmrl010/material-grid/compare/v2.0.0...v3.0.0) (2022-05-05)
 
 
