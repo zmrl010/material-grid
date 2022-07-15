@@ -16,7 +16,7 @@
     "src"
   ],
   "author": "zmrl",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@types/react-table": "^7.7.11",
     "react-table": "^7.7.0",
