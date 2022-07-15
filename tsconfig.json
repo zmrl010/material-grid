@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
     "declarationMap": true,
@@ -22,6 +21,6 @@
     "strict": true,
     "target": "es6"
   },
-  "include": ["src"],
+  "include": ["src", "vite.config.js"],
   "exclude": ["node_modules", "dist"]
 }

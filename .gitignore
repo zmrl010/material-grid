@@ -3,8 +3,8 @@
 
 *.log
 
-demo
-
+.parcel-cache
 build
 dist
 node_modules
+

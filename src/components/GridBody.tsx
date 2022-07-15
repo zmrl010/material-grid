@@ -1,14 +1,14 @@
 import {
   CircularProgress,
   TableBody,
-  TableBodyProps,
+  type TableBodyProps,
   TableCell,
   TableRow,
   Typography,
 } from "@mui/material";
-import { flexRender, Row, type RowData } from "@tanstack/react-table";
-import type { CSSProperties, ForwardedRef } from "react";
-import Overlay from "./Overlay";
+import { flexRender, type Row, type RowData } from "@tanstack/react-table";
+import type { ForwardedRef } from "react";
+import { Overlay } from "./styled";
 
 export interface GridBodyRowsProps<TData extends RowData> {
   loading?: boolean;
@@ -38,9 +38,9 @@ function GridBodyRows<TData extends RowData>({
   return (
     <>
       {rows.map((row) => (
-        <TableRow key={row.id}>
+        <TableRow component="div" sx={{ flex: 1 }} key={row.id}>
           {row.getVisibleCells().map((cell) => (
-            <TableCell key={cell.id}>
+            <TableCell component="div" key={cell.id}>
               {flexRender(cell.column.columnDef.cell, cell.getContext())}
             </TableCell>
           ))}
@@ -53,20 +53,20 @@ function GridBodyRows<TData extends RowData>({
 export interface GridBodyProps<TData extends RowData>
   extends TableBodyProps,
     GridBodyRowsProps<TData> {
-  height: CSSProperties["height"];
   bodyRef: ForwardedRef<HTMLTableSectionElement>;
 }
 
 export default function GridBody<TData extends RowData>({
-  height,
   rows,
   loading,
   bodyRef,
   ...props
 }: GridBodyProps<TData>) {
   return (
-    <TableBody ref={bodyRef} sx={{ height }} {...props}>
-      <GridBodyRows rows={rows} loading={loading} />
+    <TableBody component="div" ref={bodyRef} {...props}>
+      <TableBody component="div">
+        <GridBodyRows rows={rows} loading={loading} />
+      </TableBody>
     </TableBody>
   );
 }

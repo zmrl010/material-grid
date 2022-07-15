@@ -15,7 +15,7 @@ export default function GridHeaderCell<TData extends RowData>({
       component="div"
     >
       <TableSortLabel
-        active={header.column.getCanSort()}
+        active={!!sortDirection}
         direction={sortDirection}
         hideSortIcon
         onClick={header.column.getToggleSortingHandler()}

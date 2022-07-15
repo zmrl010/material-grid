@@ -9,7 +9,6 @@ describe("<GridContent />", () => {
     getVisibleCells: () => [],
   } as unknown as Row<Data>;
   const props: GridBodyProps<typeof fakeData> = {
-    height: 10,
     bodyRef: () => {
       /** */
     },

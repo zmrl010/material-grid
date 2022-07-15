@@ -4,16 +4,11 @@ import {
   type RowData,
   getCoreRowModel,
 } from "@tanstack/react-table";
-import { type TableProps } from "@mui/material";
-import GridRoot from "./components/GridRoot";
+import Grid, { type GridProps } from "./components/GridRoot";
 
 export interface MaterialGridProps<TData extends RowData>
   extends Pick<TableOptions<TData>, "data" | "columns">,
-    TableProps {
-  /**
-   * Loading state
-   */
-  loading?: boolean;
+    Partial<GridProps<TData>> {
   /**
    * Additional options passed to `useReactTable`
    */
@@ -33,5 +28,5 @@ export default function MaterialGrid<TData extends RowData>({
     getCoreRowModel: getCoreRowModel(),
   });
 
-  return <GridRoot table={table} {...tableProps} />;
+  return <Grid table={table} {...tableProps} />;
 }

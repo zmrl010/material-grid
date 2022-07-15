@@ -1,47 +1,50 @@
-import { Table, TableHead, TableRow, type TableProps } from "@mui/material";
+import { Box, Table, type TableProps } from "@mui/material";
 import { useRef } from "react";
 import type { RowData, Table as TableInstance } from "@tanstack/react-table";
-import useBoundingRect from "../hooks/useBoundingRect";
 import useScrollbarSizeDetector from "../hooks/useScrollbarSizeDetector";
 import GridBody from "./GridBody";
-import GridContainer from "./GridContainer";
-import GridHeaderCell from "./GridHeaderCell";
+import { GridMain } from "./styled";
+import GridHead from "./GridHead";
 
-export interface GridRootProps<T extends RowData> extends TableProps {
+const DEFAULT_HEAD_HEIGHT = "56px";
+
+export interface GridProps<T extends RowData> extends TableProps {
+  /**
+   * Loading state; displays a spinner if true
+   */
   loading?: boolean;
   table: TableInstance<T>;
 }
 
-export default function GridRoot<TData extends RowData>({
+export default function Grid<TData extends RowData>({
   loading,
   table,
   ...props
-}: GridRootProps<TData>) {
-  const [headerBoundingRect, headerRef] = useBoundingRect();
+}: GridProps<TData>) {
   const bodyRef = useRef<HTMLTableSectionElement | null>(null);
   const bodyScrollbarSize = useScrollbarSizeDetector(bodyRef);
   const headerWidth = `calc(100% - ${bodyScrollbarSize}px)`;
-  const bodyHeight = `calc(100% - ${headerBoundingRect?.height ?? 0}px)`;
+  const headHeight = DEFAULT_HEAD_HEIGHT;
+  const bodyHeight = `calc(100% - ${headHeight})`;
 
   return (
-    <GridContainer>
-      <Table {...props}>
-        <TableHead ref={headerRef} sx={{ width: headerWidth }}>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <GridHeaderCell header={header} key={header.id} />
-              ))}
-            </TableRow>
-          ))}
-        </TableHead>
-        <GridBody
-          bodyRef={bodyRef}
-          height={bodyHeight}
-          rows={table.getRowModel().rows}
-          loading={loading}
+    <GridMain>
+      <Table component="div" {...props}>
+        <GridHead
+          height={headHeight}
+          width={headerWidth}
+          headerGroups={table.getHeaderGroups()}
         />
+        <Box overflow="visible" height={0} width={0}>
+          <Box mt={headHeight} width={headerWidth} height={bodyHeight}>
+            <GridBody
+              bodyRef={bodyRef}
+              rows={table.getRowModel().rows}
+              loading={loading}
+            />
+          </Box>
+        </Box>
       </Table>
-    </GridContainer>
+    </GridMain>
   );
 }
