@@ -4,7 +4,7 @@ import {
   type RowData,
   getCoreRowModel,
 } from "@tanstack/react-table";
-import Grid, { type GridProps } from "./components/GridRoot";
+import Grid, { type GridProps } from "./components/Grid";
 
 export interface MaterialGridProps<TData extends RowData>
   extends Pick<TableOptions<TData>, "data" | "columns">,

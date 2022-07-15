@@ -38,7 +38,17 @@ function GridBodyRows<TData extends RowData>({
   return (
     <>
       {rows.map((row) => (
-        <TableRow component="div" sx={{ flex: 1 }} key={row.id}>
+        <TableRow
+          component="div"
+          sx={{
+            display: "flex",
+            width: "fit-content",
+            minHeight: 52,
+            maxHeight: 52,
+            breakInside: "avoid",
+          }}
+          key={row.id}
+        >
           {row.getVisibleCells().map((cell) => (
             <TableCell component="div" key={cell.id}>
               {flexRender(cell.column.columnDef.cell, cell.getContext())}

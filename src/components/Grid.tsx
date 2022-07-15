@@ -6,6 +6,7 @@ import GridBody from "./GridBody";
 import { GridMain } from "./styled";
 import GridHead from "./GridHead";
 
+const DEFAULT_ROW_HEIGHT = "52px";
 const DEFAULT_HEAD_HEIGHT = "56px";
 
 export interface GridProps<T extends RowData> extends TableProps {
@@ -36,7 +37,13 @@ export default function Grid<TData extends RowData>({
           headerGroups={table.getHeaderGroups()}
         />
         <Box overflow="visible" height={0} width={0}>
-          <Box mt={headHeight} width={headerWidth} height={bodyHeight}>
+          <Box
+            mt={headHeight}
+            width={headerWidth}
+            height={bodyHeight}
+            position="relative"
+            // overflow="auto"
+          >
             <GridBody
               bodyRef={bodyRef}
               rows={table.getRowModel().rows}

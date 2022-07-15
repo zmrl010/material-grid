@@ -1,4 +1,4 @@
-import { TableContainer, styled } from "@mui/material";
+import { TableContainer, styled, TableHead } from "@mui/material";
 
 export const GridMain = styled(TableContainer)(({ theme }) => ({
   ...theme.typography.body2,
@@ -52,17 +52,19 @@ export const GridMain = styled(TableContainer)(({ theme }) => ({
     display: "flex",
   },
 
-  "& .MuiTableHead-root": {
-    display: "flex",
-    overflow: "hidden",
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    alignItems: "center",
-    borderTopLeftRadius: theme.shape.borderRadius,
-    borderTopRightRadius: theme.shape.borderRadius,
-  },
+  "& .MuiTableHead-root": {},
+}));
+
+export const GridHeadRoot = styled(TableHead)(({ theme }) => ({
+  display: "flex",
+  overflow: "hidden",
+  position: "absolute",
+  top: 0,
+  left: 0,
+  right: 0,
+  alignItems: "center",
+  borderTopLeftRadius: theme.shape.borderRadius,
+  borderTopRightRadius: theme.shape.borderRadius,
 }));
 
 export const Overlay = styled("div")(({ theme }) => ({

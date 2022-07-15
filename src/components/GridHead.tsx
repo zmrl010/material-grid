@@ -2,6 +2,7 @@ import { TableHead, TableRow } from "@mui/material";
 import type { HeaderGroup, RowData } from "@tanstack/react-table";
 import type { CSSProperties } from "react";
 import GridHeaderCell from "./GridHeaderCell";
+import { GridHeadRoot } from "./styled";
 
 export interface GridHeadProps<TData extends RowData> {
   headerGroups: HeaderGroup<TData>[];
@@ -15,9 +16,9 @@ export default function GridHead<TData extends RowData>({
   height,
 }: GridHeadProps<TData>) {
   return (
-    <TableHead
+    <GridHeadRoot
       component="div"
-      sx={{
+      style={{
         width,
         minHeight: height,
         maxHeight: height,
@@ -25,12 +26,12 @@ export default function GridHead<TData extends RowData>({
       }}
     >
       {headerGroups.map((headerGroup) => (
-        <TableRow component="div" key={headerGroup.id}>
+        <TableRow component="div" key={headerGroup.id} sx={{ flex: 1 }}>
           {headerGroup.headers.map((header) => (
             <GridHeaderCell header={header} key={header.id} />
           ))}
         </TableRow>
       ))}
-    </TableHead>
+    </GridHeadRoot>
   );
 }
