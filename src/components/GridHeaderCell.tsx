@@ -1,21 +1,11 @@
-import type { HeaderGroup } from "react-table";
+import { flexRender, Header, RowData } from "@tanstack/react-table";
 import { type TableCellProps, TableSortLabel, TableCell } from "@mui/material";
 
-function getSortDirection({
-  isSorted,
-  isSortedDesc,
-}: Pick<HeaderGroup, "isSorted" | "isSortedDesc">) {
-  if (isSorted) {
-    return isSortedDesc ? "desc" : "asc";
-  }
-  return undefined;
-}
-
-export default function GridHeaderCell<T extends object>({
-  column,
+export default function GridHeaderCell<TData extends RowData>({
+  header,
   ...props
-}: TableCellProps & { column: HeaderGroup<T> }) {
-  const sortDirection = getSortDirection(column);
+}: TableCellProps & { header: Header<TData, unknown> }) {
+  const sortDirection = header.column.getIsSorted() || undefined;
 
   return (
     <TableCell
@@ -25,12 +15,12 @@ export default function GridHeaderCell<T extends object>({
       component="div"
     >
       <TableSortLabel
-        active={column.canSort && column.isSorted}
+        active={header.column.getCanSort()}
         direction={sortDirection}
         hideSortIcon
-        {...column.getSortByToggleProps()}
+        onClick={header.column.getToggleSortingHandler()}
       >
-        {column.render("Header")}
+        {flexRender(header.column.columnDef.header, header.getContext())}
       </TableSortLabel>
     </TableCell>
   );

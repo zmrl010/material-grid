@@ -1,4 +1,4 @@
-import { MutableRefObject, useCallback, useState } from "react";
+import { type MutableRefObject, useCallback, useState } from "react";
 import useIsomorphicEffect from "./useIsomorphicEffect";
 
 /**
