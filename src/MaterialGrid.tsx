@@ -3,6 +3,8 @@ import {
   type TableOptions,
   type RowData,
   getCoreRowModel,
+  getSortedRowModel,
+  getPaginationRowModel,
 } from "@tanstack/react-table";
 import Grid, { type GridProps } from "./components/Grid";
 
@@ -26,6 +28,8 @@ export default function MaterialGrid<TData extends RowData>({
     data,
     ...options,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   });
 
   return <Grid table={table} {...tableProps} />;

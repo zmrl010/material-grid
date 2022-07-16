@@ -2,10 +2,9 @@
   "name": "@zmrl/material-grid",
   "version": "3.0.2",
   "description": "Feature-rich data grid react component, built with react-table and MUI.",
-  "source": "src/index.ts",
-  "main": ".dist/index.js",
-  "module": "dist/module.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/material-grid.js",
+  "module": "dist/material-grid.mjs",
+  "types": "dist/material-grid.d.ts",
   "files": [
     "dist",
     "src"
@@ -13,7 +12,7 @@
   "scripts": {
     "test": "jest",
     "typeCheck": "tsc --noEmit",
-    "start:demo": "vite serve demo",
+    "start:demo": "vite",
     "build": "vite build",
     "prepare": "npm run build",
     "lint": "eslint --fix ./src"

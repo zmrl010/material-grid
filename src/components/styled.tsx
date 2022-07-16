@@ -1,7 +1,11 @@
 import {
   TableContainer,
   styled,
+  // Table,
+  // TableBody,
+  // TableCell,
   TableHead,
+  // TableFooter,
   TableHeadProps,
 } from "@mui/material";
 
@@ -56,8 +60,6 @@ export const GridMain = styled(TableContainer)(({ theme }) => ({
     // backgroundColor: theme.palette.background.paper,
     display: "flex",
   },
-
-  "& .MuiTableHead-root": {},
 }));
 
 export const GridHeadRoot = styled((props: TableHeadProps) => (
