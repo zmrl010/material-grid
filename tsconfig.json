@@ -21,6 +21,6 @@
     "strict": true,
     "target": "es6"
   },
-  "include": ["src", "vite.config.js"],
+  "include": ["src", "vite.config.ts", "demo"],
   "exclude": ["node_modules", "dist"]
 }

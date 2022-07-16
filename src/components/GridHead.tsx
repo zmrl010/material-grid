@@ -1,4 +1,4 @@
-import { TableHead, TableRow } from "@mui/material";
+import { TableRow } from "@mui/material";
 import type { HeaderGroup, RowData } from "@tanstack/react-table";
 import type { CSSProperties } from "react";
 import GridHeaderCell from "./GridHeaderCell";
@@ -17,7 +17,6 @@ export default function GridHead<TData extends RowData>({
 }: GridHeadProps<TData>) {
   return (
     <GridHeadRoot
-      component="div"
       style={{
         width,
         minHeight: height,

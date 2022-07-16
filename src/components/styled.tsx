@@ -1,4 +1,9 @@
-import { TableContainer, styled, TableHead } from "@mui/material";
+import {
+  TableContainer,
+  styled,
+  TableHead,
+  TableHeadProps,
+} from "@mui/material";
 
 export const GridMain = styled(TableContainer)(({ theme }) => ({
   ...theme.typography.body2,
@@ -55,7 +60,9 @@ export const GridMain = styled(TableContainer)(({ theme }) => ({
   "& .MuiTableHead-root": {},
 }));
 
-export const GridHeadRoot = styled(TableHead)(({ theme }) => ({
+export const GridHeadRoot = styled((props: TableHeadProps) => (
+  <TableHead component="div" {...props} />
+))(({ theme }) => ({
   display: "flex",
   overflow: "hidden",
   position: "absolute",

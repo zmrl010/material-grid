@@ -6,8 +6,8 @@ import GridBody from "./GridBody";
 import { GridMain } from "./styled";
 import GridHead from "./GridHead";
 
-const DEFAULT_ROW_HEIGHT = "52px";
 const DEFAULT_HEAD_HEIGHT = "56px";
+const DEFAULT_ROW_HEIGHT = "52px";
 
 export interface GridProps<T extends RowData> extends TableProps {
   /**
@@ -15,17 +15,20 @@ export interface GridProps<T extends RowData> extends TableProps {
    */
   loading?: boolean;
   table: TableInstance<T>;
+  headHeight?: string | number;
+  rowHeight?: string | number;
 }
 
 export default function Grid<TData extends RowData>({
   loading,
   table,
+  headHeight = DEFAULT_HEAD_HEIGHT,
+  rowHeight = DEFAULT_ROW_HEIGHT,
   ...props
 }: GridProps<TData>) {
   const bodyRef = useRef<HTMLTableSectionElement | null>(null);
   const bodyScrollbarSize = useScrollbarSizeDetector(bodyRef);
   const headerWidth = `calc(100% - ${bodyScrollbarSize}px)`;
-  const headHeight = DEFAULT_HEAD_HEIGHT;
   const bodyHeight = `calc(100% - ${headHeight})`;
 
   return (
@@ -47,6 +50,7 @@ export default function Grid<TData extends RowData>({
             <GridBody
               bodyRef={bodyRef}
               rows={table.getRowModel().rows}
+              rowHeight={rowHeight}
               loading={loading}
             />
           </Box>

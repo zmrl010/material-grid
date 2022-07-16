@@ -13,11 +13,13 @@ import { Overlay } from "./styled";
 export interface GridBodyRowsProps<TData extends RowData> {
   loading?: boolean;
   rows?: Row<TData>[];
+  rowHeight?: string | number;
 }
 
 function GridBodyRows<TData extends RowData>({
   loading,
   rows = [],
+  rowHeight,
 }: GridBodyRowsProps<TData>) {
   if (loading) {
     return (
@@ -43,8 +45,8 @@ function GridBodyRows<TData extends RowData>({
           sx={{
             display: "flex",
             width: "fit-content",
-            minHeight: 52,
-            maxHeight: 52,
+            minHeight: rowHeight,
+            maxHeight: rowHeight,
             breakInside: "avoid",
           }}
           key={row.id}
@@ -70,12 +72,13 @@ export default function GridBody<TData extends RowData>({
   rows,
   loading,
   bodyRef,
+  rowHeight,
   ...props
 }: GridBodyProps<TData>) {
   return (
     <TableBody component="div" ref={bodyRef} {...props}>
       <TableBody component="div">
-        <GridBodyRows rows={rows} loading={loading} />
+        <GridBodyRows rows={rows} loading={loading} rowHeight={rowHeight} />
       </TableBody>
     </TableBody>
   );
