@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "declarationMap": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
@@ -16,11 +14,8 @@
     "noUnusedParameters": true,
     "outDir": "./dist",
     "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "sourceMap": true,
     "strict": true,
     "target": "es6"
   },
-  "include": ["src", "vite.config.ts", "demo"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src", "vite.config.ts", "demo"]
 }
