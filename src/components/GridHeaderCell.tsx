@@ -1,5 +1,6 @@
 import { flexRender, Header, RowData } from "@tanstack/react-table";
-import { type TableCellProps, TableSortLabel, TableCell } from "@mui/material";
+import { type TableCellProps, TableSortLabel } from "@mui/material";
+import { GridCell } from "./styled";
 
 export default function GridHeaderCell<TData extends RowData>({
   header,
@@ -8,12 +9,7 @@ export default function GridHeaderCell<TData extends RowData>({
   const sortDirection = header.column.getIsSorted() || undefined;
 
   return (
-    <TableCell
-      {...props}
-      sortDirection={sortDirection}
-      variant="head"
-      component="div"
-    >
+    <GridCell {...props} sortDirection={sortDirection}>
       <TableSortLabel
         active={!!sortDirection}
         direction={sortDirection}
@@ -22,6 +18,6 @@ export default function GridHeaderCell<TData extends RowData>({
       >
         {flexRender(header.column.columnDef.header, header.getContext())}
       </TableSortLabel>
-    </TableCell>
+    </GridCell>
   );
 }

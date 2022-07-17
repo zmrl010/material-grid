@@ -1,8 +1,7 @@
-import { TableRow } from "@mui/material";
 import type { HeaderGroup, RowData } from "@tanstack/react-table";
 import type { CSSProperties } from "react";
 import GridHeaderCell from "./GridHeaderCell";
-import { GridHeadRoot } from "./styled";
+import { GridHeadRoot, GridRow } from "./styled";
 
 export interface GridHeadProps<TData extends RowData> {
   headerGroups: HeaderGroup<TData>[];
@@ -25,11 +24,11 @@ export default function GridHead<TData extends RowData>({
       }}
     >
       {headerGroups.map((headerGroup) => (
-        <TableRow component="div" key={headerGroup.id} sx={{ flex: 1 }}>
+        <GridRow key={headerGroup.id}>
           {headerGroup.headers.map((header) => (
             <GridHeaderCell header={header} key={header.id} />
           ))}
-        </TableRow>
+        </GridRow>
       ))}
     </GridHeadRoot>
   );

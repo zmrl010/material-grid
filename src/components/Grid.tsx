@@ -1,9 +1,9 @@
-import { Box, Table, type TableProps } from "@mui/material";
+import { Box, type TableProps } from "@mui/material";
 import { useRef } from "react";
 import type { RowData, Table as TableInstance } from "@tanstack/react-table";
 import useScrollbarSizeDetector from "../hooks/useScrollbarSizeDetector";
 import GridBody from "./GridBody";
-import { GridMain } from "./styled";
+import { GridContainer, GridMain } from "./styled";
 import GridHead from "./GridHead";
 
 const DEFAULT_HEAD_HEIGHT = "56px";
@@ -32,8 +32,8 @@ export default function Grid<TData extends RowData>({
   const bodyHeight = `calc(100% - ${headHeight})`;
 
   return (
-    <GridMain>
-      <Table component="div" {...props}>
+    <GridContainer>
+      <GridMain {...props}>
         <GridHead
           height={headHeight}
           width={headerWidth}
@@ -45,7 +45,6 @@ export default function Grid<TData extends RowData>({
             width={headerWidth}
             height={bodyHeight}
             position="relative"
-            // overflow="auto"
           >
             <GridBody
               bodyRef={bodyRef}
@@ -55,7 +54,7 @@ export default function Grid<TData extends RowData>({
             />
           </Box>
         </Box>
-      </Table>
-    </GridMain>
+      </GridMain>
+    </GridContainer>
   );
 }

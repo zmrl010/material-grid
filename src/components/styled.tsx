@@ -1,15 +1,26 @@
 import {
   TableContainer,
   styled,
-  // Table,
-  // TableBody,
-  // TableCell,
+  Table,
+  TableBody,
+  TableCell,
   TableHead,
-  // TableFooter,
-  TableHeadProps,
+  TableFooter,
+  type TableHeadProps,
+  TableRow,
+  type TableCellProps,
+  type TableRowProps,
+  type TableProps,
+  type TableBodyProps,
+  type TableFooterProps,
 } from "@mui/material";
 
-export const GridMain = styled(TableContainer)(({ theme }) => ({
+const NAME = "Grid";
+
+export const GridContainer = styled(TableContainer, {
+  name: NAME,
+  slot: "Container",
+})(({ theme }) => ({
   ...theme.typography.body2,
   boxSizing: "border-box",
   color: theme.palette.text.primary,
@@ -22,49 +33,43 @@ export const GridMain = styled(TableContainer)(({ theme }) => ({
   flexDirection: "column",
   flex: "1 1 0%",
   position: "relative",
-
-  "& *, & *::before, & *::after": {
-    boxSizing: "inherit",
-  },
-
-  "& .MuiTable-root": {
-    display: "flex",
-    flexDirection: "column",
-    position: "relative",
-    flex: 1,
-    // flexFlow: "column nowrap",
-    // height: "100%",
-    // outline: "none",
-    overflow: "hidden",
-  },
-
-  "& .MuiTableBody-root": {
-    // display: "flex",
-    // flex: 1,
-    // overflow: "scroll",
-    // overflowX: "auto",
-    // overflowY: "auto",
-    // position: "relative",
-  },
-
-  // "& .MuiTableCell-root": {
-  //   alignItems: "center",
-  //   borderBottom: `1px solid ${theme.palette.divider}`,
-  //   display: "flex",
-  //   overflow: "hidden",
-  //   textOverflow: "ellipsis",
-  //   whiteSpace: "nowrap",
-  // },
-
-  "& .MuiTableRow-root": {
-    // backgroundColor: theme.palette.background.paper,
-    display: "flex",
-  },
 }));
 
-export const GridHeadRoot = styled((props: TableHeadProps) => (
-  <TableHead component="div" {...props} />
-))(({ theme }) => ({
+export const GridMain = styled(
+  (props: TableProps) => <Table component="div" {...props} />,
+  { name: NAME, slot: "Main" }
+)({
+  display: "flex",
+  flexDirection: "column",
+  position: "relative",
+  flex: 1,
+  overflow: "hidden",
+});
+
+export const GridRow = styled(
+  (props: TableRowProps) => <TableRow component="div" {...props} />,
+  { name: NAME, slot: "Row" }
+)({});
+
+export const GridCell = styled(
+  (props: TableCellProps) => <TableCell component="div" {...props} />,
+  { name: NAME, slot: "Cell" }
+)({});
+
+export const GridBodyRoot = styled(
+  (props: TableBodyProps) => <TableBody component="div" {...props} />,
+  { name: NAME, slot: "Body" }
+)({});
+
+export const GridFooter = styled(
+  (props: TableFooterProps) => <TableFooter component="div" {...props} />,
+  { name: NAME, slot: "Footer" }
+)({});
+
+export const GridHeadRoot = styled(
+  (props: TableHeadProps) => <TableHead component="div" {...props} />,
+  { name: NAME, slot: "Head" }
+)(({ theme }) => ({
   display: "flex",
   overflow: "hidden",
   position: "absolute",
