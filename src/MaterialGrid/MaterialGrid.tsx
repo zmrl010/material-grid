@@ -6,7 +6,8 @@ import {
   getSortedRowModel,
   getPaginationRowModel,
 } from "@tanstack/react-table";
-import Grid, { type GridProps } from "./components/Grid";
+import { memo } from "react";
+import Grid, { type GridProps } from "../components/Grid";
 
 export interface MaterialGridProps<TData extends RowData>
   extends Pick<TableOptions<TData>, "data" | "columns">,
@@ -17,7 +18,7 @@ export interface MaterialGridProps<TData extends RowData>
   options?: TableOptions<TData>;
 }
 
-export default function MaterialGrid<TData extends RowData>({
+function MaterialGridBase<TData extends RowData>({
   columns,
   data,
   options,
@@ -34,3 +35,7 @@ export default function MaterialGrid<TData extends RowData>({
 
   return <Grid table={table} {...tableProps} />;
 }
+
+const MaterialGrid = memo(MaterialGridBase) as typeof MaterialGridBase;
+
+export default MaterialGrid;

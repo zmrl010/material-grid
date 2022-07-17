@@ -1,10 +1,10 @@
-import { Box, type TableProps } from "@mui/material";
+import { type TableProps } from "@mui/material";
 import { useRef } from "react";
 import type { RowData, Table as TableInstance } from "@tanstack/react-table";
 import useScrollbarSizeDetector from "../hooks/useScrollbarSizeDetector";
-import GridBody from "./GridBody";
-import { GridContainer, GridMain } from "./styled";
-import GridHead from "./GridHead";
+import { GridRoot, GridMainContainer } from "./styled";
+import GridColumnHeaders from "./columnHeaders/GridColumnHeaders";
+import GridBody from "./base/GridBody";
 
 const DEFAULT_HEAD_HEIGHT = "56px";
 const DEFAULT_ROW_HEIGHT = "52px";
@@ -28,33 +28,38 @@ export default function Grid<TData extends RowData>({
 }: GridProps<TData>) {
   const bodyRef = useRef<HTMLTableSectionElement | null>(null);
   const bodyScrollbarSize = useScrollbarSizeDetector(bodyRef);
-  const headerWidth = `calc(100% - ${bodyScrollbarSize}px)`;
-  const bodyHeight = `calc(100% - ${headHeight})`;
+  const headWidth = `calc(100% - ${bodyScrollbarSize}px)`;
+  // const bodyHeight = `calc(100% - ${headHeight})`;
 
   return (
-    <GridContainer>
-      <GridMain {...props}>
-        <GridHead
+    <GridRoot {...props}>
+      <GridMainContainer>
+        <GridColumnHeaders
           height={headHeight}
-          width={headerWidth}
+          width={headWidth}
           headerGroups={table.getHeaderGroups()}
         />
-        <Box overflow="visible" height={0} width={0}>
+        <GridBody
+          rows={table.getRowModel().rows}
+          rowHeight={rowHeight}
+          loading={loading}
+          bodyRef={bodyRef}
+        />
+        {/* <Box overflow="visible" height={0} width={0}>
           <Box
             mt={headHeight}
-            width={headerWidth}
+            width={headWidth}
             height={bodyHeight}
             position="relative"
           >
-            <GridBody
-              bodyRef={bodyRef}
+            <GridMain
               rows={table.getRowModel().rows}
               rowHeight={rowHeight}
               loading={loading}
             />
           </Box>
-        </Box>
-      </GridMain>
-    </GridContainer>
+        </Box> */}
+      </GridMainContainer>
+    </GridRoot>
   );
 }

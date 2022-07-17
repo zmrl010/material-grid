@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import MaterialGrid from "../MaterialGrid";
+import MaterialGrid from "../MaterialGrid/MaterialGrid";
 
 describe("<MaterialGrid />", () => {
   it("should render with minimal props", () => {

@@ -1,19 +1,19 @@
 import type { HeaderGroup, RowData } from "@tanstack/react-table";
 import type { CSSProperties } from "react";
-import GridHeaderCell from "./GridHeaderCell";
-import { GridHeadRoot, GridRow } from "./styled";
+import GridHeaderCell from "../GridHeaderCell";
+import { GridHeadRoot, GridRow } from "../styled";
 
-export interface GridHeadProps<TData extends RowData> {
+export interface GridColumnHeadersProps<TData extends RowData> {
   headerGroups: HeaderGroup<TData>[];
   width?: CSSProperties["width"];
   height: string | number;
 }
 
-export default function GridHead<TData extends RowData>({
+export default function GridColumnHeaders<TData extends RowData>({
   headerGroups,
   width,
   height,
-}: GridHeadProps<TData>) {
+}: GridColumnHeadersProps<TData>) {
   return (
     <GridHeadRoot
       style={{
