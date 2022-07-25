@@ -14,7 +14,7 @@
     "typeCheck": "tsc --noEmit",
     "start:demo": "vite",
     "build": "vite build",
-    "prepare": "npm run build",
+    "prepare": "pnpm run build",
     "lint": "eslint --fix ./src"
   },
   "author": "zmrl",
@@ -37,6 +37,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "jest": "^28.1.3",
     "jest-environment-jsdom": "^28.1.3",
+    "pnpm": "^7.6.0",
     "prettier": "^2.7.1",
     "ts-jest": "^28.0.6",
     "typescript": "^4.7.4",
@@ -68,3 +69,4 @@
   },
   "homepage": "https://github.com/zmrl010/material-grid#readme"
 }
+

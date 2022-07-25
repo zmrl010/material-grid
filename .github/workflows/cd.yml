@@ -7,19 +7,6 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Install deps
-        run: npm ci
-
-      - name: Semantic Release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: >
-          npx
-          -p semantic-release@19
-          -p @semantic-release/changelog@6
-          -p @semantic-release/git@10
-          semantic-release
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
 
@@ -35,10 +22,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: "npm"
+          cache: "pnpm"
 
       - name: Install Deps
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Semantic Release
         env:

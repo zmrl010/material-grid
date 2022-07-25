@@ -12,17 +12,19 @@ jobs:
         node-version: [18]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Repo
         uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7
 
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: npm
+          cache: "pnpm"
 
-      - name: Install deps
-        run: npm ci
-
-      - name: Run test suite
-        run: npm test
+      - name: Install Dependencies and Test
+        run: pnpm install-test --frozen-lockfile
