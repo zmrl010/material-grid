@@ -10,7 +10,7 @@ export default defineConfig({
       fileName: "material-grid",
     },
     rollupOptions: {
-      external: ["@mui/material", "react"],
+      external: ["@mui/material", "react", "react/jsx-runtime"],
       output: {
         globals: {
           react: "React",
