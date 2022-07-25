@@ -1,0 +1,53 @@
+name: Continuous Deployment
+on:
+  push:
+    branches:
+      - main
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install deps
+        run: npm ci
+
+      - name: Semantic Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: >
+          npx
+          -p semantic-release@19
+          -p @semantic-release/changelog@6
+          -p @semantic-release/git@10
+          semantic-release
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+
+      - name: Install Deps
+        run: npm ci
+
+      - name: Semantic Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: >
+          pnpm
+          --package=semantic-release@19
+          --package=@semantic-release/changelog@6
+          --package=@semantic-release/git@10
+          --package=conventional-changelog-conventionalcommits@5
+          dlx semantic-release
