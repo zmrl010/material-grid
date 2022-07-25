@@ -1,15 +1,11 @@
-import { resolve } from "path";
 import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 import dts from "vite-dts";
 
 export default defineConfig({
-  esbuild: {
-    jsxInject: `import React from 'react'`,
-  },
   build: {
     lib: {
-      entry: resolve(__dirname, "src/index.ts"),
-      name: "MaterialGrid",
+      entry: "src/index.ts",
       formats: ["es", "cjs"],
       fileName: "material-grid",
     },
@@ -30,5 +26,5 @@ export default defineConfig({
     // Leave minification up to applications.
     minify: false,
   },
-  plugins: [dts()],
+  plugins: [react(), dts()],
 });
