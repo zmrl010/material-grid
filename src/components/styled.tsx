@@ -16,6 +16,7 @@ import {
   alpha,
   darken,
 } from "@mui/material";
+import { forwardRef } from "react";
 
 const COMPONENT_NAME = "MaterialGrid";
 
@@ -115,7 +116,9 @@ export const GridFooter = styled(
 )({});
 
 export const GridHeadRoot = styled(
-  (props: TableHeadProps) => <TableHead component="div" {...props} />,
+  forwardRef<HTMLDivElement, TableHeadProps>(function GridHead(props, ref) {
+    return <TableHead component="div" {...props} ref={ref} />;
+  }),
   { name: COMPONENT_NAME, slot: "Head" }
 )(({ theme }) => ({
   display: "flex",

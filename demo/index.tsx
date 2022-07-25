@@ -14,17 +14,11 @@ function makeFakeList(count: number) {
     result.push(makeFake(String(i), `Zach.v${i}`));
   }
 
-  return result;
+  return Array(count)
+    .fill(0)
+    .map((_, i) => makeFake(String(i), `Zach.v${i}`));
 }
 
-const fakeData = [
-  makeFake("0", "Zach"),
-  makeFake("1", "Bob"),
-  makeFake("2", "Jim"),
-  makeFake("3", "Steve"),
-];
-
-const fakeFour = makeFakeList(4);
 const fakeTwoHundred = makeFakeList(200);
 
 const cols: ColumnDef<ReturnType<typeof makeFake>>[] = [

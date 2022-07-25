@@ -1,21 +1,24 @@
-import type { HeaderGroup, RowData } from "@tanstack/react-table";
-import type { CSSProperties } from "react";
+import type { RowData, Table } from "@tanstack/react-table";
+import { type CSSProperties, type Ref } from "react";
 import GridHeaderCell from "../GridHeaderCell";
 import { GridHeadRoot, GridRow } from "../styled";
 
 export interface GridColumnHeadersProps<TData extends RowData> {
-  headerGroups: HeaderGroup<TData>[];
+  table: Table<TData>;
   width?: CSSProperties["width"];
   height: string | number;
+  headRef: Ref<HTMLDivElement>;
 }
 
 export default function GridColumnHeaders<TData extends RowData>({
-  headerGroups,
+  table,
   width,
   height,
+  headRef,
 }: GridColumnHeadersProps<TData>) {
   return (
     <GridHeadRoot
+      ref={headRef}
       style={{
         width,
         minHeight: height,
@@ -23,7 +26,7 @@ export default function GridColumnHeaders<TData extends RowData>({
         lineHeight: height,
       }}
     >
-      {headerGroups.map((headerGroup) => (
+      {table.getHeaderGroups().map((headerGroup) => (
         <GridRow key={headerGroup.id}>
           {headerGroup.headers.map((header) => (
             <GridHeaderCell header={header} key={header.id} />
