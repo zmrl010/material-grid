@@ -8,12 +8,6 @@ function makeFake(id: string, name: string) {
 }
 
 function makeFakeList(count: number) {
-  const result = [];
-
-  for (let i = 0; i < count; ++i) {
-    result.push(makeFake(String(i), `Zach.v${i}`));
-  }
-
   return Array(count)
     .fill(0)
     .map((_, i) => makeFake(String(i), `Zach.v${i}`));
@@ -35,15 +29,19 @@ function DemoApp() {
   );
 }
 
-const darkTheme = createTheme({});
+function main() {
+  const darkTheme = createTheme({});
 
-const demoDiv = document.getElementById("demo");
+  const demoDiv = document.getElementById("demo");
 
-if (demoDiv) {
-  const root = createRoot(demoDiv);
-  root.render(
-    <ThemeProvider theme={darkTheme}>
-      <DemoApp />
-    </ThemeProvider>
-  );
+  if (demoDiv) {
+    const root = createRoot(demoDiv);
+    root.render(
+      <ThemeProvider theme={darkTheme}>
+        <DemoApp />
+      </ThemeProvider>
+    );
+  }
 }
+
+main();

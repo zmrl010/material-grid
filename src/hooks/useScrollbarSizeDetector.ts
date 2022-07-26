@@ -1,5 +1,5 @@
 import { type MutableRefObject, useCallback, useState } from "react";
-import useIsomorphicEffect from "./useIsomorphicEffect";
+import useIsoLayoutEffect from "./useIsoLayoutEffect";
 
 /**
  * Gets the vertical scrollbar width, returning
@@ -29,7 +29,7 @@ export default function useScrollbarSizeDetector(
     }
   }, [detectedScrollbarSize, ref]);
 
-  useIsomorphicEffect(() => detectScrollbarSize());
+  useIsoLayoutEffect(() => detectScrollbarSize());
 
   return detectedScrollbarSize;
 }

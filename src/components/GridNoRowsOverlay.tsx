@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { Overlay } from "./styled";
 
@@ -12,5 +13,9 @@ export default function GridNoRowsOverlay({
   noRowsLabel = DEFAULT_NO_ROWS_LABEL,
   ...props
 }: GridNoRowsOverlayProps) {
-  return <Overlay {...props}>{noRowsLabel}</Overlay>;
+  return (
+    <Overlay {...props}>
+      <Typography>{noRowsLabel}</Typography>
+    </Overlay>
+  );
 }

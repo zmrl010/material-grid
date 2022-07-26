@@ -1,18 +1,20 @@
-import { flexRender, Table, type RowData } from "@tanstack/react-table";
-import { JSXElementConstructor, useRef } from "react";
+import { type Table, type RowData } from "@tanstack/react-table";
+import { type JSXElementConstructor, useRef } from "react";
 import GridOverlays from "./GridOverlays";
-import { GridCell, GridMainContainer, GridRow } from "../styled";
-import { GridColumnHeadersProps } from "../columnHeaders/GridColumnHeaders";
+import { GridMainContainer } from "../styled";
+import { GridColumnHeadersProps } from "../GridColumnHeaders";
 import useScrollbarSizeDetector from "../../hooks/useScrollbarSizeDetector";
+import GridAutoSizer from "../GridAutoSizer";
+import GridPanel from "../GridPanel";
 
-const DEFAULT_HEAD_HEIGHT = "56px";
-const DEFAULT_ROW_HEIGHT = "52px";
+const DEFAULT_HEAD_HEIGHT = 56;
+const DEFAULT_ROW_HEIGHT = 52;
 
 export interface GridBodyProps<TData extends RowData> {
   table: Table<TData>;
   loading?: boolean;
-  headHeight?: string | number;
-  rowHeight?: string | number;
+  headHeight?: number;
+  rowHeight?: number;
   ColumnHeaders: JSXElementConstructor<GridColumnHeadersProps<TData>>;
 }
 
@@ -27,12 +29,11 @@ export default function GridBody<TData extends RowData>({
   const headRef = useRef<HTMLDivElement | null>(null);
   const bodyScrollbarSize = useScrollbarSizeDetector(bodyRef);
   const headWidth = `calc(100% - ${bodyScrollbarSize}px)`;
-  // const bodyHeight = `calc(100% - ${headHeight})`;
 
   const { rows } = table.getRowModel();
 
   return (
-    <GridMainContainer ref={bodyRef}>
+    <GridMainContainer>
       <GridOverlays loading={loading} rows={rows} />
       <ColumnHeaders
         table={table}
@@ -40,21 +41,19 @@ export default function GridBody<TData extends RowData>({
         width={headWidth}
         headRef={headRef}
       />
-      {rows.map((row) => (
-        <GridRow
-          sx={{
-            minHeight: rowHeight,
-            maxHeight: rowHeight,
-          }}
-          key={row.id}
-        >
-          {row.getVisibleCells().map((cell) => (
-            <GridCell key={cell.id}>
-              {flexRender(cell.column.columnDef.cell, cell.getContext())}
-            </GridCell>
-          ))}
-        </GridRow>
-      ))}
+      <GridAutoSizer>
+        {({ height, width }) => (
+          <GridPanel
+            table={table}
+            rowHeight={rowHeight}
+            style={{
+              width,
+              height: height ? height - headHeight : "auto",
+              marginTop: headHeight,
+            }}
+          />
+        )}
+      </GridAutoSizer>
     </GridMainContainer>
   );
 }

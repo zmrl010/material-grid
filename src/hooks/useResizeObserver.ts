@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import useIsomorphicEffect from "./useIsomorphicEffect";
+import useIsoLayoutEffect from "./useIsoLayoutEffect";
 
 /**
  * Hook to observe the change in DOM node rect measurements
@@ -12,7 +12,7 @@ export default function useResizeObserver<E extends Element = Element>(
 ) {
   const observer = useMemo(() => new ResizeObserver(callback), [callback]);
 
-  useIsomorphicEffect(() => {
+  useIsoLayoutEffect(() => {
     if (!element) {
       return;
     }

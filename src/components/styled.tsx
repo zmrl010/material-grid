@@ -95,6 +95,8 @@ export const GridRow = styled(
   (props: TableRowProps) => <TableRow component="div" {...props} />,
   { name: COMPONENT_NAME, slot: "Row" }
 )({
+  minHeight: "52px",
+  maxHeight: "52px",
   display: "flex",
   width: "fit-content",
   breakInside: "avoid",
@@ -103,7 +105,13 @@ export const GridRow = styled(
 export const GridCell = styled(
   (props: TableCellProps) => <TableCell component="div" {...props} />,
   { name: COMPONENT_NAME, slot: "Cell" }
-)({});
+)(({ theme }) => {
+  const borderColor =
+    theme.palette.mode === "light"
+      ? lighten(alpha(theme.palette.divider, 1), 0.88)
+      : darken(alpha(theme.palette.divider, 1), 0.68);
+  return { borderBottom: `1px solid ${borderColor}` };
+});
 
 export const GridBodyContainer = styled(
   (props: TableBodyProps) => <TableBody component="div" {...props} />,
@@ -120,27 +128,37 @@ export const GridHeadRoot = styled(
     return <TableHead component="div" {...props} ref={ref} />;
   }),
   { name: COMPONENT_NAME, slot: "Head" }
-)(({ theme }) => ({
-  display: "flex",
-  overflow: "hidden",
-  position: "absolute",
-  top: 0,
-  left: 0,
-  right: 0,
-  alignItems: "center",
-  borderTopLeftRadius: theme.shape.borderRadius,
-  borderTopRightRadius: theme.shape.borderRadius,
-}));
+)(({ theme }) => {
+  const borderColor =
+    theme.palette.mode === "light"
+      ? lighten(alpha(theme.palette.divider, 1), 0.88)
+      : darken(alpha(theme.palette.divider, 1), 0.68);
 
-export const Overlay = styled("div")(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-  display: "flex",
-  position: "absolute",
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  alignSelf: "center",
-  alignItems: "center",
-  justifyContent: "center",
-}));
+  return {
+    display: "flex",
+    overflow: "hidden",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    alignItems: "center",
+    borderTopLeftRadius: theme.shape.borderRadius,
+    borderTopRightRadius: theme.shape.borderRadius,
+    borderBottom: `1px solid ${borderColor}`,
+  };
+});
+
+export const Overlay = styled("div", { name: COMPONENT_NAME, slot: "Overlay" })(
+  ({ theme }) => ({
+    backgroundColor: theme.palette.background.paper,
+    display: "flex",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+  })
+);

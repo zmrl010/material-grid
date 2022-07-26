@@ -1,5 +1,5 @@
-import { CircularProgress, Typography } from "@mui/material";
-import { Overlay } from "../styled";
+import GridLoadingOverlay from "../GridLoadingOverlay";
+import GridNoRowsOverlay from "../GridNoRowsOverlay";
 
 export interface GridOverlaysProps {
   loading?: boolean;
@@ -8,19 +8,11 @@ export interface GridOverlaysProps {
 
 export default function GridOverlays({ loading, rows }: GridOverlaysProps) {
   if (loading) {
-    return (
-      <Overlay>
-        <CircularProgress />
-      </Overlay>
-    );
+    return <GridLoadingOverlay />;
   }
 
   if (rows?.length === 0) {
-    return (
-      <Overlay>
-        <Typography>No rows to display.</Typography>
-      </Overlay>
-    );
+    return <GridNoRowsOverlay />;
   }
 
   return null;

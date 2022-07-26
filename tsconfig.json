@@ -17,5 +17,5 @@
     "strict": true,
     "target": "es6"
   },
-  "include": ["src", "vite.config.ts", "demo", "__tests__"]
+  "include": ["src", "vite.config.ts", "demo", "__tests__", "index.d.ts"]
 }
