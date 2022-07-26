@@ -12,7 +12,7 @@
   "scripts": {
     "test": "jest",
     "typeCheck": "tsc --noEmit",
-    "start:demo": "vite",
+    "dev": "vite -c vite.config.ts demo",
     "build": "vite build",
     "prepare": "pnpm run build",
     "lint": "eslint --fix ./src"
@@ -23,6 +23,10 @@
     "@tanstack/react-table": "^8.2.6"
   },
   "devDependencies": {
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.9.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@types/jest": "^28.1.5",
@@ -39,18 +43,20 @@
     "jest-environment-jsdom": "^28.1.3",
     "pnpm": "^7.6.0",
     "prettier": "^2.7.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "ts-jest": "^28.0.6",
     "typescript": "^4.7.4",
     "vite": "^3.0.0",
     "vite-dts": "^1.0.4"
   },
   "peerDependencies": {
-    "@emotion/react": "^11",
-    "@emotion/styled": "^11",
-    "@mui/icons-material": "^5",
-    "@mui/material": "^5",
-    "react": "^18",
-    "react-dom": "^18"
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.9.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "overrides": {
     "react": "^18"
