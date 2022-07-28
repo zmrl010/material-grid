@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "declarationDir": "dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
@@ -12,10 +14,11 @@
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "outDir": "./dist",
+    "skipLibCheck": true,
+    "outDir": "dist",
     "resolveJsonModule": true,
     "strict": true,
-    "target": "es6"
+    "target": "ESNext"
   },
-  "include": ["src", "vite.config.ts", "demo", "src/index.d.ts"]
+  "include": ["src"]
 }

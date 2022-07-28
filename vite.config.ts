@@ -2,9 +2,10 @@
 
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import typescript from "@rollup/plugin-typescript";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), typescript()],
   build: {
     lib: {
       entry: "src/index.ts",
@@ -15,12 +16,12 @@ export default defineConfig({
       external: [
         "react",
         "react/jsx-runtime",
-        "react-dom/client",
         "@mui/material",
         "@tanstack/react-table",
         "@emotion/react",
         "@emotion/styled",
         "@mui/icons-material",
+        "@mui/system",
       ],
       output: {
         // Since we publish our ./src folder, there's no point

@@ -1,3 +1,4 @@
+import { StyledComponent } from "@emotion/styled";
 import {
   styled,
   Table,
@@ -18,7 +19,11 @@ import {
   type Theme,
   tableCellClasses,
 } from "@mui/material";
-import { forwardRef } from "react";
+import {
+  type ComponentPropsWithoutRef,
+  type ComponentPropsWithRef,
+  forwardRef,
+} from "react";
 
 const COMPONENT_NAME = "MaterialGrid";
 
@@ -31,8 +36,8 @@ function getBorderColor(theme: Theme) {
     : darken(alpha(theme.palette.divider, 1), 0.68);
 }
 
-export const GridRoot = styled(
-  (props: TableProps) => <Table component="div" {...props} />,
+export const GridRoot: StyledComponent<TableProps> = styled(
+  (props) => <Table component="div" {...props} />,
   {
     name: COMPONENT_NAME,
     slot: "Root",
@@ -51,7 +56,9 @@ export const GridRoot = styled(
   flexDirection: "column",
 }));
 
-export const GridMainContainer = styled("div", {
+export const GridMainContainer: StyledComponent<
+  ComponentPropsWithoutRef<"div">
+> = styled("div", {
   name: COMPONENT_NAME,
   slot: "Main",
 })(() => ({
@@ -62,7 +69,7 @@ export const GridMainContainer = styled("div", {
   overflow: "hidden",
 }));
 
-export const GridRow = styled(
+export const GridRow: StyledComponent<TableRowProps> = styled(
   (props: TableRowProps) => <TableRow component="div" {...props} />,
   {
     name: COMPONENT_NAME,
@@ -74,7 +81,7 @@ export const GridRow = styled(
   breakInside: "avoid",
 }));
 
-export const GridCell = styled(
+export const GridCell: StyledComponent<TableCellProps> = styled(
   (props: TableCellProps) => <TableCell component="div" {...props} />,
   { name: COMPONENT_NAME, slot: "Cell" }
 )({
@@ -82,7 +89,7 @@ export const GridCell = styled(
   alignItems: "center",
 });
 
-export const GridBodyContainer = styled(
+export const GridBodyContainer: StyledComponent<TableBodyProps> = styled(
   (props: TableBodyProps) => <TableBody component="div" {...props} />,
   { name: COMPONENT_NAME, slot: "Body" }
 )(({ theme }) => ({
@@ -96,7 +103,7 @@ export const GridBodyContainer = styled(
   },
 }));
 
-export const GridFooter = styled(
+export const GridFooter: StyledComponent<TableFooterProps> = styled(
   (props: TableFooterProps) => <TableFooter component="div" {...props} />,
   {
     name: COMPONENT_NAME,
@@ -106,31 +113,35 @@ export const GridFooter = styled(
   display: "flex",
 });
 
-export const GridHeadRoot = styled(
-  forwardRef<HTMLDivElement, TableHeadProps>(function GridHead(props, ref) {
-    return <TableHead component="div" {...props} ref={ref} />;
-  }),
+export const GridHeadRoot: StyledComponent<ComponentPropsWithRef<"div">> =
+  styled(
+    forwardRef<HTMLDivElement, TableHeadProps>(function GridHead(props, ref) {
+      return <TableHead component="div" {...props} ref={ref} />;
+    }),
+    {
+      name: COMPONENT_NAME,
+      slot: "Head",
+    }
+  )(({ theme }) => ({
+    display: "flex",
+    overflow: "hidden",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    alignItems: "center",
+    borderTopLeftRadius: theme.shape.borderRadius,
+    borderTopRightRadius: theme.shape.borderRadius,
+    borderBottom: `1px solid ${getBorderColor(theme)}`,
+  }));
+
+export const Overlay: StyledComponent<ComponentPropsWithoutRef<"div">> = styled(
+  "div",
   {
     name: COMPONENT_NAME,
-    slot: "Head",
+    slot: "Overlay",
   }
 )(({ theme }) => ({
-  display: "flex",
-  overflow: "hidden",
-  position: "absolute",
-  top: 0,
-  left: 0,
-  right: 0,
-  alignItems: "center",
-  borderTopLeftRadius: theme.shape.borderRadius,
-  borderTopRightRadius: theme.shape.borderRadius,
-  borderBottom: `1px solid ${getBorderColor(theme)}`,
-}));
-
-export const Overlay = styled("div", {
-  name: COMPONENT_NAME,
-  slot: "Overlay",
-})(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   display: "flex",
   position: "absolute",
