@@ -1,6 +1,7 @@
-import { render, screen } from "@testing-library/react";
 import type { Row } from "@tanstack/react-table";
+import { describe, it, expect } from "vitest";
 import GridOverlays from "../GridOverlays";
+import { render, screen } from "../../../test/util";
 
 describe("<GridOverlays />", () => {
   type Data = { id: string; name: string };

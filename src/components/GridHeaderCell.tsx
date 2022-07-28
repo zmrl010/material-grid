@@ -9,14 +9,20 @@ export default function GridHeaderCell<TData extends RowData>({
   const sortDirection = header.column.getIsSorted() || undefined;
 
   return (
-    <GridCell {...props} sortDirection={sortDirection}>
+    <GridCell
+      {...props}
+      sortDirection={sortDirection}
+      colSpan={header.colSpan}
+      width={header.getSize()}
+    >
       <TableSortLabel
         active={!!sortDirection}
         direction={sortDirection}
-        hideSortIcon
         onClick={header.column.getToggleSortingHandler()}
       >
-        {flexRender(header.column.columnDef.header, header.getContext())}
+        {header.isPlaceholder
+          ? null
+          : flexRender(header.column.columnDef.header, header.getContext())}
       </TableSortLabel>
     </GridCell>
   );

@@ -1,6 +1,6 @@
 import { flexRender, RowData, Table } from "@tanstack/react-table";
 import { CSSProperties } from "react";
-import { GridRow, GridCell } from "./styled";
+import { GridRow, GridCell, GridBodyContainer } from "./styled";
 
 interface GridPanelProps<TData extends RowData> {
   table: Table<TData>;
@@ -14,7 +14,7 @@ export default function GridPanel<TData extends RowData>({
   rowHeight,
 }: GridPanelProps<TData>) {
   return (
-    <div style={style}>
+    <GridBodyContainer style={style}>
       {table.getRowModel().rows.map((row) => (
         <GridRow
           sx={{
@@ -24,12 +24,21 @@ export default function GridPanel<TData extends RowData>({
           key={row.id}
         >
           {row.getVisibleCells().map((cell) => (
-            <GridCell key={cell.id}>
+            <GridCell
+              key={cell.id}
+              width={cell.column.getSize()}
+              sx={{
+                minWidth: cell.column.getSize(),
+                maxWidth: cell.column.getSize(),
+                minHeight: rowHeight,
+                maxHeight: rowHeight,
+              }}
+            >
               {flexRender(cell.column.columnDef.cell, cell.getContext())}
             </GridCell>
           ))}
         </GridRow>
       ))}
-    </div>
+    </GridBodyContainer>
   );
 }

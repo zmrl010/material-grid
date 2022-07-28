@@ -7,22 +7,19 @@ import useScrollbarSizeDetector from "../../hooks/useScrollbarSizeDetector";
 import GridAutoSizer from "../GridAutoSizer";
 import GridPanel from "../GridPanel";
 
-const DEFAULT_HEAD_HEIGHT = 56;
-const DEFAULT_ROW_HEIGHT = 52;
-
 export interface GridBodyProps<TData extends RowData> {
   table: Table<TData>;
   loading?: boolean;
-  headHeight?: number;
-  rowHeight?: number;
+  headHeight: number;
+  rowHeight: number;
   ColumnHeaders: JSXElementConstructor<GridColumnHeadersProps<TData>>;
 }
 
 export default function GridBody<TData extends RowData>({
   table,
   loading,
-  headHeight = DEFAULT_HEAD_HEIGHT,
-  rowHeight = DEFAULT_ROW_HEIGHT,
+  headHeight,
+  rowHeight,
   ColumnHeaders,
 }: GridBodyProps<TData>) {
   const bodyRef = useRef<HTMLDivElement | null>(null);
