@@ -5,12 +5,20 @@ import react from "@vitejs/plugin-react";
 import typescript from "@rollup/plugin-typescript";
 
 export default defineConfig({
-  plugins: [react(), typescript()],
+  plugins: [
+    typescript({
+      exclude: [
+        "**/*.{spec,test}.{ts,tsx}",
+        "**/{spec,test,__test__}/*.{ts,tsx}",
+      ],
+    }),
+    react(),
+  ],
   build: {
     lib: {
       entry: "src/index.ts",
       formats: ["es", "cjs"],
-      fileName: "material-grid",
+      fileName: "index",
     },
     rollupOptions: {
       external: [

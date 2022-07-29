@@ -2,8 +2,8 @@
   "name": "@zmrl/material-grid",
   "version": "3.0.2",
   "description": "Feature-rich data grid react component, built with react-table and MUI.",
-  "main": "dist/material-grid.js",
-  "module": "dist/material-grid.mjs",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
@@ -11,16 +11,16 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/material-grid.mjs",
-      "require": "./dist/material-grid.js"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "scripts": {
     "test": "vitest",
     "checkTypes": "tsc --noEmit",
     "dev": "vite -c vite.config.ts demo",
-    "build": "vite build",
-    "clean": "rimraf dist",
+    "build": "rimraf dist && vite build",
     "prepare": "pnpm run build",
     "lint": "eslint --fix ./src"
   },
