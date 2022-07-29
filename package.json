@@ -9,6 +9,12 @@
     "dist",
     "src"
   ],
+  "exports": {
+    ".": {
+      "import": "./dist/material-grid.mjs",
+      "require": "./dist/material-grid.js"
+    }
+  },
   "scripts": {
     "test": "vitest",
     "checkTypes": "tsc --noEmit",
@@ -77,3 +83,4 @@
   },
   "homepage": "https://github.com/zmrl010/material-grid#readme"
 }
+
