@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { createTheme, ThemeProvider, Box } from "@mui/material";
-import { ColumnDef, MaterialGrid } from "../";
+import { ColumnDef, MaterialGrid } from "../src";
 
 function makeFake(id: string, name: string) {
   return { id, name, createdOn: new Date() };
