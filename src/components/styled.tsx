@@ -1,28 +1,28 @@
 import { StyledComponent } from "@emotion/styled";
 import {
+  alpha,
+  darken,
+  lighten,
   styled,
   Table,
   TableBody,
   TableCell,
-  TableHead,
-  TableFooter,
-  type TableHeadProps,
-  TableRow,
-  type TableCellProps,
-  type TableRowProps,
-  type TableProps,
-  type TableBodyProps,
-  type TableFooterProps,
-  lighten,
-  alpha,
-  darken,
-  type Theme,
   tableCellClasses,
+  TableFooter,
+  TableHead,
+  TableRow,
+  type TableBodyProps,
+  type TableCellProps,
+  type TableFooterProps,
+  type TableHeadProps,
+  type TableProps,
+  type TableRowProps,
+  type Theme,
 } from "@mui/material";
 import {
+  forwardRef,
   type ComponentPropsWithoutRef,
   type ComponentPropsWithRef,
-  forwardRef,
 } from "react";
 
 const COMPONENT_NAME = "MaterialGrid";
@@ -43,7 +43,7 @@ export const GridRoot: StyledComponent<TableProps> = styled(
     slot: "Root",
   }
 )(({ theme }) => ({
-  flex: "1",
+  flex: 1,
   boxSizing: "border-box",
   position: "relative",
   border: `1px solid ${getBorderColor(theme)}`,
@@ -63,14 +63,14 @@ export const GridMainContainer: StyledComponent<
   slot: "Main",
 })(() => ({
   position: "relative",
-  flexGrow: 1,
+  flex: 1,
   display: "flex",
   flexDirection: "column",
   overflow: "hidden",
 }));
 
 export const GridRow: StyledComponent<TableRowProps> = styled(
-  (props: TableRowProps) => <TableRow component="div" {...props} />,
+  (props) => <TableRow component="div" {...props} />,
   {
     name: COMPONENT_NAME,
     slot: "Row",
@@ -82,7 +82,7 @@ export const GridRow: StyledComponent<TableRowProps> = styled(
 }));
 
 export const GridCell: StyledComponent<TableCellProps> = styled(
-  (props: TableCellProps) => <TableCell component="div" {...props} />,
+  (props) => <TableCell component="div" {...props} />,
   { name: COMPONENT_NAME, slot: "Cell" }
 )({
   display: "flex",
@@ -90,7 +90,7 @@ export const GridCell: StyledComponent<TableCellProps> = styled(
 });
 
 export const GridBodyContainer: StyledComponent<TableBodyProps> = styled(
-  (props: TableBodyProps) => <TableBody component="div" {...props} />,
+  (props) => <TableBody component="div" {...props} />,
   { name: COMPONENT_NAME, slot: "Body" }
 )(({ theme }) => ({
   display: "flex",
@@ -104,7 +104,7 @@ export const GridBodyContainer: StyledComponent<TableBodyProps> = styled(
 }));
 
 export const GridFooter: StyledComponent<TableFooterProps> = styled(
-  (props: TableFooterProps) => <TableFooter component="div" {...props} />,
+  (props) => <TableFooter component="div" {...props} />,
   {
     name: COMPONENT_NAME,
     slot: "Footer",
