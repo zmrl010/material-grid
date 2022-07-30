@@ -21,7 +21,7 @@
     "checkTypes": "tsc --noEmit",
     "dev": "vite -c vite.config.ts demo",
     "build": "rimraf dist && vite build",
-    "prepare": "pnpm run build",
+    "prepare": "pnpm build",
     "lint": "eslint --fix ./src"
   },
   "author": "zmrl",

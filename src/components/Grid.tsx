@@ -1,8 +1,8 @@
 import { type TableProps } from "@mui/material";
 import type { RowData, Table } from "@tanstack/react-table";
-import { GridRoot } from "./styled";
+import { GridRoot } from "./GridRoot";
 import GridColumnHeaders from "./GridColumnHeaders";
-import GridBody from "./base/GridBody";
+import GridMain from "./GridMain";
 
 export interface GridProps<TData extends RowData> extends TableProps {
   /**
@@ -31,7 +31,7 @@ export default function Grid<TData extends RowData>({
 }: GridProps<TData>) {
   return (
     <GridRoot {...props}>
-      <GridBody
+      <GridMain
         table={table}
         rowHeight={rowHeight}
         headHeight={headHeight}

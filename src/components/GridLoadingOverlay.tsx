@@ -1,6 +1,6 @@
 import { CircularProgress } from "@mui/material";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
-import { Overlay } from "./styled";
+import Overlay from "./Overlay";
 
 export interface GridLoadingOverlayProps
   extends ComponentPropsWithoutRef<typeof Overlay> {

@@ -69,6 +69,10 @@ const GridAutoSizer = forwardRef<HTMLDivElement, AutoSizerProps>(
     },
     ref
   ) {
+    /************************************************
+     * TODO extract component logic to custom hook
+     ***********************************************/
+
     const [state, setState] = useState({
       height: defaultHeight,
       width: defaultWidth,

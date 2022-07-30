@@ -1,5 +1,5 @@
-import GridLoadingOverlay from "../GridLoadingOverlay";
-import GridNoRowsOverlay from "../GridNoRowsOverlay";
+import GridLoadingOverlay from "./GridLoadingOverlay";
+import GridNoRowsOverlay from "./GridNoRowsOverlay";
 
 export interface GridOverlaysProps {
   loading?: boolean;
