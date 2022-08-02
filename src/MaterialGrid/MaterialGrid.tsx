@@ -4,7 +4,7 @@ import {
   type RowData,
   getCoreRowModel,
   getSortedRowModel,
-  getPaginationRowModel,
+  // getPaginationRowModel,
 } from "@tanstack/react-table";
 import { memo } from "react";
 import Grid, { type GridProps } from "../components/Grid";
@@ -30,7 +30,7 @@ function MaterialGridBase<TData extends RowData>({
     ...options,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    // getPaginationRowModel: getPaginationRowModel(),
   });
 
   return <Grid table={table} {...tableProps} />;

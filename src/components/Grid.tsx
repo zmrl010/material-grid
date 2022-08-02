@@ -1,6 +1,6 @@
 import { type TableProps } from "@mui/material";
 import type { RowData, Table } from "@tanstack/react-table";
-import { GridRoot } from "./GridRoot";
+import GridRoot from "./GridRoot";
 import GridColumnHeaders from "./GridColumnHeaders";
 import GridMain from "./GridMain";
 

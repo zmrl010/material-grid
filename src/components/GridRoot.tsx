@@ -1,9 +1,9 @@
-import { StyledComponent } from "@emotion/styled";
+import { type StyledComponent } from "@emotion/styled";
 import { styled, Table, type TableProps } from "@mui/material";
-import { getBorderColor } from "./styled";
+import getBorderColor from "../styles/getBorderColor";
 import { COMPONENT_NAME } from "../constants";
 
-export const GridRoot: StyledComponent<TableProps> = styled(
+const GridRoot: StyledComponent<TableProps> = styled(
   (props) => <Table component="div" {...props} />,
   {
     name: COMPONENT_NAME,
@@ -22,3 +22,5 @@ export const GridRoot: StyledComponent<TableProps> = styled(
   display: "flex",
   flexDirection: "column",
 }));
+
+export default GridRoot;

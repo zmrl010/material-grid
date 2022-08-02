@@ -1,7 +1,7 @@
 import type { RowData, Table } from "@tanstack/react-table";
 import GridHeadCell from "./GridHeadCell";
-import { GridRow } from "./styled";
-import { GridHeadRoot } from "./GridHeadRoot";
+import GridRow from "./GridRow";
+import GridHeadRoot from "./GridHeadRoot";
 
 export interface GridColumnHeadersProps<TData extends RowData> {
   table: Table<TData>;
@@ -24,7 +24,10 @@ export default function GridColumnHeaders<TData extends RowData>({
       }}
     >
       {table.getHeaderGroups().map((headerGroup) => (
-        <GridRow key={headerGroup.id}>
+        <GridRow
+          key={headerGroup.id}
+          sx={{ minHeight: height, maxHeight: height }}
+        >
           {headerGroup.headers.map((header) => (
             <GridHeadCell header={header} key={header.id} />
           ))}

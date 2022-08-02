@@ -1,22 +1,23 @@
 import { Box } from "@mui/material";
 import { Cell, flexRender, type RowData } from "@tanstack/react-table";
-import { GridCell } from "./styled";
+import GridCell from "./GridCell";
 
 export interface GridBodyCellProps<TData extends RowData> {
   cell: Cell<TData, unknown>;
   rowHeight?: number;
 }
 
-export function GridBodyCell<TData extends RowData>({
+export default function GridBodyCell<TData extends RowData>({
   cell,
   rowHeight,
 }: GridBodyCellProps<TData>): JSX.Element {
+  const width = cell.column.getSize();
   return (
     <GridCell
-      width={cell.column.getSize()}
       sx={{
-        minWidth: cell.column.getSize(),
-        maxWidth: cell.column.getSize(),
+        width,
+        minWidth: width,
+        maxWidth: width,
         minHeight: rowHeight,
         maxHeight: rowHeight,
       }}

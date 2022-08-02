@@ -1,6 +1,6 @@
 import { flexRender, Header, RowData } from "@tanstack/react-table";
 import { type TableCellProps, TableSortLabel } from "@mui/material";
-import { GridCell } from "./styled";
+import GridCell from "./GridCell";
 
 export default function GridHeadCell<TData extends RowData>({
   header,
@@ -15,6 +15,7 @@ export default function GridHeadCell<TData extends RowData>({
       sortDirection={sortDirection}
       colSpan={header.colSpan}
       sx={{
+        width,
         minWidth: width,
         maxWidth: width,
       }}
