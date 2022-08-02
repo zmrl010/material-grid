@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@emotion/react': ^11.9.3
   '@emotion/styled': ^11.9.3
+  '@faker-js/faker': ^7.3.0
   '@mui/icons-material': ^5.8.4
   '@mui/material': ^5.9.2
   '@mui/system': ^5.9.2
@@ -36,6 +37,7 @@ dependencies:
 devDependencies:
   '@emotion/react': 11.9.3_szkdlbnthht4v3jvm76fn7u6na
   '@emotion/styled': 11.9.3_y2x62d5bbinncmisoeyv36jqse
+  '@faker-js/faker': 7.3.0
   '@mui/icons-material': 5.8.4_firrc3iytazs66dglnpftflsmu
   '@mui/material': 5.9.2_bl6qrq6463ovzmqn4cmwv7vydq
   '@mui/system': 5.9.2_kgoqblbzxlux4bm4vftowiq75m
@@ -465,6 +467,11 @@ packages:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@faker-js/faker/7.3.0:
+    resolution: {integrity: sha512-1W0PZezq2rxlAssoWemi9gFRD8IQxvf0FPL5Km3TOmGHFG7ib0TbFBJ0yC7D/1NsxunjNTK6WjUXV8ao/mKZ5w==}
+    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
     dev: true
 
   /@humanwhocodes/config-array/0.9.5:
