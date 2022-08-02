@@ -1,12 +1,15 @@
+import type { StyledComponent } from "@emotion/styled";
 import { styled } from "@mui/material";
-import { type Table, type RowData } from "@tanstack/react-table";
-import { ComponentPropsWithoutRef, type JSXElementConstructor } from "react";
-import GridOverlays from "./GridOverlays";
-import { GridColumnHeadersProps } from "./GridColumnHeaders";
+import { type RowData, type Table } from "@tanstack/react-table";
+import {
+  type ComponentPropsWithoutRef,
+  type JSXElementConstructor,
+} from "react";
+import { COMPONENT_NAME } from "../constants";
 import GridAutoSizer from "./GridAutoSizer";
 import GridBody from "./GridBody";
-import type { StyledComponent } from "@emotion/styled";
-import { COMPONENT_NAME } from "../constants";
+import { type GridColumnHeadersProps } from "./GridColumnHeaders";
+import GridOverlays from "./GridOverlays";
 
 const GridMainContainer: StyledComponent<ComponentPropsWithoutRef<"div">> =
   styled("div", {
