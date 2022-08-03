@@ -6,6 +6,7 @@ import {
   type JSXElementConstructor,
 } from "react";
 import { COMPONENT_NAME } from "../constants";
+import { gridClasses } from "../styles/gridClasses";
 import GridAutoSizer from "./GridAutoSizer";
 import GridBody from "./GridBody";
 import { type GridColumnHeadersProps } from "./GridColumnHeaders";
@@ -36,7 +37,7 @@ export default function GridMain<TData extends RowData>({
   const { headHeight = 0 } = table.options.meta ?? {};
 
   return (
-    <GridMainContainer>
+    <GridMainContainer className={gridClasses.main}>
       <GridOverlays rows={rows} />
       <ColumnHeaders table={table} />
       <GridAutoSizer>

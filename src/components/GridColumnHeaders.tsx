@@ -1,25 +1,16 @@
 import { type StyledComponent } from "@emotion/styled";
-import { styled, TableHead, type TableHeadProps } from "@mui/material";
+import { styled, type TableHeadProps } from "@mui/material";
 import type { RowData, Table } from "@tanstack/react-table";
-import { forwardRef, type ComponentPropsWithRef } from "react";
 import { COMPONENT_NAME } from "../constants";
 import getBorderColor from "../styles/getBorderColor";
+import { gridClasses } from "../styles/gridClasses";
 import GridColumnHeader from "./GridColumnHeader";
 import GridRow from "./GridRow";
 
-const GridHeadRootBase = forwardRef<HTMLDivElement, TableHeadProps>(
-  function GridHead(props, ref) {
-    return <TableHead component="div" {...props} ref={ref} />;
-  }
-);
-
-const GridHeadRoot: StyledComponent<ComponentPropsWithRef<"div">> = styled(
-  GridHeadRootBase,
-  {
-    name: COMPONENT_NAME,
-    slot: "Head",
-  }
-)(({ theme }) => ({
+const GridHead: StyledComponent<TableHeadProps> = styled("div", {
+  name: COMPONENT_NAME,
+  slot: "Head",
+})(({ theme }) => ({
   display: "flex",
   overflow: "hidden",
   position: "absolute",
@@ -42,13 +33,15 @@ export default function GridColumnHeaders<TData extends RowData>({
   const { headHeight: height } = table.options.meta ?? {};
 
   return (
-    <GridHeadRoot
+    <GridHead
+      className={gridClasses.columnHeaders}
       style={{
         width: "100%",
         minHeight: height,
         maxHeight: height,
         lineHeight: height,
       }}
+      role="rowgroup"
     >
       {table.getHeaderGroups().map((headerGroup) => (
         <GridRow
@@ -60,6 +53,6 @@ export default function GridColumnHeaders<TData extends RowData>({
           ))}
         </GridRow>
       ))}
-    </GridHeadRoot>
+    </GridHead>
   );
 }
