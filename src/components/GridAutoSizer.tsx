@@ -92,8 +92,6 @@ const GridAutoSizer = forwardRef<HTMLDivElement, AutoSizerProps>(
         return;
       }
 
-      const { offsetHeight = 0, offsetWidth = 0 } = parentRef.current;
-
       const win = ownerWindow(parentRef.current);
       const computedStyle = win.getComputedStyle(parentRef.current);
 
@@ -101,6 +99,8 @@ const GridAutoSizer = forwardRef<HTMLDivElement, AutoSizerProps>(
       const paddingRight = parseInt(computedStyle.paddingRight, 10) || 0;
       const paddingTop = parseInt(computedStyle.paddingTop, 10) || 0;
       const paddingBottom = parseInt(computedStyle.paddingBottom, 10) || 0;
+
+      const { offsetHeight = 0, offsetWidth = 0 } = parentRef.current;
 
       const newHeight = offsetHeight - paddingTop - paddingBottom;
       const newWidth = offsetWidth - paddingLeft - paddingRight;

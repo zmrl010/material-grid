@@ -59,11 +59,7 @@ export default function GridBody<TData extends RowData>({
           ))}
           <GridCell
             sx={{
-              minHeight: rowHeight,
-              maxHeight: rowHeight,
               width: remainingWidth,
-              minWidth: remainingWidth,
-              maxWidth: remainingWidth,
             }}
           >
             {" "}
