@@ -1,29 +1,29 @@
 import { Box } from "@mui/material";
-import { Cell, flexRender, type RowData } from "@tanstack/react-table";
+import { type ReactNode } from "react";
 import GridCell from "./GridCell";
 
-export interface GridBodyCellProps<TData extends RowData> {
-  cell: Cell<TData, unknown>;
-  rowHeight?: number;
+export interface GridBodyCellProps {
+  height?: number;
+  width?: number;
+  children: ReactNode;
 }
 
-export default function GridBodyCell<TData extends RowData>({
-  cell,
-  rowHeight,
-}: GridBodyCellProps<TData>): JSX.Element {
-  const width = cell.column.getSize();
+export default function GridBodyCell({
+  height,
+  width,
+  children,
+}: GridBodyCellProps): JSX.Element {
   return (
     <GridCell
       sx={{
-        width,
         minWidth: width,
         maxWidth: width,
-        minHeight: rowHeight,
-        maxHeight: rowHeight,
+        minHeight: height,
+        maxHeight: height,
       }}
     >
       <Box overflow="hidden" textOverflow="ellipsis">
-        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+        {children}
       </Box>
     </GridCell>
   );

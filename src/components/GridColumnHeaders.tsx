@@ -4,7 +4,7 @@ import type { RowData, Table } from "@tanstack/react-table";
 import { forwardRef, type ComponentPropsWithRef } from "react";
 import { COMPONENT_NAME } from "../constants";
 import getBorderColor from "../styles/getBorderColor";
-import GridHeadCell from "./GridHeadCell";
+import GridColumnHeader from "./GridColumnHeader";
 import GridRow from "./GridRow";
 
 const GridHeadRootBase = forwardRef<HTMLDivElement, TableHeadProps>(
@@ -34,19 +34,17 @@ const GridHeadRoot: StyledComponent<ComponentPropsWithRef<"div">> = styled(
 
 export interface GridColumnHeadersProps<TData extends RowData> {
   table: Table<TData>;
-  width?: string | number;
-  height: string | number;
 }
 
 export default function GridColumnHeaders<TData extends RowData>({
   table,
-  width,
-  height,
 }: GridColumnHeadersProps<TData>) {
+  const { headHeight: height } = table.options.meta ?? {};
+
   return (
     <GridHeadRoot
       style={{
-        width,
+        width: "100%",
         minHeight: height,
         maxHeight: height,
         lineHeight: height,
@@ -58,7 +56,7 @@ export default function GridColumnHeaders<TData extends RowData>({
           sx={{ minHeight: height, maxHeight: height }}
         >
           {headerGroup.headers.map((header) => (
-            <GridHeadCell header={header} key={header.id} />
+            <GridColumnHeader header={header} key={header.id} />
           ))}
         </GridRow>
       ))}

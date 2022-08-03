@@ -8,10 +8,12 @@ import {
 } from "@tanstack/react-table";
 import { memo } from "react";
 import Grid, { type GridProps } from "../components/Grid";
+import { GridMeta } from "../meta";
 
 export interface MaterialGridProps<TData extends RowData>
   extends Pick<TableOptions<TData>, "data" | "columns">,
-    Partial<GridProps<TData>> {
+    Partial<GridProps<TData>>,
+    GridMeta {
   /**
    * Additional options passed to `useReactTable`
    */
@@ -22,11 +24,17 @@ function MaterialGridBase<TData extends RowData>({
   columns,
   data,
   options,
+  rowHeight = 52,
+  headHeight = 56,
   ...tableProps
 }: MaterialGridProps<TData>) {
   const table = useReactTable<TData>({
     columns,
     data,
+    meta: {
+      rowHeight,
+      headHeight,
+    },
     ...options,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),

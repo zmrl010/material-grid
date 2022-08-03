@@ -5,7 +5,7 @@ import {
   tableCellClasses,
   styled,
 } from "@mui/material";
-import { type RowData, type Table } from "@tanstack/react-table";
+import { flexRender, type RowData, type Table } from "@tanstack/react-table";
 import { type CSSProperties } from "react";
 import { COMPONENT_NAME } from "../constants";
 import getBorderColor from "../styles/getBorderColor";
@@ -32,16 +32,15 @@ const GridBodyContainer: StyledComponent<TableBodyProps> = styled(
 
 export interface GridBodyProps<TData extends RowData> {
   table: Table<TData>;
-  rowHeight?: number;
   style?: CSSProperties;
 }
 
 export default function GridBody<TData extends RowData>({
   table,
   style,
-  rowHeight,
 }: GridBodyProps<TData>) {
   const totalSize = table.getTotalSize();
+  const { rowHeight } = table.options.meta ?? {};
   const remainingWidth = `calc(100% - ${totalSize}px)`;
 
   return (
@@ -55,15 +54,15 @@ export default function GridBody<TData extends RowData>({
           key={row.id}
         >
           {row.getVisibleCells().map((cell) => (
-            <GridBodyCell key={cell.id} cell={cell} rowHeight={rowHeight} />
+            <GridBodyCell
+              key={cell.id}
+              height={rowHeight}
+              width={cell.column.getSize()}
+            >
+              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+            </GridBodyCell>
           ))}
-          <GridCell
-            sx={{
-              width: remainingWidth,
-            }}
-          >
-            {" "}
-          </GridCell>
+          <GridCell sx={{ width: remainingWidth }}> _ </GridCell>
         </GridRow>
       ))}
     </GridBodyContainer>

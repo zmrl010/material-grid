@@ -15,40 +15,34 @@ const GridMainContainer: StyledComponent<ComponentPropsWithoutRef<"div">> =
   styled("div", {
     name: COMPONENT_NAME,
     slot: "Main",
-  })(() => ({
+  })({
     position: "relative",
     flex: 1,
     display: "flex",
     flexDirection: "column",
     overflow: "hidden",
-  }));
+  });
 
 export interface GridMainProps<TData extends RowData> {
   table: Table<TData>;
-  loading?: boolean;
-  headHeight: number;
-  rowHeight: number;
   ColumnHeaders: JSXElementConstructor<GridColumnHeadersProps<TData>>;
 }
 
 export default function GridMain<TData extends RowData>({
   table,
-  loading,
-  headHeight,
-  rowHeight,
   ColumnHeaders,
 }: GridMainProps<TData>) {
   const { rows } = table.getRowModel();
+  const { headHeight = 0 } = table.options.meta ?? {};
 
   return (
     <GridMainContainer>
-      <GridOverlays loading={loading} rows={rows} />
-      <ColumnHeaders table={table} height={headHeight} width="100%" />
+      <GridOverlays rows={rows} />
+      <ColumnHeaders table={table} />
       <GridAutoSizer>
         {({ height, width }) => (
           <GridBody
             table={table}
-            rowHeight={rowHeight}
             style={{
               width,
               height: height ? height - headHeight : "auto",
