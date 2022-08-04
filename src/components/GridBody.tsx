@@ -1,15 +1,15 @@
-import { type StyledComponent } from "@emotion/styled";
-import { type TableBodyProps, styled } from "@mui/material";
+import { styled, useEventCallback } from "@mui/material";
 import { flexRender, type RowData, type Table } from "@tanstack/react-table";
-import { type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { COMPONENT_NAME } from "../constants";
+import { getGridMeta } from "../meta";
 import getBorderColor from "../styles/getBorderColor";
 import { gridClasses } from "../styles/gridClasses";
 import GridBodyCell from "./GridBodyCell";
 import GridCell from "./GridCell";
 import GridRow from "./GridRow";
 
-const GridBodyRoot: StyledComponent<TableBodyProps> = styled("div", {
+const GridBodyRoot = styled("div", {
   name: COMPONENT_NAME,
   slot: "Body",
 })(({ theme }) => ({
@@ -32,12 +32,41 @@ export default function GridBody<TData extends RowData>({
   table,
   style,
 }: GridBodyProps<TData>) {
-  const totalSize = table.getTotalSize();
-  const { rowHeight } = table.options.meta ?? {};
-  const remainingWidth = `calc(100% - ${totalSize}px)`;
+  const width = table.getTotalSize();
+  const bodyRef = useRef<HTMLDivElement | null>(null);
+  const [size, setSize] = useState({ height: 0, width: 0 });
+
+  const handleResize = useEventCallback(() => {
+    if (!bodyRef.current) {
+      return;
+    }
+    setSize({
+      height: bodyRef.current.clientHeight,
+      width: bodyRef.current.clientWidth,
+    });
+  });
+
+  useEffect(() => {
+    if (!bodyRef.current) {
+      return;
+    }
+    const observer = new ResizeObserver(() => handleResize());
+
+    observer.observe(bodyRef.current);
+
+    return () => observer.disconnect();
+  }, [handleResize]);
+
+  const { rowHeight } = getGridMeta(table);
+  const remainingWidth = size.width - width;
 
   return (
-    <GridBodyRoot style={style} role="rowgroup" className={gridClasses.body}>
+    <GridBodyRoot
+      style={style}
+      role="rowgroup"
+      className={gridClasses.body}
+      ref={bodyRef}
+    >
       {table.getRowModel().rows.map((row) => (
         <GridRow
           sx={{
@@ -55,7 +84,7 @@ export default function GridBody<TData extends RowData>({
               {flexRender(cell.column.columnDef.cell, cell.getContext())}
             </GridBodyCell>
           ))}
-          <GridCell sx={{ width: remainingWidth }}> _ </GridCell>
+          <GridCell style={{ width: remainingWidth }}></GridCell>
         </GridRow>
       ))}
     </GridBodyRoot>

@@ -109,9 +109,8 @@ const GridAutoSizer = forwardRef<HTMLDivElement, AutoSizerProps>(
         (!disableHeight && state.height !== newHeight) ||
         (!disableWidth && state.width !== newWidth)
       ) {
-        const size = { height: newHeight, width: newWidth };
-        setState(size);
-        onResize?.(size);
+        setState({ height: newHeight, width: newWidth });
+        onResize?.({ height: newHeight, width: newWidth });
       }
     });
 
@@ -123,9 +122,7 @@ const GridAutoSizer = forwardRef<HTMLDivElement, AutoSizerProps>(
       }
 
       const resizeObserver = new ResizeObserver(() => handleResize());
-
       resizeObserver.observe(parentRef.current);
-
       handleResize();
 
       return () => {

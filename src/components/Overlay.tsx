@@ -1,15 +1,11 @@
-import { StyledComponent } from "@emotion/styled";
+import "@mui/system";
 import { styled } from "@mui/material";
-import { type ComponentPropsWithoutRef } from "react";
 import { COMPONENT_NAME } from "../constants";
 
-const Overlay: StyledComponent<ComponentPropsWithoutRef<"div">> = styled(
-  "div",
-  {
-    name: COMPONENT_NAME,
-    slot: "Overlay",
-  }
-)(({ theme }) => ({
+const Overlay = styled("div", {
+  name: COMPONENT_NAME,
+  slot: "Overlay",
+})(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   display: "flex",
   position: "absolute",

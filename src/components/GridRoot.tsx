@@ -1,11 +1,11 @@
-import { type StyledComponent } from "@emotion/styled";
 import { styled, type TableProps } from "@mui/material";
 import getBorderColor from "../styles/getBorderColor";
 import { COMPONENT_NAME } from "../constants";
 import { gridClasses } from "../styles/gridClasses";
 import clsx from "clsx";
+import { forwardRef } from "react";
 
-const GridRootBase: StyledComponent<TableProps> = styled("div", {
+const GridRootBase = styled("div", {
   name: COMPONENT_NAME,
   slot: "Root",
 })(({ theme }) => ({
@@ -22,14 +22,18 @@ const GridRootBase: StyledComponent<TableProps> = styled("div", {
   flexDirection: "column",
 }));
 
-function GridRoot({ className, ...props }: TableProps) {
+const GridRoot = forwardRef<HTMLDivElement, TableProps>(function GridRoot(
+  { className, ...props },
+  ref
+) {
   return (
     <GridRootBase
+      ref={ref}
       role="grid"
       className={clsx(className, gridClasses.root)}
       {...props}
     />
   );
-}
+});
 
 export default GridRoot;

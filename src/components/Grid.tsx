@@ -3,9 +3,9 @@ import type { RowData, Table } from "@tanstack/react-table";
 import GridRoot from "./GridRoot";
 import GridColumnHeaders from "./GridColumnHeaders";
 import GridMain from "./GridMain";
-import { GridMeta } from "../meta";
+import { getGridMeta } from "../meta";
 
-export interface GridProps<TData extends RowData> extends TableProps, GridMeta {
+export interface GridProps<TData extends RowData> extends TableProps {
   /**
    * React Table instance
    */
@@ -16,8 +16,10 @@ export default function Grid<TData extends RowData>({
   table,
   ...props
 }: GridProps<TData>) {
+  const { rootRef } = getGridMeta(table);
+
   return (
-    <GridRoot {...props}>
+    <GridRoot {...props} ref={rootRef}>
       <GridMain table={table} ColumnHeaders={GridColumnHeaders} />
     </GridRoot>
   );
