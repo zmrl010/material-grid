@@ -71,9 +71,6 @@
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0"
   },
-  "overrides": {
-    "react": "^18"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zmrl010/material-grid.git"
