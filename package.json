@@ -2,50 +2,74 @@
   "name": "@zmrl/material-grid",
   "version": "3.0.2",
   "description": "Feature-rich data grid react component, built with react-table and MUI.",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "scripts": {
-    "test": "jest",
-    "build": "tsc",
-    "prepare": "npm run build",
-    "lint": "eslint --fix ./src"
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
   },
   "files": [
     "dist",
     "src"
   ],
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "test": "vitest",
+    "dev": "vite -c vite.config.ts demo",
+    "build": "rimraf dist && vite build",
+    "prepare": "pnpm build",
+    "lint": "eslint --fix ./src"
+  },
   "author": "zmrl",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "@types/react-table": "^7.7.11",
-    "react-table": "^7.7.0",
-    "typescript": "^4.6.4"
+    "@tanstack/react-table": "^8.5.5",
+    "clsx": "^1.2.1",
+    "prop-types": "^15.8.1"
   },
   "devDependencies": {
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
+    "@faker-js/faker": "^7.3.0",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.9.3",
+    "@mui/system": "^5.9.3",
+    "@rollup/plugin-typescript": "^8.3.4",
     "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.2.0",
-    "@types/jest": "^27.5.0",
-    "@types/react": "^18.0.9",
-    "@types/react-dom": "^18.0.3",
-    "@typescript-eslint/eslint-plugin": "^5.22.0",
-    "@typescript-eslint/parser": "^5.22.0",
-    "eslint": "^8.14.0",
+    "@testing-library/react": "^13.3.0",
+    "@types/prop-types": "^15.7.5",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.32.0",
+    "@typescript-eslint/parser": "^5.32.0",
+    "@vitejs/plugin-react": "^2.0.0",
+    "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-react": "^7.29.4",
-    "eslint-plugin-react-hooks": "^4.5.0",
-    "jest": "^28.0.3",
-    "jest-environment-jsdom": "^28.0.2",
-    "prettier": "^2.6.2",
-    "ts-jest": "^28.0.1"
+    "eslint-plugin-react": "^7.30.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "jsdom": "^20.0.0",
+    "pnpm": "^7.8.0",
+    "prettier": "^2.7.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rimraf": "^3.0.2",
+    "tslib": "^2.4.0",
+    "typescript": "^4.7.4",
+    "vite": "^3.0.4",
+    "vitest": "^0.20.3"
   },
   "peerDependencies": {
-    "@emotion/react": "^11",
-    "@emotion/styled": "^11",
-    "@mui/icons-material": "^5",
-    "@mui/material": "^5",
-    "react": "^18",
-    "react-dom": "^18"
+    "@emotion/react": "^11.5.0",
+    "@emotion/styled": "^11.3.0",
+    "@mui/icons-material": "^5.8.0",
+    "@mui/material": "^5.9.0",
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
   },
   "overrides": {
     "react": "^18"

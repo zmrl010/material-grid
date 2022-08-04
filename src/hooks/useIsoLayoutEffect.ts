@@ -5,6 +5,6 @@ const isBrowser = typeof window !== "undefined";
 /**
  * `useLayoutEffect` that falls back to `useEffect` when used on the server.
  */
-const useIsomorphicEffect = isBrowser ? useLayoutEffect : useEffect;
+const useIsoLayoutEffect = isBrowser ? useLayoutEffect : useEffect;
 
-export default useIsomorphicEffect;
+export default useIsoLayoutEffect;

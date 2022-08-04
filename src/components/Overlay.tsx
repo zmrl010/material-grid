@@ -1,6 +1,11 @@
+import "@mui/system";
 import { styled } from "@mui/material";
+import { COMPONENT_NAME } from "../constants";
 
-const Overlay = styled("div")(({ theme }) => ({
+const Overlay = styled("div", {
+  name: COMPONENT_NAME,
+  slot: "Overlay",
+})(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   display: "flex",
   position: "absolute",

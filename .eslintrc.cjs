@@ -18,7 +18,8 @@ module.exports = {
       files: ["**/*.ts?(x)"],
       parserOptions: {
         tsconfigRootDir: __dirname,
-        project: ["./tsconfig.json"],
+        project: ["./tsconfig.eslint.json"],
+        sourceType: "module",
       },
       plugins: ["@typescript-eslint"],
       extends: [
@@ -32,4 +33,5 @@ module.exports = {
       version: "detect",
     },
   },
+  ignorePatterns: ["**/dist/**"],
 };

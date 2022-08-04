@@ -1,61 +1,39 @@
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableRow,
-  type TableProps,
-} from "@mui/material";
-import { useRef } from "react";
-import type { TableInstance } from "react-table";
-import useBoundingRect from "../hooks/useBoundingRect";
-import useScrollbarSizeDetector from "../hooks/useScrollbarSizeDetector";
-import GridContent from "./GridContent";
-import GridContainer from "./GridContainer";
-import GridHeaderCell from "./GridHeaderCell";
+import { styled, type TableProps } from "@mui/material";
+import getBorderColor from "../styles/getBorderColor";
+import { COMPONENT_NAME } from "../constants";
+import { gridClasses } from "../styles/gridClasses";
+import clsx from "clsx";
+import { forwardRef } from "react";
 
-export interface GridRootProps<T extends object> extends TableProps {
-  loading?: boolean;
-  instance: TableInstance<T>;
-}
+const GridRootBase = styled("div", {
+  name: COMPONENT_NAME,
+  slot: "Root",
+})(({ theme }) => ({
+  flex: 1,
+  boxSizing: "border-box",
+  position: "relative",
+  border: `1px solid ${getBorderColor(theme)}`,
+  borderRadius: theme.shape.borderRadius,
+  color: theme.palette.text.primary,
+  ...theme.typography.body2,
+  outline: "none",
+  height: "100%",
+  display: "flex",
+  flexDirection: "column",
+}));
 
-export default function GridRoot<T extends object>({
-  loading,
-  instance,
-  ...props
-}: GridRootProps<T>) {
-  const [headerBoundingRect, headerRef] = useBoundingRect();
-  const bodyRef = useRef<HTMLDivElement | null>(null);
-  const scrollbarSize = useScrollbarSizeDetector(bodyRef);
-
-  const headerWidth = `calc(100% - ${scrollbarSize}px)`;
-  const headerHeight = headerBoundingRect?.height ?? 0;
-  const bodyHeight = `calc(100% - ${headerHeight}px)`;
-
+const GridRoot = forwardRef<HTMLDivElement, TableProps>(function GridRoot(
+  { className, ...props },
+  ref
+) {
   return (
-    <GridContainer>
-      <Table tabIndex={0} component="div" {...props}>
-        <TableHead component="div" ref={headerRef} sx={{ width: headerWidth }}>
-          {instance.headerGroups.map((headerGroup) => (
-            <TableRow key={headerGroup.id} component="div">
-              {headerGroup.headers.map((column) => (
-                <GridHeaderCell column={column} key={column.id} />
-              ))}
-            </TableRow>
-          ))}
-        </TableHead>
-        <TableBody
-          component="div"
-          ref={bodyRef}
-          sx={{ height: bodyHeight }}
-          {...instance.getTableBodyProps()}
-        >
-          <GridContent
-            loading={loading}
-            rows={instance.rows}
-            prepareRow={instance.prepareRow}
-          />
-        </TableBody>
-      </Table>
-    </GridContainer>
+    <GridRootBase
+      ref={ref}
+      role="grid"
+      className={clsx(className, gridClasses.root)}
+      {...props}
+    />
   );
-}
+});
+
+export default GridRoot;
