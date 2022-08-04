@@ -3,4 +3,8 @@ export {
   type MaterialGridProps,
 } from "./MaterialGrid/MaterialGrid";
 
-export type { TableOptions, ColumnDef } from "@tanstack/react-table";
+export {
+  type TableOptions,
+  type ColumnDef,
+  createColumnHelper,
+} from "@tanstack/react-table";
