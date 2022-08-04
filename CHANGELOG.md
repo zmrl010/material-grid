@@ -1,3 +1,10 @@
+## [4.0.1](https://github.com/zmrl010/material-grid/compare/v4.0.0...v4.0.1) (2022-08-04)
+
+
+### Bug Fixes
+
+* remove overrides ([cde88de](https://github.com/zmrl010/material-grid/commit/cde88ded1dbd53668f1144e150f733b5d50decf0))
+
 # [4.0.0](https://github.com/zmrl010/material-grid/compare/v3.0.2...v4.0.0) (2022-08-04)
 
 
