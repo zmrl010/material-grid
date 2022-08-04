@@ -1,7 +1,8 @@
-import { styled, useEventCallback } from "@mui/material";
+import { styled } from "@mui/material";
 import { flexRender, type RowData, type Table } from "@tanstack/react-table";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useRef, type CSSProperties } from "react";
 import { COMPONENT_NAME } from "../constants";
+import useScrollbarWidth from "../hooks/useScrollbarWidth";
 import { getGridMeta } from "../meta";
 import getBorderColor from "../styles/getBorderColor";
 import { gridClasses } from "../styles/gridClasses";
@@ -25,40 +26,22 @@ const GridBodyRoot = styled("div", {
 
 export interface GridBodyProps<TData extends RowData> {
   table: Table<TData>;
-  style?: CSSProperties;
+  style?: CSSProperties & {
+    height?: number | "auto";
+    width?: number;
+  };
 }
 
 export default function GridBody<TData extends RowData>({
   table,
   style,
 }: GridBodyProps<TData>) {
-  const width = table.getTotalSize();
   const bodyRef = useRef<HTMLDivElement | null>(null);
-  const [size, setSize] = useState({ height: 0, width: 0 });
-
-  const handleResize = useEventCallback(() => {
-    if (!bodyRef.current) {
-      return;
-    }
-    setSize({
-      height: bodyRef.current.clientHeight,
-      width: bodyRef.current.clientWidth,
-    });
-  });
-
-  useEffect(() => {
-    if (!bodyRef.current) {
-      return;
-    }
-    const observer = new ResizeObserver(() => handleResize());
-
-    observer.observe(bodyRef.current);
-
-    return () => observer.disconnect();
-  }, [handleResize]);
-
+  const scrollbarWidth = useScrollbarWidth(bodyRef);
   const { rowHeight } = getGridMeta(table);
-  const remainingWidth = size.width - width;
+
+  const remainingWidth =
+    (style?.width ?? 0) - table.getTotalSize() - scrollbarWidth;
 
   return (
     <GridBodyRoot
@@ -69,7 +52,7 @@ export default function GridBody<TData extends RowData>({
     >
       {table.getRowModel().rows.map((row) => (
         <GridRow
-          sx={{
+          style={{
             minHeight: rowHeight,
             maxHeight: rowHeight,
           }}
@@ -84,7 +67,9 @@ export default function GridBody<TData extends RowData>({
               {flexRender(cell.column.columnDef.cell, cell.getContext())}
             </GridBodyCell>
           ))}
-          <GridCell style={{ width: remainingWidth }}></GridCell>
+          {remainingWidth > 0 && (
+            <GridCell style={{ width: remainingWidth }}></GridCell>
+          )}
         </GridRow>
       ))}
     </GridBodyRoot>

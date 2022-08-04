@@ -43,7 +43,7 @@ export const defaultMeta: GridMeta = {
 /**
  * Extract grid meta data from table instance.
  *
- * *Throws if meta hasn't been initialized yet*
+ * *Throws exception if meta hasn't been initialized*
  */
 export function getGridMeta<TData extends RowData>(
   table: Table<TData>

@@ -1,28 +1,24 @@
-import type { StyledComponent } from "@emotion/styled";
 import { styled } from "@mui/material";
 import { type RowData, type Table } from "@tanstack/react-table";
-import {
-  type ComponentPropsWithoutRef,
-  type JSXElementConstructor,
-} from "react";
+import { type JSXElementConstructor } from "react";
 import { COMPONENT_NAME } from "../constants";
+import { getGridMeta } from "../meta";
 import { gridClasses } from "../styles/gridClasses";
 import GridAutoSizer from "./GridAutoSizer";
 import GridBody from "./GridBody";
 import { type GridColumnHeadersProps } from "./GridColumnHeaders";
 import GridOverlays from "./GridOverlays";
 
-const GridMainContainer: StyledComponent<ComponentPropsWithoutRef<"div">> =
-  styled("div", {
-    name: COMPONENT_NAME,
-    slot: "Main",
-  })({
-    position: "relative",
-    flex: 1,
-    display: "flex",
-    flexDirection: "column",
-    overflow: "hidden",
-  });
+const GridMainRoot = styled("div", {
+  name: COMPONENT_NAME,
+  slot: "Main",
+})({
+  position: "relative",
+  flex: 1,
+  display: "flex",
+  flexDirection: "column",
+  overflow: "hidden",
+});
 
 export interface GridMainProps<TData extends RowData> {
   table: Table<TData>;
@@ -34,10 +30,10 @@ export default function GridMain<TData extends RowData>({
   ColumnHeaders,
 }: GridMainProps<TData>) {
   const { rows } = table.getRowModel();
-  const { headHeight = 0 } = table.options.meta ?? {};
+  const { headHeight = 0 } = getGridMeta(table);
 
   return (
-    <GridMainContainer className={gridClasses.main}>
+    <GridMainRoot className={gridClasses.main}>
       <GridOverlays rows={rows} />
       <ColumnHeaders table={table} />
       <GridAutoSizer>
@@ -52,6 +48,6 @@ export default function GridMain<TData extends RowData>({
           />
         )}
       </GridAutoSizer>
-    </GridMainContainer>
+    </GridMainRoot>
   );
 }

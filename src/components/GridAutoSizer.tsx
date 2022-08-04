@@ -14,7 +14,9 @@ interface Size {
 }
 
 /**
+ * *Inspired by*
  * @see https://github.com/mui/mui-x/blob/84d29407d886235701f8999f06d9d1d4e6920b03/packages/grid/x-data-grid/src/components/GridAutoSizer.tsx
+ * @see https://github.com/bvaughn/react-virtualized/blob/master/source/AutoSizer/AutoSizer.js
  */
 export interface AutoSizerProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
@@ -55,6 +57,21 @@ export interface AutoSizerProps
   onResize?: (size: Size) => void;
 }
 
+/**
+ * Extract padding values from an element's computed style
+ */
+function getPadding(element: HTMLElement) {
+  const win = ownerWindow(element);
+  const computedStyle = win.getComputedStyle(element);
+
+  return {
+    left: parseInt(computedStyle.paddingLeft, 10) || 0,
+    right: parseInt(computedStyle.paddingRight, 10) || 0,
+    top: parseInt(computedStyle.paddingTop, 10) || 0,
+    bottom: parseInt(computedStyle.paddingBottom, 10) || 0,
+  };
+}
+
 const GridAutoSizer = forwardRef<HTMLDivElement, AutoSizerProps>(
   function GridAutoSizer(
     {
@@ -73,12 +90,12 @@ const GridAutoSizer = forwardRef<HTMLDivElement, AutoSizerProps>(
      * TODO extract component logic to custom hook
      ***********************************************/
 
-    const [state, setState] = useState({
+    const [size, setSize] = useState({
       height: defaultHeight,
       width: defaultWidth,
     });
 
-    const rootRef = useRef<HTMLDivElement | null>(null);
+    const elementRef = useRef<HTMLDivElement | null>(null);
     const parentRef = useRef<HTMLElement | null>(null);
 
     const handleResize = useEventCallback(() => {
@@ -92,44 +109,36 @@ const GridAutoSizer = forwardRef<HTMLDivElement, AutoSizerProps>(
         return;
       }
 
-      const win = ownerWindow(parentRef.current);
-      const computedStyle = win.getComputedStyle(parentRef.current);
-
-      const paddingLeft = parseInt(computedStyle.paddingLeft, 10) || 0;
-      const paddingRight = parseInt(computedStyle.paddingRight, 10) || 0;
-      const paddingTop = parseInt(computedStyle.paddingTop, 10) || 0;
-      const paddingBottom = parseInt(computedStyle.paddingBottom, 10) || 0;
+      const padding = getPadding(parentRef.current);
 
       const { offsetHeight = 0, offsetWidth = 0 } = parentRef.current;
 
-      const newHeight = offsetHeight - paddingTop - paddingBottom;
-      const newWidth = offsetWidth - paddingLeft - paddingRight;
+      const newHeight = offsetHeight - padding.top - padding.bottom;
+      const newWidth = offsetWidth - padding.left - padding.right;
 
       if (
-        (!disableHeight && state.height !== newHeight) ||
-        (!disableWidth && state.width !== newWidth)
+        (!disableHeight && size.height !== newHeight) ||
+        (!disableWidth && size.width !== newWidth)
       ) {
-        setState({ height: newHeight, width: newWidth });
-        onResize?.({ height: newHeight, width: newWidth });
+        const size = { height: newHeight, width: newWidth };
+
+        setSize(size);
+        onResize?.(size);
       }
     });
 
     useIsoLayoutEffect(() => {
-      parentRef.current = rootRef.current?.parentElement ?? null;
+      parentRef.current = elementRef.current?.parentElement ?? null;
 
       if (!parentRef.current) {
         return;
       }
 
       const resizeObserver = new ResizeObserver(() => handleResize());
-      resizeObserver.observe(parentRef.current);
+      resizeObserver.observe(parentRef.current, { box: "border-box" });
       handleResize();
 
-      return () => {
-        if (parentRef.current) {
-          resizeObserver.unobserve(parentRef.current);
-        }
-      };
+      return () => resizeObserver.disconnect();
     }, [handleResize]);
 
     const outerStyle: CSSProperties = { overflow: "visible" };
@@ -137,15 +146,15 @@ const GridAutoSizer = forwardRef<HTMLDivElement, AutoSizerProps>(
 
     if (!disableHeight) {
       outerStyle.height = 0;
-      childParams.height = state.height ?? undefined;
+      childParams.height = size.height ?? undefined;
     }
 
     if (!disableWidth) {
       outerStyle.width = 0;
-      childParams.width = state.width ?? undefined;
+      childParams.width = size.width ?? undefined;
     }
 
-    const handleRef = useForkRef(rootRef, ref);
+    const handleRef = useForkRef(elementRef, ref);
 
     return (
       <div
@@ -156,7 +165,7 @@ const GridAutoSizer = forwardRef<HTMLDivElement, AutoSizerProps>(
         }}
         {...other}
       >
-        {state.height === null && state.width === null
+        {size.height === null && size.width === null
           ? null
           : children(childParams)}
       </div>

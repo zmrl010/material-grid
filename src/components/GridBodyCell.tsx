@@ -15,7 +15,7 @@ export default function GridBodyCell({
 }: GridBodyCellProps): JSX.Element {
   return (
     <GridCell
-      sx={{
+      style={{
         minWidth: width,
         maxWidth: width,
         minHeight: height,
