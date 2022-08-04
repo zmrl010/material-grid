@@ -1,4 +1,3 @@
-import { useEventCallback } from "@mui/material";
 import {
   useReactTable,
   type TableOptions,
@@ -8,7 +7,8 @@ import {
   type ColumnDef,
   type Table,
 } from "@tanstack/react-table";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import useElementSize from "../hooks/useElementSize";
 import { defaultMeta } from "../meta";
 
 export default function useGridTable<TData extends RowData>(
@@ -17,28 +17,7 @@ export default function useGridTable<TData extends RowData>(
   options: TableOptions<TData> | undefined
 ): Table<TData> {
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const [size, setSize] = useState({ height: 0, width: 0 });
-
-  const handleResize = useEventCallback(() => {
-    if (!rootRef.current) {
-      return;
-    }
-    setSize({
-      height: rootRef.current.clientHeight,
-      width: rootRef.current.clientWidth,
-    });
-  });
-
-  useEffect(() => {
-    if (!rootRef.current) {
-      return;
-    }
-    const observer = new ResizeObserver(() => handleResize());
-
-    observer.observe(rootRef.current);
-
-    return () => observer.disconnect();
-  }, [handleResize]);
+  const { clientHeight: height, clientWidth: width } = useElementSize(rootRef);
 
   return useReactTable<TData>({
     columns,
@@ -47,7 +26,10 @@ export default function useGridTable<TData extends RowData>(
     meta: {
       ...defaultMeta,
       rootRef,
-      size,
+      size: {
+        height,
+        width,
+      },
       ...options?.meta,
     },
     getCoreRowModel: getCoreRowModel(),

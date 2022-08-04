@@ -1,5 +1,5 @@
 import { useEventCallback } from "@mui/material";
-import { useRef, useState } from "react";
+import { MutableRefObject, useState } from "react";
 import useIsoLayoutEffect from "./useIsoLayoutEffect";
 
 interface ElementSize {
@@ -27,10 +27,10 @@ interface ElementSize {
  * This hook uses ResizeObserver to keep state
  * in sync with underlying DOM element
  */
-export default function useElementSize(
+export default function useElementSize<E extends HTMLElement>(
+  ref: MutableRefObject<E | null>,
   onResize?: (size: ElementSize) => void
 ): ElementSize {
-  const bodyRef = useRef<HTMLDivElement | null>(null);
   const [size, setSize] = useState<ElementSize>({
     clientHeight: 0,
     clientWidth: 0,
@@ -39,25 +39,20 @@ export default function useElementSize(
   });
 
   const handleResize = useEventCallback(() => {
-    if (!bodyRef.current) {
+    if (!ref.current) {
       return;
     }
-    setSize(bodyRef.current);
-    onResize?.(bodyRef.current);
+    setSize(ref.current);
+    onResize?.(ref.current);
   });
 
   useIsoLayoutEffect(() => {
-    if (!bodyRef.current) {
+    if (!ref.current) {
       return;
     }
-    const observer = new ResizeObserver((entries) => {
-      handleResize();
-      entries.forEach((entry) => {
-        entry.borderBoxSize;
-      });
-    });
+    const observer = new ResizeObserver(() => handleResize());
 
-    observer.observe(bodyRef.current, { box: "border-box" });
+    observer.observe(ref.current, { box: "border-box" });
 
     return () => observer.disconnect();
   }, [handleResize]);
