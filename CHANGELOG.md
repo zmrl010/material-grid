@@ -1,3 +1,15 @@
+# [4.1.0](https://github.com/zmrl010/material-grid/compare/v4.0.1...v4.1.0) (2022-08-05)
+
+
+### Bug Fixes
+
+* expose correct props like loading ([f618c93](https://github.com/zmrl010/material-grid/commit/f618c9319e4828aaf38094bafb516c8c41a8a7bb))
+
+
+### Features
+
+* export createColumnHelper from react-table ([3736fae](https://github.com/zmrl010/material-grid/commit/3736fae1624de71857d95597617b331544929278))
+
 ## [4.0.1](https://github.com/zmrl010/material-grid/compare/v4.0.0...v4.0.1) (2022-08-04)
 
 
