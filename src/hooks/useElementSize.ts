@@ -2,21 +2,28 @@ import { useEventCallback } from "@mui/material";
 import { MutableRefObject, useState } from "react";
 import useIsoLayoutEffect from "./useIsoLayoutEffect";
 
+/**
+ * Object representing an element's dimensions
+ */
 interface ElementSize {
   /**
-   * element clientHeight
+   * Measured element's inner height
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/Element/clientHeight
    */
   clientHeight: number;
   /**
-   * element clientWidth
+   * Measured element's inner width
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/Element/clientWidth
    */
   clientWidth: number;
   /**
-   * element offsetHeight
+   * Measured element's outer height
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/Element/offsetHeight
    */
   offsetHeight: number;
   /**
-   * element offsetWidth
+   * Measured element's outer width
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/Element/offsetWidth
    */
   offsetWidth: number;
 }
@@ -42,8 +49,14 @@ export default function useElementSize<E extends HTMLElement>(
     if (!ref.current) {
       return;
     }
-    setSize(ref.current);
-    onResize?.(ref.current);
+    const size = {
+      clientHeight: ref.current.clientHeight,
+      clientWidth: ref.current.clientWidth,
+      offsetHeight: ref.current.offsetHeight,
+      offsetWidth: ref.current.offsetWidth,
+    };
+    setSize(size);
+    onResize?.(size);
   });
 
   useIsoLayoutEffect(() => {

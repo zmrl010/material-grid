@@ -1,7 +1,7 @@
 export {
   default as MaterialGrid,
   type MaterialGridProps,
-} from "./MaterialGrid/MaterialGrid";
+} from "./MaterialGrid";
 
 export {
   type TableOptions,

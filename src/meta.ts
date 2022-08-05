@@ -11,26 +11,28 @@ export interface GridMeta {
    * @default
    * 56
    */
-  headHeight: number;
+  readonly headHeight: number;
   /**
    * Height of body rows
    * @default
    * 52
    */
-  rowHeight: number;
+  readonly rowHeight: number;
   /**
    * Loading state; displays a spinner if true
    */
-  loading: boolean;
+  readonly loading?: boolean;
   /**
-   * Grid root DOM element ref
+   * Grid root element ref
    */
-  rootRef: Ref<HTMLDivElement>;
+  readonly rootRef: Ref<HTMLDivElement>;
   /**
    * Total grid size { height, width }
    */
-  size: { height: number; width: number };
+  readonly size: { height: number; width: number };
 }
+
+export type GridMetaProps = Pick<GridMeta, "loading">;
 
 export const defaultMeta: GridMeta = {
   headHeight: 56,
