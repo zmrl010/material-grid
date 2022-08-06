@@ -2,7 +2,7 @@ import { type StyledComponent } from "@emotion/styled";
 import { styled, type TableCellProps } from "@mui/material";
 import clsx from "clsx";
 import { GRID_COMPONENT_NAME } from "../constants";
-import { gridClasses } from "../styles/gridClasses";
+import { gridClasses } from "../style/gridClasses";
 
 const GridCellBase: StyledComponent<TableCellProps> = styled("div", {
   name: GRID_COMPONENT_NAME,

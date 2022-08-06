@@ -2,8 +2,8 @@ import { type StyledComponent } from "@emotion/styled";
 import { styled, type TableHeadProps } from "@mui/material";
 import type { RowData, Table } from "@tanstack/react-table";
 import { GRID_COMPONENT_NAME } from "../constants";
-import getBorderColor from "../styles/getBorderColor";
-import { gridClasses } from "../styles/gridClasses";
+import getBorderColor from "../style/utils";
+import { gridClasses } from "../style/gridClasses";
 import GridColumnHeader from "./GridColumnHeader";
 import GridRow from "./GridRow";
 

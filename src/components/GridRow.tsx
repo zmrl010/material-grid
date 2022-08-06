@@ -1,7 +1,7 @@
 import { type StyledComponent } from "@emotion/styled";
 import { styled, type TableRowProps } from "@mui/material";
 import { GRID_COMPONENT_NAME } from "../constants";
-import { gridClasses } from "../styles/gridClasses";
+import { gridClasses } from "../style/gridClasses";
 import clsx from "clsx";
 
 const GridRowRoot: StyledComponent<TableRowProps> = styled("div", {

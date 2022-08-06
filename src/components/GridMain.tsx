@@ -3,7 +3,7 @@ import { type RowData, type Table } from "@tanstack/react-table";
 import { type JSXElementConstructor } from "react";
 import { GRID_COMPONENT_NAME } from "../constants";
 import { getGridMeta } from "../meta";
-import { gridClasses } from "../styles/gridClasses";
+import { gridClasses } from "../style/gridClasses";
 import GridAutoSizer from "./GridAutoSizer";
 import GridBody from "./GridBody";
 import { type GridColumnHeadersProps } from "./GridColumnHeaders";

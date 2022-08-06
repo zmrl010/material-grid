@@ -4,15 +4,17 @@ import GridBodyCell from "./GridBodyCell";
 import GridCell from "./GridCell";
 import GridRow from "./GridRow";
 
+export interface GridBodyRowProps<TData extends RowData> {
+  rowHeight: number;
+  row: Row<TData>;
+  remainingWidth: number;
+}
+
 function GridBodyRowRaw<TData extends RowData>({
   rowHeight,
   row,
   remainingWidth,
-}: {
-  rowHeight: number;
-  row: Row<TData>;
-  remainingWidth: number;
-}): JSX.Element {
+}: GridBodyRowProps<TData>): JSX.Element {
   return (
     <GridRow
       style={{

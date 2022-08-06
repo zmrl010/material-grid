@@ -4,8 +4,8 @@ import { useRef, type CSSProperties } from "react";
 import { GRID_COMPONENT_NAME } from "../constants";
 import useScrollbarWidth from "../hooks/useScrollbarWidth";
 import { getGridMeta } from "../meta";
-import getBorderColor from "../styles/getBorderColor";
-import { gridClasses } from "../styles/gridClasses";
+import { getBorderColor } from "../style/utils";
+import { gridClasses } from "../style/gridClasses";
 import GridBodyRow from "./GridBodyRow";
 
 const GridBodyRoot = styled("div", {

@@ -1,7 +1,7 @@
 import { styled, type TableProps } from "@mui/material";
-import getBorderColor from "../styles/getBorderColor";
+import { getBorderColor } from "../style/utils";
 import { GRID_COMPONENT_NAME } from "../constants";
-import { gridClasses } from "../styles/gridClasses";
+import { gridClasses } from "../style/gridClasses";
 import clsx from "clsx";
 import { forwardRef } from "react";
 
