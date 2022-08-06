@@ -1,6 +1,6 @@
 import { describe, it, vi } from "vitest";
 import MaterialGrid from "./MaterialGrid";
-import { render } from "../test/util";
+import { render } from "../test/testUtil";
 
 const ResizeObserver = vi.fn(() => ({
   observe: vi.fn(),
