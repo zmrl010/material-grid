@@ -1,17 +1,15 @@
 import { styled } from "@mui/material";
-import { flexRender, type RowData, type Table } from "@tanstack/react-table";
+import { type RowData, type Table } from "@tanstack/react-table";
 import { useRef, type CSSProperties } from "react";
-import { COMPONENT_NAME } from "../constants";
+import { GRID_COMPONENT_NAME } from "../constants";
 import useScrollbarWidth from "../hooks/useScrollbarWidth";
 import { getGridMeta } from "../meta";
 import getBorderColor from "../styles/getBorderColor";
 import { gridClasses } from "../styles/gridClasses";
-import GridBodyCell from "./GridBodyCell";
-import GridCell from "./GridCell";
-import GridRow from "./GridRow";
+import GridBodyRow from "./GridBodyRow";
 
 const GridBodyRoot = styled("div", {
-  name: COMPONENT_NAME,
+  name: GRID_COMPONENT_NAME,
   slot: "Body",
 })(({ theme }) => ({
   display: "flex",
@@ -51,26 +49,12 @@ export default function GridBody<TData extends RowData>({
       ref={bodyRef}
     >
       {table.getRowModel().rows.map((row) => (
-        <GridRow
-          style={{
-            minHeight: rowHeight,
-            maxHeight: rowHeight,
-          }}
+        <GridBodyRow
           key={row.id}
-        >
-          {row.getVisibleCells().map((cell) => (
-            <GridBodyCell
-              key={cell.id}
-              height={rowHeight}
-              width={cell.column.getSize()}
-            >
-              {flexRender(cell.column.columnDef.cell, cell.getContext())}
-            </GridBodyCell>
-          ))}
-          {remainingWidth > 0 && (
-            <GridCell style={{ width: remainingWidth }}></GridCell>
-          )}
-        </GridRow>
+          rowHeight={rowHeight}
+          row={row}
+          remainingWidth={remainingWidth}
+        />
       ))}
     </GridBodyRoot>
   );

@@ -1,7 +1,7 @@
 import { styled } from "@mui/material";
 import { type RowData, type Table } from "@tanstack/react-table";
 import { type JSXElementConstructor } from "react";
-import { COMPONENT_NAME } from "../constants";
+import { GRID_COMPONENT_NAME } from "../constants";
 import { getGridMeta } from "../meta";
 import { gridClasses } from "../styles/gridClasses";
 import GridAutoSizer from "./GridAutoSizer";
@@ -10,7 +10,7 @@ import { type GridColumnHeadersProps } from "./GridColumnHeaders";
 import GridOverlays from "./GridOverlays";
 
 const GridMainRoot = styled("div", {
-  name: COMPONENT_NAME,
+  name: GRID_COMPONENT_NAME,
   slot: "Main",
 })({
   position: "relative",

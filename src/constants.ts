@@ -1,1 +1,1 @@
-export const COMPONENT_NAME = "Grid";
+export const GRID_COMPONENT_NAME = "Grid";

@@ -1,11 +1,11 @@
 import { StyledComponent } from "@emotion/styled";
 import { styled, type TableFooterProps } from "@mui/material";
 import clsx from "clsx";
-import { COMPONENT_NAME } from "../constants";
+import { GRID_COMPONENT_NAME } from "../constants";
 import { gridClasses } from "../styles/gridClasses";
 
 const GridFooterBase: StyledComponent<TableFooterProps> = styled("div", {
-  name: COMPONENT_NAME,
+  name: GRID_COMPONENT_NAME,
   slot: "Footer",
 })({
   display: "flex",

@@ -1,12 +1,12 @@
 import { styled, type TableProps } from "@mui/material";
 import getBorderColor from "../styles/getBorderColor";
-import { COMPONENT_NAME } from "../constants";
+import { GRID_COMPONENT_NAME } from "../constants";
 import { gridClasses } from "../styles/gridClasses";
 import clsx from "clsx";
 import { forwardRef } from "react";
 
 const GridRootBase = styled("div", {
-  name: COMPONENT_NAME,
+  name: GRID_COMPONENT_NAME,
   slot: "Root",
 })(({ theme }) => ({
   flex: 1,
