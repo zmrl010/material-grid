@@ -27,7 +27,7 @@ export interface GridMeta {
    */
   readonly rootRef: Ref<HTMLDivElement>;
   /**
-   * Total grid size { height, width }
+   * Root element size
    */
   readonly size: { height: number; width: number };
 }

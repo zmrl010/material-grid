@@ -5,7 +5,7 @@ import useIsoLayoutEffect from "./useIsoLayoutEffect";
 /**
  * Object representing an element's dimensions
  */
-interface ElementSize {
+export interface ElementSize {
   /**
    * Measured element's inner height
    * @see https://developer.mozilla.org/en-US/docs/Web/API/Element/clientHeight
@@ -49,14 +49,14 @@ export default function useElementSize<E extends HTMLElement>(
     if (!ref.current) {
       return;
     }
-    const size = {
+    const elementSize = {
       clientHeight: ref.current.clientHeight,
       clientWidth: ref.current.clientWidth,
       offsetHeight: ref.current.offsetHeight,
       offsetWidth: ref.current.offsetWidth,
     };
-    setSize(size);
-    onResize?.(size);
+    setSize(elementSize);
+    onResize?.(elementSize);
   });
 
   useIsoLayoutEffect(() => {
