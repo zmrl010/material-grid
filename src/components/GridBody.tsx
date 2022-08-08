@@ -41,12 +41,8 @@ export default function GridBody<TData extends RowData>({
     (style?.width ?? 0) - table.getTotalSize() - scrollbarWidth;
 
   const handleScroll = useEventCallback((e: UIEvent) => {
-    if (!headRef.current) {
-      return;
-    }
-    const value = e.currentTarget.scrollLeft;
-    if (value <= headRef.current.clientWidth) {
-      headRef.current.scrollLeft = value;
+    if (headRef.current) {
+      headRef.current.scrollLeft = e.currentTarget.scrollLeft;
     }
   });
 

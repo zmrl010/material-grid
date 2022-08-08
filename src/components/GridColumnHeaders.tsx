@@ -1,11 +1,11 @@
 import { styled } from "@mui/material";
 import type { RowData, Table } from "@tanstack/react-table";
 import { GRID_COMPONENT_NAME } from "../constants";
-import { getBorderColor } from "../style/styleUtil";
+import { getGridMeta } from "../meta";
 import { gridClasses } from "../style/gridClasses";
+import { getBorderColor } from "../style/styleUtil";
 import GridColumnHeader from "./GridColumnHeader";
 import GridRow from "./GridRow";
-import { getGridMeta } from "../meta";
 
 const GridHead = styled("div", {
   name: GRID_COMPONENT_NAME,

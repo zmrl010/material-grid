@@ -1,14 +1,11 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
 
-(function main() {
-  let rootEl = document.getElementById("root");
+const rootEl = document.getElementById("root");
 
-  if (!rootEl) {
-    rootEl = document.createElement("div");
-    document.body.appendChild(rootEl);
-  }
+if (!rootEl) {
+  throw Error("`#root` element not found");
+}
 
-  const root = createRoot(rootEl);
-  root.render(<App />);
-})();
+const root = createRoot(rootEl);
+root.render(<App />);

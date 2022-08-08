@@ -43,7 +43,7 @@ export default function App() {
   return (
     <ThemeProvider theme={themeWithMode}>
       <CssBaseline />
-      <Box width="100%" height={500}>
+      <Box width="100%" height={500} p={4}>
         <MaterialGrid columns={cols} data={fakeTwoHundred} />
       </Box>
       <Fab

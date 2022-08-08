@@ -1,9 +1,9 @@
-import { ownerWindow, useForkRef, useEventCallback } from "@mui/material";
+import { ownerWindow, useEventCallback, useForkRef } from "@mui/material";
 import {
-  CSSProperties,
   forwardRef,
   useRef,
   useState,
+  type CSSProperties,
   type HTMLAttributes,
 } from "react";
 import useIsoLayoutEffect from "../hooks/useIsoLayoutEffect";

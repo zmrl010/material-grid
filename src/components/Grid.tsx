@@ -1,9 +1,9 @@
 import type { RowData, Table } from "@tanstack/react-table";
-import GridRoot from "./GridRoot";
+import { type CSSProperties } from "react";
+import { getGridMeta } from "../meta";
 import GridColumnHeaders from "./GridColumnHeaders";
 import GridMain from "./GridMain";
-import { getGridMeta } from "../meta";
-import { type CSSProperties } from "react";
+import GridRoot from "./GridRoot";
 
 export interface GridProps<TData extends RowData> {
   /**

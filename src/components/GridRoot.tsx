@@ -1,9 +1,9 @@
 import { styled, type TableProps } from "@mui/material";
-import { getBorderColor } from "../style/styleUtil";
-import { GRID_COMPONENT_NAME } from "../constants";
-import { gridClasses } from "../style/gridClasses";
 import clsx from "clsx";
 import { forwardRef } from "react";
+import { GRID_COMPONENT_NAME } from "../constants";
+import { gridClasses } from "../style/gridClasses";
+import { getBorderColor } from "../style/styleUtil";
 
 const GridRootBase = styled("div", {
   name: GRID_COMPONENT_NAME,
