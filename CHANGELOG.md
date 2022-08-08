@@ -1,3 +1,10 @@
+# [4.3.0](https://github.com/zmrl010/material-grid/compare/v4.2.0...v4.3.0) (2022-08-08)
+
+
+### Features
+
+* **demo:** add rows control to demo ([5a1c9f5](https://github.com/zmrl010/material-grid/commit/5a1c9f5d3be86604f260a85704c3e16ed1fd20ad))
+
 # [4.2.0](https://github.com/zmrl010/material-grid/compare/v4.1.0...v4.2.0) (2022-08-08)
 
 
