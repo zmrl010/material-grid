@@ -1,10 +1,10 @@
-import { type StyledComponent } from "@emotion/styled";
-import { styled, type TableCellProps } from "@mui/material";
+import { styled, TableCell, type TableCellProps } from "@mui/material";
 import clsx from "clsx";
+import { forwardRef } from "react";
 import { GRID_COMPONENT_NAME } from "../constants";
 import { gridClasses } from "../style/gridClasses";
 
-const GridCellBase: StyledComponent<TableCellProps> = styled("div", {
+const GridCellBase = styled(TableCell, {
   name: GRID_COMPONENT_NAME,
   slot: "Cell",
 })({
@@ -15,12 +15,19 @@ const GridCellBase: StyledComponent<TableCellProps> = styled("div", {
   borderBottom: 0,
 });
 
-export default function GridCell({ className, ...props }: TableCellProps) {
+const GridCell = forwardRef<HTMLDivElement, TableCellProps>(function GridCell(
+  { className, ...props },
+  ref
+) {
   return (
     <GridCellBase
+      ref={ref}
       role="cell"
+      component="div"
       className={clsx(className, gridClasses.cell)}
       {...props}
     />
   );
-}
+});
+
+export default GridCell;

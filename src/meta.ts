@@ -1,6 +1,5 @@
-import "@tanstack/react-table";
-import { RowData, Table } from "@tanstack/react-table";
-import { Ref } from "react";
+import { type RowData, type Table } from "@tanstack/react-table";
+import { MutableRefObject } from "react";
 
 /**
  * Extended properties on `table.options.meta`
@@ -25,7 +24,15 @@ export interface GridMeta {
   /**
    * Grid root element ref
    */
-  readonly rootRef: Ref<HTMLDivElement>;
+  readonly rootRef: MutableRefObject<HTMLDivElement | null>;
+  /**
+   * Grid head root element ref
+   */
+  readonly headRef: MutableRefObject<HTMLDivElement | null>;
+  /**
+   * Grid body root element ref
+   */
+  readonly bodyRef: MutableRefObject<HTMLDivElement | null>;
   /**
    * Root element size
    */
@@ -39,6 +46,8 @@ export const defaultMeta: GridMeta = {
   rowHeight: 52,
   loading: false,
   rootRef: { current: null },
+  headRef: { current: null },
+  bodyRef: { current: null },
   size: { height: 0, width: 0 },
 };
 

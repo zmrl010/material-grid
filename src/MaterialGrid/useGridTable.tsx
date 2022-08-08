@@ -33,6 +33,8 @@ export default function useGridTable<TData extends RowData>({
   loading,
 }: UseGridTableProps<TData>): Table<TData> {
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const headRef = useRef<HTMLDivElement | null>(null);
+  const bodyRef = useRef<HTMLDivElement | null>(null);
   const { clientHeight, clientWidth } = useElementSize(rootRef);
 
   return useReactTable<TData>({
@@ -43,6 +45,8 @@ export default function useGridTable<TData extends RowData>({
     meta: {
       ...defaultMeta,
       rootRef,
+      headRef,
+      bodyRef,
       size: {
         height: clientHeight,
         width: clientWidth,

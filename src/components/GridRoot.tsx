@@ -1,5 +1,5 @@
 import { styled, type TableProps } from "@mui/material";
-import { getBorderColor } from "../style/utils";
+import { getBorderColor } from "../style/styleUtil";
 import { GRID_COMPONENT_NAME } from "../constants";
 import { gridClasses } from "../style/gridClasses";
 import clsx from "clsx";

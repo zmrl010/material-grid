@@ -1,13 +1,13 @@
-import { type StyledComponent } from "@emotion/styled";
-import { styled, type TableHeadProps } from "@mui/material";
+import { styled } from "@mui/material";
 import type { RowData, Table } from "@tanstack/react-table";
 import { GRID_COMPONENT_NAME } from "../constants";
-import getBorderColor from "../style/utils";
+import { getBorderColor } from "../style/styleUtil";
 import { gridClasses } from "../style/gridClasses";
 import GridColumnHeader from "./GridColumnHeader";
 import GridRow from "./GridRow";
+import { getGridMeta } from "../meta";
 
-const GridHead: StyledComponent<TableHeadProps> = styled("div", {
+const GridHead = styled("div", {
   name: GRID_COMPONENT_NAME,
   slot: "Head",
 })(({ theme }) => ({
@@ -27,30 +27,43 @@ export interface GridColumnHeadersProps<TData extends RowData> {
   table: Table<TData>;
 }
 
+function Spacer({ width }: { width: number }) {
+  return (
+    <div
+      style={{
+        minWidth: width,
+        maxWidth: width,
+      }}
+    ></div>
+  );
+}
+
 export default function GridColumnHeaders<TData extends RowData>({
   table,
 }: GridColumnHeadersProps<TData>) {
-  const { headHeight: height } = table.options.meta ?? {};
+  const { headHeight, headRef } = getGridMeta(table);
 
   return (
     <GridHead
+      ref={headRef}
       className={gridClasses.columnHeaders}
       style={{
         width: "100%",
-        minHeight: height,
-        maxHeight: height,
-        lineHeight: height,
+        minHeight: headHeight,
+        maxHeight: headHeight,
+        lineHeight: headHeight,
       }}
       role="rowgroup"
     >
       {table.getHeaderGroups().map((headerGroup) => (
         <GridRow
           key={headerGroup.id}
-          sx={{ minHeight: height, maxHeight: height }}
+          style={{ minHeight: headHeight, maxHeight: headHeight }}
         >
           {headerGroup.headers.map((header) => (
             <GridColumnHeader header={header} key={header.id} />
           ))}
+          <Spacer width={32} />
         </GridRow>
       ))}
     </GridHead>

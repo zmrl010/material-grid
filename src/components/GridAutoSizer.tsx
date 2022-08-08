@@ -113,14 +113,14 @@ const GridAutoSizer = forwardRef<HTMLDivElement, AutoSizerProps>(
 
       const { offsetHeight = 0, offsetWidth = 0 } = parentRef.current;
 
-      const newHeight = offsetHeight - padding.top - padding.bottom;
-      const newWidth = offsetWidth - padding.left - padding.right;
+      const height = offsetHeight - padding.top - padding.bottom;
+      const width = offsetWidth - padding.left - padding.right;
 
       if (
-        (!disableHeight && size.height !== newHeight) ||
-        (!disableWidth && size.width !== newWidth)
+        (!disableHeight && size.height !== height) ||
+        (!disableWidth && size.width !== width)
       ) {
-        const size = { height: newHeight, width: newWidth };
+        const size = { height, width };
 
         setSize(size);
         onResize?.(size);

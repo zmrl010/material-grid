@@ -5,28 +5,27 @@ import GridCell from "./GridCell";
 import GridRow from "./GridRow";
 
 export interface GridBodyRowProps<TData extends RowData> {
-  rowHeight: number;
-  row: Row<TData>;
+  height: number;
   remainingWidth: number;
+  row: Row<TData>;
 }
 
 function GridBodyRowRaw<TData extends RowData>({
-  rowHeight,
+  height,
   row,
   remainingWidth,
 }: GridBodyRowProps<TData>): JSX.Element {
   return (
     <GridRow
       style={{
-        minHeight: rowHeight,
-        maxHeight: rowHeight,
+        minHeight: height,
+        maxHeight: height,
       }}
-      key={row.id}
     >
       {row.getVisibleCells().map((cell) => (
         <GridBodyCell
           key={cell.id}
-          height={rowHeight}
+          height={height}
           width={cell.column.getSize()}
         >
           {flexRender(cell.column.columnDef.cell, cell.getContext())}
