@@ -5,29 +5,46 @@ import {
   ThemeProvider,
   useMediaQuery,
   createTheme,
+  TextField,
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
-
-import { ColumnDef, MaterialGrid } from "../../src";
-import { makeFakeList, type FakeRow } from "./fakeFactory";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import { MaterialGrid, createColumnHelper } from "../../src";
+import { createFakeList, FakeRow } from "./fakeFactory";
 import theme from "./theme";
 import { useMemo, useState } from "react";
 
-const fakeTwoHundred = makeFakeList(200);
+const DEFAULT_ROW_COUNT = 200;
 
-const cols: ColumnDef<FakeRow>[] = [
-  { accessorKey: "id", header: "#" },
-  { accessorKey: "firstName", header: "First Name" },
-  { accessorKey: "lastName", header: "Last Name" },
-  { accessorKey: "createdOn", header: "Created On" },
-  { accessorKey: "modifiedOn", header: "Modified On" },
-  { accessorKey: "description", header: "Description", size: 200 },
+const columnHelper = createColumnHelper<FakeRow>();
+
+const columns = [
+  columnHelper.accessor("id", { header: "#", size: 100 }),
+  columnHelper.accessor("firstName", { header: "First Name", size: 100 }),
+  columnHelper.accessor("lastName", { header: "Last Name", size: 100 }),
+  columnHelper.accessor("age", { header: "Age", size: 65 }),
+  columnHelper.accessor("bio", { header: "Bio", size: 800 }),
+  columnHelper.accessor("createdOn", {
+    header: "Created On",
+    cell: (props) => props.getValue().toLocaleDateString(),
+    size: 100,
+  }),
+  columnHelper.accessor("modifiedOn", {
+    header: "Modified On",
+    cell: (props) => props.getValue().toLocaleDateString(),
+    size: 100,
+  }),
 ];
 
 export default function App() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(prefersDarkMode);
+  const [isDarkMode, setIsDarkMode] = useState(prefersDarkMode);
+  const [rowsInput, setRowsInput] = useState(DEFAULT_ROW_COUNT);
+  const [rowsOfData, setRowsOfData] = useState(rowsInput);
+  const data = useMemo(() => createFakeList(rowsOfData), [rowsOfData]);
 
   const themeWithMode = useMemo(
     () =>
@@ -43,8 +60,38 @@ export default function App() {
   return (
     <ThemeProvider theme={themeWithMode}>
       <CssBaseline />
-      <Box width="100%" height={500} p={4}>
-        <MaterialGrid columns={cols} data={fakeTwoHundred} />
+      <Box display="flex" flexDirection="column" p={4} gap={2}>
+        <Box width="100%" height={500}>
+          <MaterialGrid columns={columns} data={data} />
+        </Box>
+        <Box>
+          <TextField
+            label="Rows"
+            inputProps={{
+              inputMode: "numeric",
+              pattern: "[0-9]*",
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label={`refresh with ${rowsInput} rows`}
+                    onClick={() => {
+                      setRowsOfData(rowsInput);
+                    }}
+                  >
+                    <RefreshIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            value={rowsInput || ""}
+            onChange={(e) => {
+              const value = parseInt(e.target.value) || 0;
+              setRowsInput(value);
+            }}
+          />
+        </Box>
       </Box>
       <Fab
         sx={{
