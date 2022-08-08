@@ -1,3 +1,10 @@
+# [4.2.0](https://github.com/zmrl010/material-grid/compare/v4.1.0...v4.2.0) (2022-08-08)
+
+
+### Features
+
+* scroll horizontally on both body and head ([ee2d483](https://github.com/zmrl010/material-grid/commit/ee2d483db80015aba43ddc27a8177b6a42eb2567))
+
 # [4.1.0](https://github.com/zmrl010/material-grid/compare/v4.0.1...v4.1.0) (2022-08-05)
 
 
