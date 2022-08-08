@@ -49,7 +49,7 @@ interface Person {
 
 const columnHelper = createColumnHelper<Person>()
 
-const columns = [
+export const columns = [
   columnHelper.accessor("id", { header: "#", size: 100 }),
   columnHelper.accessor("firstName", { header: "First Name", size: 100 }),
   columnHelper.accessor("lastName", { header: "Last Name", size: 100 }),
@@ -72,7 +72,10 @@ Pass these columns and your data to the `MaterialGrid` component
 and all your data will be rendered as rows per your column definitions.
 
 ```tsx
+// App.tsx
+
 import { MaterialGrid } from "@zmrl/material-grid"
+import { columns } from "./columns"
 
 const data: Person[] = [ 
 /** 
@@ -84,15 +87,17 @@ const data: Person[] = [
  */
 ]
 
-const columns = [
-/**
- * your column defs
- */
-]
-
 function App() {
   return (
     <MaterialGrid data={data} columns={columns} />
   )
 }
 ```
+
+## Demo
+
+There is a demo of this project found at ./demo.
+
+1. Clone this repo - `git clone https://github.com/zmrl010/material-grid.git`
+2. Install dependencies - `pnpm install`
+3. Run the dev server - `pnpm dev`
