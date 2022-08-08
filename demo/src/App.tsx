@@ -1,21 +1,21 @@
-import {
-  CssBaseline,
-  Box,
-  Fab,
-  ThemeProvider,
-  useMediaQuery,
-  createTheme,
-  TextField,
-  IconButton,
-  InputAdornment,
-} from "@mui/material";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { MaterialGrid, createColumnHelper } from "../../src";
-import { createFakeList, FakeRow } from "./fakeFactory";
-import theme from "./theme";
+import {
+  Box,
+  createTheme,
+  CssBaseline,
+  Fab,
+  IconButton,
+  InputAdornment,
+  TextField,
+  ThemeProvider,
+  useMediaQuery,
+} from "@mui/material";
 import { useMemo, useState } from "react";
+import { createColumnHelper, MaterialGrid } from "../../src";
+import { createFakeList, type FakeRow } from "./fakeFactory";
+import theme from "./theme";
 
 const DEFAULT_ROW_COUNT = 200;
 
@@ -44,6 +44,7 @@ export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(prefersDarkMode);
   const [rowsInput, setRowsInput] = useState(DEFAULT_ROW_COUNT);
   const [rowsOfData, setRowsOfData] = useState(rowsInput);
+
   const data = useMemo(() => createFakeList(rowsOfData), [rowsOfData]);
 
   const themeWithMode = useMemo(
