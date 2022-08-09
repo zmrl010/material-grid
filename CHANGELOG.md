@@ -1,3 +1,12 @@
+## [4.3.2](https://github.com/zmrl010/material-grid/compare/v4.3.1...v4.3.2) (2022-08-09)
+
+
+### Bug Fixes
+
+* loading state not displaying indicator ([7593866](https://github.com/zmrl010/material-grid/commit/7593866a2b8ad55d90d22483c7ec908e98861aec))
+* remove size from meta init ([39cda0e](https://github.com/zmrl010/material-grid/commit/39cda0e378fc335d68c91778a704bc3cc989cfef))
+* set column spacer width dynamically ([8326377](https://github.com/zmrl010/material-grid/commit/8326377be1b76e9ffcb50bbaeb018622acb93767))
+
 ## [4.3.1](https://github.com/zmrl010/material-grid/compare/v4.3.0...v4.3.1) (2022-08-09)
 
 
