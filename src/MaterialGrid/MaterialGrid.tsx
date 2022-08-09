@@ -1,8 +1,8 @@
 import { memo } from "react";
-import Grid from "../components/Grid";
-import useGridTable, { UseGridTableProps } from "./useGridTable";
 import { type RowData } from "@tanstack/react-table";
-import { type GridProps } from "../components/Grid";
+import Grid, { type GridProps } from "../components/Grid";
+import useGridTable, { UseGridTableProps } from "./useGridTable";
+
 
 export interface MaterialGridProps<TData extends RowData>
   extends Partial<Omit<GridProps<TData>, "table">>,

@@ -120,10 +120,10 @@ const GridAutoSizer = forwardRef<HTMLDivElement, AutoSizerProps>(
         (!disableHeight && size.height !== height) ||
         (!disableWidth && size.width !== width)
       ) {
-        const size = { height, width };
+        const elementSize = { height, width };
 
-        setSize(size);
-        onResize?.(size);
+        setSize(elementSize);
+        onResize?.(elementSize);
       }
     });
 
@@ -134,11 +134,15 @@ const GridAutoSizer = forwardRef<HTMLDivElement, AutoSizerProps>(
         return;
       }
 
-      const resizeObserver = new ResizeObserver(() => handleResize());
+      const resizeObserver = new ResizeObserver(() => {
+        handleResize();
+      });
       resizeObserver.observe(parentRef.current, { box: "border-box" });
       handleResize();
 
-      return () => resizeObserver.disconnect();
+      return () => {
+        resizeObserver.disconnect();
+      };
     }, [handleResize]);
 
     const outerStyle: CSSProperties = { overflow: "visible" };

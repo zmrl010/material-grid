@@ -5,8 +5,8 @@ import { GRID_COMPONENT_NAME } from "../constants";
 import { getGridMeta } from "../meta";
 import { getBorderColor } from "../style/styleUtil";
 import { gridClasses } from "../style/gridClasses";
-import GridBodyRow from "./GridBodyRow";
 import useElementSize from "../hooks/useElementSize";
+import GridBodyRow from "./GridBodyRow";
 
 const GridBodyRoot = styled("div", {
   name: GRID_COMPONENT_NAME,

@@ -88,7 +88,7 @@ export default function App() {
             }}
             value={rowsInput || ""}
             onChange={(e) => {
-              const value = parseInt(e.target.value) || 0;
+              const value = parseInt(e.target.value, 10) || 0;
               setRowsInput(value);
             }}
           />
@@ -105,7 +105,9 @@ export default function App() {
             bgcolor: "transparent",
           },
         }}
-        onClick={() => setIsDarkMode((isDark) => !isDark)}
+        onClick={() => {
+          setIsDarkMode((isDark) => !isDark);
+        }}
       >
         {isDarkMode ? <Brightness4Icon /> : <Brightness7Icon />}
       </Fab>

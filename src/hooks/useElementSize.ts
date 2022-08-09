@@ -63,11 +63,16 @@ export default function useElementSize<E extends HTMLElement>(
     if (!ref.current) {
       return;
     }
-    const observer = new ResizeObserver(() => handleResize());
+
+    const observer = new ResizeObserver(() => {
+      handleResize();
+    });
     observer.observe(ref.current, { box: "border-box" });
     handleResize();
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+    };
   }, [handleResize]);
 
   return size;
