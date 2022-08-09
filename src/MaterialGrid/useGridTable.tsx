@@ -9,7 +9,6 @@ import {
   type TableOptions,
 } from "@tanstack/react-table";
 import { useRef } from "react";
-import useElementSize from "../hooks/useElementSize";
 import { defaultMeta, type GridMetaProps } from "../meta";
 
 export interface UseGridTableProps<TData extends RowData>
@@ -35,7 +34,6 @@ export default function useGridTable<TData extends RowData>({
   const rootRef = useRef<HTMLDivElement | null>(null);
   const headRef = useRef<HTMLDivElement | null>(null);
   const bodyRef = useRef<HTMLDivElement | null>(null);
-  const { clientHeight, clientWidth } = useElementSize(rootRef);
 
   return useReactTable<TData>({
     columns,
@@ -47,10 +45,6 @@ export default function useGridTable<TData extends RowData>({
       rootRef,
       headRef,
       bodyRef,
-      size: {
-        height: clientHeight,
-        width: clientWidth,
-      },
       loading,
       ...meta,
     },
