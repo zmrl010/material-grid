@@ -1,7 +1,7 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   root: true,
-  extends: ["@zmrl"],
+  extends: ["@zmrl", "@zmrl/eslint-config/react"],
   overrides: [
     {
       files: ["**/*.ts?(x)"],
