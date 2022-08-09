@@ -33,10 +33,6 @@ export interface GridMeta {
    * Grid body root element ref
    */
   readonly bodyRef: MutableRefObject<HTMLDivElement | null>;
-  /**
-   * Root element size
-   */
-  readonly size: { height: number; width: number };
 }
 
 export type GridMetaProps = Pick<GridMeta, "loading">;
@@ -48,7 +44,6 @@ export const defaultMeta: GridMeta = {
   rootRef: { current: null },
   headRef: { current: null },
   bodyRef: { current: null },
-  size: { height: 0, width: 0 },
 };
 
 /**
