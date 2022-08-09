@@ -1,3 +1,10 @@
+## [4.3.1](https://github.com/zmrl010/material-grid/compare/v4.3.0...v4.3.1) (2022-08-09)
+
+
+### Bug Fixes
+
+* **eslint:** use react sub-config ([4023583](https://github.com/zmrl010/material-grid/commit/4023583e6103e18dd6a3861ee2f5ae323832f882))
+
 # [4.3.0](https://github.com/zmrl010/material-grid/compare/v4.2.0...v4.3.0) (2022-08-08)
 
 
