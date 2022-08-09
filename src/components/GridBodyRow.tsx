@@ -31,9 +31,7 @@ function GridBodyRowRaw<TData extends RowData>({
           {flexRender(cell.column.columnDef.cell, cell.getContext())}
         </GridBodyCell>
       ))}
-      {remainingWidth > 0 && (
-        <GridCell style={{ width: remainingWidth }}></GridCell>
-      )}
+      {remainingWidth > 0 && <GridCell style={{ width: remainingWidth }} />}
     </GridRow>
   );
 }

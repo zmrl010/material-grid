@@ -51,16 +51,13 @@ export const defaultMeta: GridMeta = {
  *
  * *Throws exception if meta hasn't been initialized*
  */
-export function getGridMeta<TData extends RowData>(
-  table: Table<TData>
-): GridMeta {
-  const { meta } = table.options;
-
-  if (!meta) {
+export function getGridMeta<TData extends RowData>({
+  options,
+}: Table<TData>): GridMeta {
+  if (!options.meta) {
     throw new Error("Grid meta has not been set.");
   }
-
-  return meta;
+  return options.meta;
 }
 
 declare module "@tanstack/react-table" {
