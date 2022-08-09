@@ -1,5 +1,6 @@
 import { useEventCallback } from "@mui/material";
 import { MutableRefObject, useState } from "react";
+import pick from "../utils/pick";
 import useIsoLayoutEffect from "./useIsoLayoutEffect";
 
 /**
@@ -28,6 +29,13 @@ export interface ElementSize {
   offsetWidth: number;
 }
 
+const defaultElementSize = {
+  clientHeight: 0,
+  clientWidth: 0,
+  offsetHeight: 0,
+  offsetWidth: 0,
+};
+
 /**
  * Automatically detect an elements' size
  *
@@ -36,27 +44,20 @@ export interface ElementSize {
  */
 export default function useElementSize<E extends HTMLElement>(
   ref: MutableRefObject<E | null>,
-  onResize?: (size: ElementSize) => void
+  onResize?: (element: E) => void
 ): ElementSize {
-  const [size, setSize] = useState<ElementSize>({
-    clientHeight: 0,
-    clientWidth: 0,
-    offsetHeight: 0,
-    offsetWidth: 0,
-  });
+  const [size, setSize] = useState<ElementSize>(defaultElementSize);
 
-  const handleResize = useEventCallback(() => {
-    if (!ref.current) {
-      return;
-    }
-    const elementSize = {
-      clientHeight: ref.current.clientHeight,
-      clientWidth: ref.current.clientWidth,
-      offsetHeight: ref.current.offsetHeight,
-      offsetWidth: ref.current.offsetWidth,
-    };
+  const handleResize = useEventCallback((element: E) => {
+    const elementSize = pick(
+      element,
+      "clientHeight",
+      "clientWidth",
+      "offsetHeight",
+      "offsetWidth"
+    );
     setSize(elementSize);
-    onResize?.(elementSize);
+    onResize?.(element);
   });
 
   useIsoLayoutEffect(() => {
@@ -64,11 +65,11 @@ export default function useElementSize<E extends HTMLElement>(
       return;
     }
 
-    const observer = new ResizeObserver(() => {
-      handleResize();
+    const observer = new ResizeObserver(([entry]) => {
+      handleResize(entry.target as E);
     });
     observer.observe(ref.current, { box: "border-box" });
-    handleResize();
+    handleResize(ref.current);
 
     return () => {
       observer.disconnect();
