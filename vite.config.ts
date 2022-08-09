@@ -22,14 +22,12 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
-        "react",
-        "react/jsx-runtime",
+        "clsx",
         "@mui/material",
         "@tanstack/react-table",
-        "@emotion/react",
-        "@emotion/styled",
-        "@mui/icons-material",
-        "@mui/system",
+        "react",
+        "react/jsx-runtime",
+        "prop-types",
       ],
       output: {
         // Since we publish our ./src folder, there's no point
