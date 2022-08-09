@@ -30,11 +30,11 @@ export default function GridMain<TData extends RowData>({
   ColumnHeaders,
 }: GridMainProps<TData>) {
   const { rows } = table.getRowModel();
-  const { headHeight = 0 } = getGridMeta(table);
+  const { headHeight = 0, loading } = getGridMeta(table);
 
   return (
     <GridMainRoot className={gridClasses.main}>
-      <GridOverlays rows={rows} />
+      <GridOverlays rows={rows} loading={loading} />
       <ColumnHeaders table={table} />
       <GridAutoSizer>
         {({ height, width }) => (
