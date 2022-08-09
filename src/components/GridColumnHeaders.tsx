@@ -1,6 +1,7 @@
 import { styled } from "@mui/material";
 import type { RowData, Table } from "@tanstack/react-table";
 import { GRID_COMPONENT_NAME } from "../constants";
+import useElementSize from "../hooks/useElementSize";
 import { getGridMeta } from "../meta";
 import { gridClasses } from "../style/gridClasses";
 import { getBorderColor } from "../style/styleUtil";
@@ -34,14 +35,17 @@ function Spacer({ width }: { width: number }) {
         minWidth: width,
         maxWidth: width,
       }}
-    ></div>
+    />
   );
 }
 
 export default function GridColumnHeaders<TData extends RowData>({
   table,
 }: GridColumnHeadersProps<TData>) {
-  const { headHeight, headRef } = getGridMeta(table);
+  const { headHeight, headRef, bodyRef } = getGridMeta(table);
+  const { clientWidth, offsetWidth } = useElementSize(bodyRef);
+
+  const bodyScrollbarWidth = offsetWidth - clientWidth;
 
   return (
     <GridHead
@@ -58,12 +62,15 @@ export default function GridColumnHeaders<TData extends RowData>({
       {table.getHeaderGroups().map((headerGroup) => (
         <GridRow
           key={headerGroup.id}
-          style={{ minHeight: headHeight, maxHeight: headHeight }}
+          style={{
+            minHeight: headHeight,
+            maxHeight: headHeight,
+          }}
         >
           {headerGroup.headers.map((header) => (
             <GridColumnHeader header={header} key={header.id} />
           ))}
-          <Spacer width={32} />
+          {bodyScrollbarWidth > 0 && <Spacer width={bodyScrollbarWidth} />}
         </GridRow>
       ))}
     </GridHead>
