@@ -1,3 +1,10 @@
+# [4.4.0](https://github.com/zmrl010/material-grid/compare/v4.3.2...v4.4.0) (2022-08-09)
+
+
+### Features
+
+* improve scrollbar detection ([aecc6f7](https://github.com/zmrl010/material-grid/commit/aecc6f7b1b422e7e79df2adbaa55bf67e1f0860c))
+
 ## [4.3.2](https://github.com/zmrl010/material-grid/compare/v4.3.1...v4.3.2) (2022-08-09)
 
 
